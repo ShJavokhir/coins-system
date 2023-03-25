@@ -25,7 +25,7 @@ const RowItem = ({
   RefObj,
   setIsOpen,
   setIsOpenModal2,
-  setEditing,
+  handleEditStudent,
   setStudent,
 }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -71,14 +71,7 @@ const RowItem = ({
       });
   };
 
-  const handleEditStudent = (obj) => {
-    console.log(obj);
-    setIsOpenModal2(true);
-    setEditing(obj);
-    setValue("firstName", obj.firstName);
-    setValue("lastName", obj.lastName);
-    setValue("username", obj.username);
-  };
+  
 
   return (
     <tr>
@@ -122,6 +115,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [student, setStudent] = useState([]);
+  const [student2, setStudent2] = useState([]);
   const [friendId, setFriendId] = useState(null);
   const [forRender, setForRender] = useState(null);
   const [editing, setEditing] = useState(null);
@@ -153,6 +147,20 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       .then((res) => {
         console.log(res.data.data);
         setStudent(res.data.data);
+        setTotalElements(res.data.recordsTotal);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setLoading(false));
+  }, [forRender, currentPage]);
+
+  useEffect(() => {
+    setLoading(true);
+    AdminProvider.getAllStudent(1, 3000)
+      .then((res) => {
+        console.log(res.data.data);
+        setStudent2(res.data.data);
         setTotalElements(res.data.recordsTotal);
       })
       .catch((err) => {
@@ -209,13 +217,21 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       });
   };
 
+  const handleEditStudent = (obj) => {
+    console.log(obj);
+    setIsOpenModal2(true);
+    setEditing(obj);
+    setValue("firstName", obj.firstName);
+    setValue("lastName", obj.lastName);
+  };
+
   const onChangeCheck = (e) => {
     console.log(e.target.checked);
     setIsFriend(e.target.checked);
   };
 
   const studentOption = [
-    ...student.map((i) => ({
+    ...student2.map((i) => ({
       label: i.firstName + " " + i.lastName,
       value: i.id,
     })),
@@ -276,7 +292,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                     RefObj={RefObj}
                     setIsOpen={setIsOpen}
                     setIsOpenModal2={setIsOpenModal2}
-                    setEditing={setEditing}
+                    handleEditStudent={handleEditStudent}
                     setStudent={setStudent}
                   />
                 ))
