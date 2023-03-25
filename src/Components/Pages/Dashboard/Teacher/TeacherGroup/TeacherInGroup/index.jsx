@@ -1,5 +1,5 @@
 import { Button, Drawer, IconButton } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import DashboardLayout from "../../../../../Layout";
 import {
   DavomatWrapper,
@@ -17,12 +17,13 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import EditSvg from "../../../../../Common/Svgs/EditSvg";
 
 const RowItem = ({ lessonId, obj, index }) => {
+  // NOTE obj dan pastdagi useStatelarga defaultvalueni moslab berish kerak string yoki numberligi farq qilib default ko'rsatmayapti
   const firstRender = useRef(true);
   const [visit, setVisit] = useState(null);
-  const [homeWork, setHomeWork] = useState(-1);
-  const [active, setActive] = useState("");
+  const [homeWork, setHomeWork] = useState(obj.homeworkStatus ? `${obj.homeworkStatus}` : -1);
+  const [active, setActive] = useState(obj.visitStatus === 1 ? "success" : "");
   const [isActive, setIsActive] = useState(false);
-  
+
   const handleBtn = () => {
     const body = {};
     body.lessonId = lessonId;
@@ -104,6 +105,7 @@ const RowItem = ({ lessonId, obj, index }) => {
             buttonStyle="solid"
             onChange={changeRadio}
             disabled={!isActive}
+            value={`${homeWork}`}
           >
             <Radio.Button value="0">Qilinmagan</Radio.Button>
             <Radio.Button value="1">To`liq emas</Radio.Button>
@@ -188,21 +190,19 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
   const [isLesson, setIsLesson] = useState(false);
   const [loader, setLoader] = useState(false);
   const [lessonId, setLessonId] = useState(null);
+  const [timer, setTimer] = useState('initial');
+  const [studentList, setStudentList] = useState([]);
 
   const createLesson = () => {
     setLoader(true);
-    if(localStorage.getItem("lessonId")){
-      console.log("true");
-      setLessonId(localStorage.getItem('lessonId'))
-      console.log(lessonId);
-      setIsLesson(true);
-      setLoader(false);
-    } else{
-      TeacherProvider.createLesson(groupId)
+    TeacherProvider.createLesson(groupId)
       .then((res) => {
         console.log(res);
         setLessonId(res.data.id);
-        localStorage.setItem('lessonId', res.data.id)
+        
+        setGroupDataToLocalStorage(groupId, res.data.id, Date.now() + 7200000);
+        setTimer(Date.now() + 7200000);
+
         setIsLesson(true);
         console.log(fetchedData);
       })
@@ -213,8 +213,30 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       .finally(() => {
         setLoader(false);
       });
-    }
   };
+
+  const onTimeEnd = () => {
+    // modal ko'rsatib pageni tozalab qayta ochish kerak (localStorageni ham tozlash shu yerda)
+  }
+
+  useEffect(() => {
+    const groupData = getLessonByGroup(groupId);
+    if(groupData) {
+      const [id, startDate] = groupData;
+      setLessonId(id);
+      setIsLesson(true);
+      setTimer(startDate);
+      TeacherProvider.getOneLessonInfo(id).then((res) => {
+        setStudentList(res.data?.data);
+      }, console.warn);
+    }
+  }, []);
+
+  useEffect(() => {
+    if(!lessonId) {
+      setStudentList(fetchedData);
+    }
+  }, [fetchedData]);
 
   return (
     <DavomatWrapper>
@@ -233,7 +255,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
           Dars qo`shish {loader && <ButtonLoader />}
         </Button>
       ) : (
-        <CountdownTimer  />
+        <CustomTimer time={timer} onTimeEnd={onTimeEnd} />
       )}
 
       {isLesson ? (
@@ -253,11 +275,11 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
           </thead>
           <tbody>
             {!loading ? (
-              fetchedData.length ? (
-                fetchedData.map((obj, index) => (
+              studentList.length ? (
+                studentList.map((obj, index) => (
                   <RowItem
-                    key={index}
-                    lessonId={localStorage.getItem("lessonId")==lessonId ? localStorage.getItem("lessonId") : lessonId}
+                    key={obj.id}
+                    lessonId={lessonId}
                     obj={obj}
                     index={index}
                   />
@@ -524,3 +546,56 @@ const CountdownTimer = () => {
 };
 
 export default TeacherInGroup;
+
+function CustomTimer ({ time = 0, onTimeEnd = () => {} })  {
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  useLayoutEffect(() => {
+    if(time === 'initial') return;
+    const getTime = () => {
+      const _time = time - Date.now();
+      if(_time < 0) {
+        onTimeEnd(); // NOTE timer tugab qolsa popup chaqirib vaqt tugadi deb refresh bervorsa bo'ladi
+      }
+  
+      setHours(Math.floor((_time / (1000 * 60 * 60)) % 24));
+      setMinutes(Math.floor((_time / 1000 / 60) % 60));
+      setSeconds(Math.floor((_time / 1000) % 60));
+    };
+    setInterval(getTime, 1000);
+    return () => clearInterval(getTime);
+  }, [time, onTimeEnd]);
+
+  return (
+    <div style={{display:"flex"}}>
+      <div style={{fontWeight:700, fontSize:20}}>{hours.toString().padStart(2, '0')}:</div>
+      <div style={{fontWeight:700, fontSize:20}}>{minutes.toString().padStart(2, '0')}:</div>
+      <div style={{fontWeight:700, fontSize:20}}>{seconds.toString().padStart(2, '0')}</div>
+    </div>
+  );
+};
+
+
+function setGroupDataToLocalStorage (groupId, id, startDate) {
+  const lessons = localStorage.getItem('lessons') ? JSON.parse(localStorage.getItem('lessons')) : null;
+  if(lessons) {
+    localStorage.setItem('lessons', JSON.stringify({ ...lessons, [groupId]: {id, startDate} }));
+  } else {
+    localStorage.setItem('lessons', JSON.stringify({ [groupId]: {id, startDate} }));
+  };
+}
+
+function getLessonByGroup (groupId) {
+  try {
+    const lessons = localStorage.getItem('lessons') ? JSON.parse(localStorage.getItem('lessons')) : null;
+    const group = lessons[groupId];
+    const lessonId = group.id;
+    const startDate = group.startDate;
+
+    return [lessonId, startDate];
+  } catch (err) {};
+
+  return null;
+}

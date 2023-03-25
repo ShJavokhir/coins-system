@@ -5,18 +5,18 @@ import UserContext from '../../Context/UserContext';
 
 export default function WithAuthComponent({children}) {
   const isAuth = useContextSelector(UserContext, ctx => ctx.state.isAuth);
-  // const isDoneUserChecking = useContextSelector(UserContext,ctx => ctx.isDoneUserChecking )
+  const isDoneUserChecking = useContextSelector(UserContext,ctx => ctx.isDoneUserChecking )
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuth) {
+    if (!isAuth && isDoneUserChecking) {
       router.push("/login");
     }
   }, [isAuth])
 
-  // if(!isDoneUserChecking){
-  //   return <div className="big_loader_wrap"><span className="big_loader"></span></div>
-  // }
+  if(!isDoneUserChecking){
+    return <div className="big_loader_wrap"><span className="big_loader"></span></div>
+  }
 
   return (
     <>
