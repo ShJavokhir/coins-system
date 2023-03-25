@@ -26,6 +26,7 @@ export default class TeacherProvider {
         return await client.get(`/teacher/get/lesson/info/${id}`);
     }
     
+    
     static async detailLesson(body) {
         return await client.post(`/teacher/lesson/detail`, body);
     }

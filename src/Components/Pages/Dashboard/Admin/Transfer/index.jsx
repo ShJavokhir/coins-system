@@ -86,7 +86,7 @@ const Transfers = () => {
       <TransferWrapper>
         <div className="top">
           <h3>O`quvchilarni guruhdan guruhga o`tkazish</h3>
-          <MyLink to="/dashboard/transferTable">Barchasi</MyLink>
+          <MyLink to="/dashboard/transferTable">O`tkazmalar tarixi</MyLink>
         </div>
         <div
           className="label"

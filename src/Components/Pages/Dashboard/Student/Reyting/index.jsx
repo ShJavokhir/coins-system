@@ -12,9 +12,11 @@ const Reyting = () => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
 
   const id = localStorage.getItem("id");
+
   const [ball, setBall] = useState(null);
   const [coin, setCoin] = useState(null);
   const [spentCoin, setSpentCoin] = useState(null);
+  const [stId, setStId] = useState(null);
   const [render, setRender] = useState(null);
   const [loading, setLoading] = useState(null);
 
@@ -29,7 +31,7 @@ const Reyting = () => {
         setBall(res.data.data.totalBall);
         setCoin(res.data.data.totalCoin);
         setSpentCoin(res.data.data.spentCoin);
-        localStorage.getItem(id)
+        setStId(res.data.data.id);
       })
       .catch((err) => {
         console.log(err);
@@ -52,7 +54,7 @@ const Reyting = () => {
     setLoading(true)
     StudentProvider.getStudentGroupInfo(groupsId)
       .then((res) => {
-        console.log(res.data.data);
+        console.log("info",res.data.data);
         setInfo(res.data.data);
       })
       .catch((err) => {
@@ -138,20 +140,20 @@ const Reyting = () => {
             {!loading ? (
               info ? (
                 info.map((obj, index) => (
-                  <tr key={index} style={{color:obj.id==localStorage.getItem(id) ? "red" : "black"}}>
-                    <td style={{ width: "20%" }} className="col">
+                  <tr key={index} style={{background:obj.id == stId ? "rgb(114, 225, 40, 0.42)" : "white"}}>
+                    <td style={{ width: "20%", fontWeight: obj.id == stId ? "800" : "400"}} className="col">
                     {index+1}. {obj.lastName}
                     </td>
-                    <td style={{ width: "20%" }} className="col">
+                    <td style={{ width: "20%", fontWeight: obj.id == stId ? "800" : "400" }} className="col">
                       {obj.firstName}
                     </td>
-                    <td style={{ width: "20%" }} className="col">
+                    <td style={{ width: "20%", fontWeight: obj.id == stId ? "800" : "400" }} className="col">
                       {obj.totalBall}
                     </td>
-                    <td style={{ width: "20%" }} className="col">
+                    <td style={{ width: "20%", fontWeight: obj.id == stId ? "800" : "400" }} className="col">
                       {obj.totalCoin}
                     </td>
-                    <td style={{ width: "20%" }} className="col">
+                    <td style={{ width: "20%", fontWeight: obj.id == stId ? "800" : "400" }} className="col">
                       {obj.spentCoin}
                     </td>
                   </tr>

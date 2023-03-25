@@ -169,7 +169,10 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
                       {obj.firstName}
                     </td>
                     <td style={{ width: "30%" }} className="col">
-                      {obj.role}
+                    {obj.role === "ROLE_ADMIN" ? "Admin" : 
+                      (obj.role === "ROLE_TEACHER" ? "O'qituvchi" : 
+                      (obj.role === "ROLE_EDUCATION_DEPARTMENT" ? "O'quv bo'limi" : 
+                      (obj.role === "ROLE_SUNDAY_EVENT" ? "Yakshanba kungi dars yaratuvchi xodim" : (obj.role === "ROLE_ADDITION_LESSON" ? "Qo'shimcha dars yaratuvchi xodim" : obj.role === "ROLE_DIRECTOR" ? "Direktor" : obj.role)) ))}
                     </td>
                     <td style={{ width: "10%" }} className="col">
                       <div className="btns">

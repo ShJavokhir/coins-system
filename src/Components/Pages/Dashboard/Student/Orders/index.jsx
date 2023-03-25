@@ -29,6 +29,7 @@ const Orders = () => {
     <DashboardLayout>
       <OrdersWrapper>
         <h3>Buyurtmalar</h3>
+        <span>Eslatma: Qabul qilingan buyurtmani 10 kun ichida olishingiz mumkin</span>
         <table className="table table-borderless table-hover">
           <thead>
             <tr>

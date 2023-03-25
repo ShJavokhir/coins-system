@@ -315,15 +315,9 @@ const AllProducts = () => {
       });
   }, [filterState]);
 
-  const categoryOption = [
-    ...category.map((i) => ({
-      label: i.name,
-      value: i.id,
-    })),
-  ];
 
   const filterCategoryOption = [
-    // { label: "Tanlang", value: "nullCategory" },
+    { label: "Barchasi", value: null },
     ...category.map((i) => ({
       label: i.name,
       value: i.id,
@@ -358,24 +352,9 @@ const AllProducts = () => {
     <ProductWrapper>
       <form onSubmit={onFilterSubmit}>
         <label>Bo`limlar</label>
-        {/* <Controller
-          control={filterForm.control}
-          name="categoryId"
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <Select
-              // defaultValue={{ label: "Tanlang", value: "nullCategory" }}
-              className="select"
-              value={value}
-              options={filterCategoryOption}
-              onBlur={onBlur}
-              onChange={onChange}
-              ref={ref}
-            />
-          )}
-          /> */}
           <ul>
             {filterCategoryOption.map((v, i) => (
-              <li key={i}>
+              <li key={i} >
                 <Button onClick={()=>handleFilter(v)}>{v.label}</Button>
               </li>
             ))}

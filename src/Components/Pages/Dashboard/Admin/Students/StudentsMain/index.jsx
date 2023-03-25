@@ -1,6 +1,6 @@
 import { Button, Drawer, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AdminProvider from "../../../../../../Data/AdminProvider";
 import ButtonLoader from "../../../../../Common/ButtonLoader";
@@ -14,27 +14,38 @@ import {
   StudentsMainWrapper,
 } from "./StudentsMain.style";
 import Pagination from "rc-pagination";
+import { Checkbox } from "antd";
+import Select from "react-select";
 
-const RowItem = ({obj,index, currentPage, setForRender, RefObj,setIsOpen, setIsOpenModal2, setEditing, setStudent}) => {
+const RowItem = ({
+  obj,
+  index,
+  currentPage,
+  setForRender,
+  RefObj,
+  setIsOpen,
+  setIsOpenModal2,
+  setEditing,
+  setStudent,
+}) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
   const [loading, setLoading] = useState(false);
 
   const handleAddBallBtn = (values) => {
     setLoading(true);
-    AdminProvider.addBall(obj.id , values.ball )
+    AdminProvider.addBall(obj.id, values.ball)
       .then((res) => {
         console.log(res);
-        setForRender(Math.random())
-        toast.success("Qo'shildi")
+        setForRender(Math.random());
+        toast.success("Qo'shildi");
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Xatolik")
+        toast.error("Xatolik");
       })
       .finally(() => {
         setLoading(false);
       });
-
   };
 
   const handleDeleteStudent = (obj) => {
@@ -51,12 +62,12 @@ const RowItem = ({obj,index, currentPage, setForRender, RefObj,setIsOpen, setIsO
             return teach.id !== obj.id;
           })
         );
-        setForRender(Math.random())
-        toast.success("O'chirildi")
+        setForRender(Math.random());
+        toast.success("O'chirildi");
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Xatolik")
+        toast.error("Xatolik");
       });
   };
 
@@ -70,42 +81,19 @@ const RowItem = ({obj,index, currentPage, setForRender, RefObj,setIsOpen, setIsO
   };
 
   return (
-    <tr >
+    <tr>
       <td style={{ minWidth: "20%" }} className="col">
         {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
       </td>
       <td style={{ minWidth: "20%" }} className="col">
         {obj.firstName}
       </td>
+      <td style={{ minWidth: "20%" }} className="col">
+        {obj.username}
+      </td>
       <td style={{ minWidth: "15%" }} className="col">
         {obj.totalBall}
       </td>
-      {/* <td style={{ minWidth: "30%" }} className="col">
-        <form
-          onSubmit={handleSubmit(handleAddBallBtn)}
-          style={{ display: "flex" }}
-        >
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="number"
-            placeholder={"Ball"}
-            {...register("ball", { required: true })}
-          />
-          <Button
-            variant="contained"
-            style={{
-              fontFamily: "Azo sans",
-              color: "#fff",
-              background: "#006786",
-              marginLeft: 10,
-            }}
-            type="submit"
-          >
-            Save
-          </Button>
-        </form>
-      </td> */}
       <td style={{ minWidth: "15%" }} className="col">
         <div className="btns">
           <IconButton
@@ -134,10 +122,12 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [student, setStudent] = useState([]);
+  const [friendId, setFriendId] = useState(null);
   const [forRender, setForRender] = useState(null);
   const [editing, setEditing] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(20);
+  const [isFriend, setIsFriend] = useState(false);
 
   const onChange = (page) => {
     setCurrentPage(page);
@@ -200,6 +190,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
     body.lastName = values.lastName;
     body.username = values.username;
     body.password = values.password;
+    body.friendId = friendId;
     setLoading2(true);
     AdminProvider.createStudent(body)
       .then((res) => {
@@ -214,12 +205,21 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       })
       .finally(() => {
         setLoading2(false);
+        setIsFriend(false);
       });
   };
 
-  
+  const onChangeCheck = (e) => {
+    console.log(e.target.checked);
+    setIsFriend(e.target.checked);
+  };
 
-  
+  const studentOption = [
+    ...student.map((i) => ({
+      label: i.firstName + " " + i.lastName,
+      value: i.id,
+    })),
+  ];
 
   return (
     <>
@@ -249,6 +249,9 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
               <th style={{ minWidth: "20%" }} className="col">
                 Ismi
               </th>
+              <th style={{ minWidth: "20%" }} className="col">
+                Username
+              </th>
               <th style={{ minWidth: "15%" }} className="col">
                 Ball
               </th>
@@ -264,68 +267,18 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
             {!loading ? (
               student.length ? (
                 student.map((obj, index) => (
-                  <RowItem key={index} 
-                  obj={obj}
-                  index={index}
-                  currentPage={currentPage}
-                  setForRender={setForRender}
-                  RefObj={RefObj} setIsOpen={setIsOpen} setIsOpenModal2={setIsOpenModal2}
-                  setEditing={setEditing}
-                  setStudent={setStudent}
+                  <RowItem
+                    key={index}
+                    obj={obj}
+                    index={index}
+                    currentPage={currentPage}
+                    setForRender={setForRender}
+                    RefObj={RefObj}
+                    setIsOpen={setIsOpen}
+                    setIsOpenModal2={setIsOpenModal2}
+                    setEditing={setEditing}
+                    setStudent={setStudent}
                   />
-                  // <tr key={index}>
-                  //   <td style={{ width: "20%" }} className="col">
-                  //     {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
-                  //   </td>
-                  //   <td style={{ width: "20%" }} className="col">
-                  //     {obj.firstName}
-                  //   </td>
-                  //   <td style={{ width: "20%" }} className="col">
-                  //     {obj.totalBall}
-                  //   </td>
-                  //   <td style={{ width: "20%" }} className="col">
-                  //     <form
-                  //       onSubmit={handleSubmit(() => handleAddBallBtn(obj))}
-                  //       style={{ display: "flex" }}
-                  //     >
-                  //       <input
-                  //         autoComplete="off"
-                  //         className="form-control"
-                  //         type="number"
-                  //         placeholder={"Ball"}
-                  //         {...register("ball", { required: true })}
-                  //       />
-                  //       <Button
-                  //         variant="contained"
-                  //         style={{
-                  //           fontFamily: "Azo sans",
-                  //           color: "#fff",
-                  //           background: "#006786",
-                  //           marginLeft: 10,
-                  //         }}
-                  //         type="submit"
-                  //       >
-                  //         Save
-                  //       </Button>
-                  //     </form>
-                  //   </td>
-                  //   <td style={{ width: "20%" }} className="col">
-                  //     <div className="btns">
-                  //       <IconButton
-                  //         style={{ background: "rgb(114, 225, 40, 0.12)" }}
-                  //         onClick={() => handleEditStudent(obj)}
-                  //       >
-                  //         <EditSvg />
-                  //       </IconButton>
-                  //       <IconButton
-                  //         style={{ background: "rgb(253, 181, 40, 0.12)" }}
-                  //         onClick={() => handleDeleteStudent(obj)}
-                  //       >
-                  //         <DeleteSvg />
-                  //       </IconButton>
-                  //     </div>
-                  //   </td>
-                  // </tr>
                 ))
               ) : (
                 <div
@@ -388,6 +341,34 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 placeholder={"Familyasi"}
                 {...register("lastName", { required: true })}
               />
+            </div>
+            <div className="label">
+              <Checkbox onChange={onChangeCheck}>Do`sti taklif qilgan</Checkbox>
+              {isFriend ? (
+                <Controller
+                  control={control}
+                  name="friendId"
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <Select
+                      className="select"
+                      value={value}
+                      placeholder="O'quvchini tanlang"
+                      options={studentOption}
+                      onBlur={onBlur}
+                      onChange={(v) => {
+                        onChange(v);
+                        setFriendId(v.value);
+                        console.log(v.value);
+                      }}
+                      ref={ref}
+                    />
+                  )}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
             <div className="label">
               <label>Username</label>

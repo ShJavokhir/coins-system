@@ -67,5 +67,6 @@ export default class SeoProvider {
     static async getAllNumber(){
         return await client.get(`/seo/all/amount/pred`)
     }
+    
 
 }

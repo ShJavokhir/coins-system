@@ -142,6 +142,12 @@ const ModalContent = styled.div`
       margin-bottom: 20px;
       font-family: Azo sans;
 
+      .ant-checkbox-wrapper{
+        span{
+          font-family: Azo sans;
+        }
+      }
+
       span.label-text {
         font-style: normal;
         font-weight: 400;

@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import SeoProvider from "../../../../Data/SeoProvider";
 import StudentProvider from "../../../../Data/StudentProvider";
 import getURlFile from "../../../../utils/getUrlFromFile";
 import MinLoader from "../../../Common/MinLoader";
@@ -37,6 +36,14 @@ const Shopping = () => {
   const [narx, setNarx] = useState(null)
 
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+
+  const [category, setCategory] = useState([]);
+  const [categoryId, setCategoryId] = useState(null);
+  const filterForm = useForm();
+  const [filterState, setFilterState] = useState({});
+
+
   const openModal = (obj) => {
     setProduct(obj);
     setNarx(obj.price);
@@ -94,9 +101,71 @@ const Shopping = () => {
     setCounter((p) => p - 1);
   };
 
+  // useEffect(() => {
+  //   SeoProvider.getAllCategory()
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setForRender(Math.random());
+  //       setCategory(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [filterState]);
+
+  // const categoryOption = [
+  //   ...category.map((i) => ({
+  //     label: i.name,
+  //     value: i.id,
+  //   })),
+  // ];
+
+  // const filterCategoryOption = [
+  //   { label: "Barchasi", value: null },
+  //   ...category.map((i) => ({
+  //     label: i.name,
+  //     value: i.id,
+  //   })),
+  // ];
+
+  // const onFilterSubmit = filterForm.handleSubmit((values) => {
+  //   console.log(values);
+  //   const obj = {
+  //     categoryId:
+  //       values.categoryId?.value === "nullCategory"
+  //         ? ""
+  //         : values.categoryId?.value,
+  //   };
+
+  //   console.log("obj", obj);
+
+  //   setFilterState(obj.categoryId);
+  // });
+
+  // const handleFilter =(obj)=>{
+  //   console.log(obj.value);
+  //   setFilterState(obj.value);
+  // }
+
+  // useEffect(() => {
+  //   onFilterSubmit(filterForm.getValues());
+  //   console.log(filterForm.getValues());
+  // }, [filterForm.watch("categoryId")]);
+
+
   return (
     <DashboardLayout>
       <ShoppingWrapper>
+      {/* <form onSubmit={onFilterSubmit}>
+        <label>Bo`limlar</label>
+          <ul>
+            {filterCategoryOption.map((v, i) => (
+              <li key={i} >
+                <Button onClick={()=>handleFilter(v)}>{v.label}</Button>
+              </li>
+            ))}
+          </ul>
+      </form> */}
         <div className="wrap">
           {!loading ? (
             products ? (

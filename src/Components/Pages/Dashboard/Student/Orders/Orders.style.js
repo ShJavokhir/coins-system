@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 const OrdersWrapper=styled.div`
+ span{
+    font-family: Azo sans;
+    color: red;
+  }
     .table{
     margin-top: 20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);

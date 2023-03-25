@@ -71,29 +71,28 @@ const ProductAddWrapper = styled.div`
 `;
 
 const ProductWrapper = styled.div`
-ul{
-      padding: 0 !important;
-      li{
-        list-style: none;
-        margin-bottom: 10px;
-        font-family: Azo sans;
-        cursor: pointer;
+  ul {
+    padding: 0 !important;
+    li {
+      list-style: none;
+      margin-bottom: 10px;
+      font-family: Azo sans;
+      cursor: pointer;
 
-        button{
-          background: transparent;
-          border: none;
-          color: #000;
-        }
+      button {
+        background: transparent;
+        border: none;
+        color: #000;
       }
     }
+  }
   display: flex;
   .wrap {
     width: 75%;
     display: flex;
     flex-wrap: wrap;
     font-family: Azo sans;
-    transform: translateX(25%);
-  
+    transform: translateX(30%);
 
     .cardOut {
       width: 25%;
@@ -108,7 +107,7 @@ ul{
           height: 20px;
           margin-left: 5px;
           margin-top: -3px;
-          fill: #FEDF43;
+          fill: #fedf43;
         }
       }
 
@@ -123,7 +122,7 @@ ul{
           height: 200px;
           object-fit: contain;
         }
-        .title{
+        .title {
           font-size: 20px;
         }
         .btn {
@@ -146,98 +145,74 @@ ul{
     }
   }
 
-  form{
+  form {
     position: fixed;
     width: 20%;
-    label{
-    text-transform: uppercase;
-    font-size: 24px;
-
-  }
+    label {
+      text-transform: uppercase;
+      font-size: 24px;
+    }
   }
 
   @keyframes spin {
-  0% {
-    width:20px;
-    box-shadow:
-      0 0 0 #120e08;
-    animation-timing-function: ease-in;
+    0% {
+      width: 20px;
+      box-shadow: 0 0 0 #120e08;
+      animation-timing-function: ease-in;
+    }
+
+    49.999% {
+      width: 0.1rem;
+      box-shadow: 0.05rem 0 0 #896c3b, 0.1rem 0 0 #896c3b, 0.15rem 0 0 #896c3b,
+        0.2rem 0 0 #896c3b, 0.25rem 0 0 #896c3b, 0.3rem 0 0 #896c3b,
+        0.35rem 0 0 #896c3b, 0.4rem 0 0 #896c3b, 0.45rem 0 0 #896c3b,
+        0.5rem 0 0 #896c3b, 0.55rem 0 0 #896c3b, 0.6rem 0 0 #896c3b,
+        0.65rem 0 0 #896c3b, 0.7rem 0 0 #896c3b, 0.75rem 0 0 #896c3b;
+      transform: translateX(-0.375rem);
+      background-color: #111;
+      animation-timing-function: linear;
+    }
+
+    50.001% {
+      width: 0.1rem;
+      box-shadow: -0.05rem 0 0 #896c3b, -0.1rem 0 0 #896c3b,
+        -0.15rem 0 0 #896c3b, -0.2rem 0 0 #896c3b, -0.25rem 0 0 #896c3b,
+        -0.3rem 0 0 #896c3b, -0.35rem 0 0 #896c3b, -0.4rem 0 0 #896c3b,
+        -0.45rem 0 0 #896c3b, -0.5rem 0 0 #896c3b, -0.55rem 0 0 #896c3b,
+        -0.6rem 0 0 #896c3b, -0.65rem 0 0 #896c3b, -0.7rem 0 0 #896c3b,
+        -0.75rem 0 0 #896c3b;
+      transform: translateX(0.375rem);
+      background-color: #111;
+      animation-timing-function: ease-out;
+    }
+
+    100% {
+      width: 20px;
+      box-shadow: 0 0 0 #120e08;
+    }
   }
-  
-  49.999% {
-    width: 0.1rem;
-    box-shadow:
-      0.05rem 0 0 #896c3b,
-      0.1rem 0 0 #896c3b,
-      0.15rem 0 0 #896c3b,
-      0.2rem 0 0 #896c3b,
-      0.25rem 0 0 #896c3b,
-      0.3rem 0 0 #896c3b,
-      0.35rem 0 0 #896c3b,
-      0.4rem 0 0 #896c3b,
-      0.45rem 0 0 #896c3b,
-      0.5rem 0 0 #896c3b,
-      0.55rem 0 0 #896c3b,
-      0.6rem 0 0 #896c3b,
-      0.65rem 0 0 #896c3b,
-      0.7rem 0 0 #896c3b,
-      0.75rem 0 0 #896c3b;
-    transform: translateX(-0.375rem);
-    background-color: #111;
-    animation-timing-function: linear;
-  }
-  
-  50.001% {
-    width: 0.1rem;
-    box-shadow:
-      -0.05rem 0 0 #896c3b,
-      -0.1rem 0 0 #896c3b,
-      -0.15rem 0 0 #896c3b,
-      -0.2rem 0 0 #896c3b,
-      -0.25rem 0 0 #896c3b,
-      -0.3rem 0 0 #896c3b,
-      -0.35rem 0 0 #896c3b,
-      -0.4rem 0 0 #896c3b,
-      -0.45rem 0 0 #896c3b,
-      -0.5rem 0 0 #896c3b,
-      -0.55rem 0 0 #896c3b,
-      -0.6rem 0 0 #896c3b,
-      -0.65rem 0 0 #896c3b,
-      -0.7rem 0 0 #896c3b,
-      -0.75rem 0 0 #896c3b;
-    transform: translateX(0.375rem);
-    background-color: #111;
-    animation-timing-function: ease-out;
-  }
-  
-  100% {
-    width: 20px;
-    box-shadow:
-      0 0 0 #120e08;
-  }
-}
 `;
 
-const OrderListWrapper=styled.div`
-.table{
+const OrderListWrapper = styled.div`
+  .table {
     margin-top: 20px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 3px 6px rgba(0, 0, 0, 0.03);
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     /* box-shadow: rgb(20 21 33 / 18%) 0px 2px 10px 0px; */
 
-    thead{
+    thead {
       width: 100%;
-      tr{
+      tr {
         display: flex;
         background: #f5f5f7;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
         padding: 5px 0;
-        
-        th.col{
+
+        th.col {
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
@@ -249,18 +224,17 @@ const OrderListWrapper=styled.div`
           text-align: center;
           font-family: "Azo sans";
           padding: 15px 12px 10px 20px;
-
         }
       }
     }
 
-    tbody{
+    tbody {
       background: #fff;
-      tr{
+      tr {
         display: flex;
         /* border-bottom: 1px solid rgba(159, 160, 184, 0.3); */
         justify-content: space-between;
-        
+
         td.col {
           font-style: normal;
           font-weight: 400;
@@ -273,22 +247,18 @@ const OrderListWrapper=styled.div`
           text-align: center;
           font-family: "Azo sans";
           padding: 5px;
-          
         }
 
-        button{
+        button {
           &:disabled {
-          cursor: not-allowed !important;
-          opacity: 0.8;
+            cursor: not-allowed !important;
+            opacity: 0.8;
+          }
         }
-  }
-
-       
       }
-
     }
   }
-`
+`;
 const ModalHeader = styled.header`
   background: #fff;
   display: flex;
@@ -392,4 +362,10 @@ const ModalContent = styled.div`
   }
 `;
 
-export { ProductAddWrapper, ModalContent, ModalHeader, ProductWrapper, OrderListWrapper };
+export {
+  ProductAddWrapper,
+  ModalContent,
+  ModalHeader,
+  ProductWrapper,
+  OrderListWrapper,
+};

@@ -20,7 +20,9 @@ const RowItem = ({ lessonId, obj, index }) => {
   const firstRender = useRef(true);
   const [visit, setVisit] = useState(null);
   const [homeWork, setHomeWork] = useState(-1);
-
+  const [active, setActive] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  
   const handleBtn = () => {
     const body = {};
     body.lessonId = lessonId;
@@ -37,6 +39,16 @@ const RowItem = ({ lessonId, obj, index }) => {
       });
   };
 
+  useEffect(()=>{
+    TeacherProvider.getOneLessonInfo(lessonId)
+    .then(res=>{
+      console.log(res.data.data);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  },[])
+
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -49,18 +61,14 @@ const RowItem = ({ lessonId, obj, index }) => {
     setHomeWork(parseInt(e.target.value));
   };
 
-  // const changeSwitch = (e) => {
-  //   setVisit(e);
-  // };
-
-  const [active, setActive] = useState("");
-  const [isActive, setIsActive] = useState(false);
+  
 
   const handleButtonSuccess = () => {
     setActive("success");
     setIsActive(true);
     setVisit(1);
   };
+
 
   const handleButtonCancel = () => {
     setActive("cancel");
@@ -103,9 +111,7 @@ const RowItem = ({ lessonId, obj, index }) => {
           </Radio.Group>
         </div>
       </td>
-      {/* <td style={{ minWidth: "15%" }} >
-                      <button onClick={handleBtn}>Save</button>
-                    </td> */}
+
     </tr>
   );
 };
@@ -185,10 +191,18 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
 
   const createLesson = () => {
     setLoader(true);
-    TeacherProvider.createLesson(groupId)
+    if(localStorage.getItem("lessonId")){
+      console.log("true");
+      setLessonId(localStorage.getItem('lessonId'))
+      console.log(lessonId);
+      setIsLesson(true);
+      setLoader(false);
+    } else{
+      TeacherProvider.createLesson(groupId)
       .then((res) => {
         console.log(res);
         setLessonId(res.data.id);
+        localStorage.setItem('lessonId', res.data.id)
         setIsLesson(true);
         console.log(fetchedData);
       })
@@ -199,6 +213,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       .finally(() => {
         setLoader(false);
       });
+    }
   };
 
   return (
@@ -218,7 +233,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
           Dars qo`shish {loader && <ButtonLoader />}
         </Button>
       ) : (
-        <></>
+        <CountdownTimer  />
       )}
 
       {isLesson ? (
@@ -242,7 +257,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
                 fetchedData.map((obj, index) => (
                   <RowItem
                     key={index}
-                    lessonId={lessonId}
+                    lessonId={localStorage.getItem("lessonId")==lessonId ? localStorage.getItem("lessonId") : lessonId}
                     obj={obj}
                     index={index}
                   />
@@ -475,6 +490,36 @@ const TeacherInGroup = ({ groupId }) => {
         </div>
       </TeacherInGroupWrapper>
     </DashboardLayout>
+  );
+};
+
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 0, seconds: 0 });
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timeLeft.seconds > 0) {
+        setTimeLeft({ ...timeLeft, seconds: timeLeft.seconds - 1 });
+      } else if (timeLeft.minutes > 0) {
+        setTimeLeft({ ...timeLeft, minutes: timeLeft.minutes - 1, seconds: 59 });
+      } else if (timeLeft.hours > 0) {
+        setTimeLeft({ ...timeLeft, hours: timeLeft.hours - 1, minutes: 59, seconds: 59 });
+      }
+      localStorage.setItem('seocond', timeLeft.seconds)
+      localStorage.setItem('minute', timeLeft.minutes)
+      localStorage.setItem('hour', timeLeft.hours)
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+
+  return (
+    <div style={{display:"flex"}}>
+      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.hours.toString().padStart(2, '0')}:</div>
+      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.minutes.toString().padStart(2, '0')}:</div>
+      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.seconds.toString().padStart(2, '0')}</div>
+    </div>
   );
 };
 

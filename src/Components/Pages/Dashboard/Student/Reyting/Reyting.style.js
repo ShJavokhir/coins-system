@@ -22,11 +22,17 @@ p {
     .card{
       width: 25%;
       padding: 20px;
-      background: rgb(161,204,215, 0.5);
+      /* background: rgb(161,204,215, 0.5); */
+      /* border: 1px solid #e7e8ed; */
+      box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06),
+        0 1px 4px rgba(0, 0, 0, 0.08);
       transition: 300ms;
+      border: none;
       
       &:hover{
-        background: rgb(161,204,215, 0.8);
+        /* background: rgb(161,204,215, 0.8); */
+        /* box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06),
+        0 1px 4px rgba(0, 0, 0, 0.08); */
       }
       img{
         width: 20%;
@@ -35,7 +41,6 @@ p {
       }
     }
   }
-
   .select{
     width: 50%;
   }
