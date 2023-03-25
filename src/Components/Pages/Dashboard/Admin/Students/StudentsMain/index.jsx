@@ -15,6 +15,116 @@ import {
 } from "./StudentsMain.style";
 import Pagination from "rc-pagination";
 
+const RowItem = ({obj,index, currentPage, setForRender, RefObj,setIsOpen, setIsOpenModal2, setEditing, setStudent}) => {
+  const { register, handleSubmit, control, reset, setValue } = useForm();
+  const [loading, setLoading] = useState(false);
+
+  const handleAddBallBtn = (values) => {
+    setLoading(true);
+    AdminProvider.addBall(obj.id , values.ball )
+      .then((res) => {
+        console.log(res);
+        setForRender(Math.random())
+        toast.success("Qo'shildi")
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Xatolik")
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+  };
+
+  const handleDeleteStudent = (obj) => {
+    RefObj.current.textContent = `Rostdan ham o'chirishni xoxlaysizmi?`;
+    setIsOpen(true);
+    new Promise((res, rej) => {
+      RefObj.current.resolve = res;
+      RefObj.current.reject = rej;
+    })
+      .then(async () => {
+        await AdminProvider.deleteStudent(obj.id);
+        setStudent((p) =>
+          p.filter((teach) => {
+            return teach.id !== obj.id;
+          })
+        );
+        setForRender(Math.random())
+        toast.success("O'chirildi")
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Xatolik")
+      });
+  };
+
+  const handleEditStudent = (obj) => {
+    console.log(obj);
+    setIsOpenModal2(true);
+    setEditing(obj);
+    setValue("firstName", obj.firstName);
+    setValue("lastName", obj.lastName);
+    setValue("username", obj.username);
+  };
+
+  return (
+    <tr >
+      <td style={{ minWidth: "20%" }} className="col">
+        {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
+      </td>
+      <td style={{ minWidth: "20%" }} className="col">
+        {obj.firstName}
+      </td>
+      <td style={{ minWidth: "15%" }} className="col">
+        {obj.totalBall}
+      </td>
+      {/* <td style={{ minWidth: "30%" }} className="col">
+        <form
+          onSubmit={handleSubmit(handleAddBallBtn)}
+          style={{ display: "flex" }}
+        >
+          <input
+            autoComplete="off"
+            className="form-control"
+            type="number"
+            placeholder={"Ball"}
+            {...register("ball", { required: true })}
+          />
+          <Button
+            variant="contained"
+            style={{
+              fontFamily: "Azo sans",
+              color: "#fff",
+              background: "#006786",
+              marginLeft: 10,
+            }}
+            type="submit"
+          >
+            Save
+          </Button>
+        </form>
+      </td> */}
+      <td style={{ minWidth: "15%" }} className="col">
+        <div className="btns">
+          <IconButton
+            style={{ background: "rgb(114, 225, 40, 0.12)" }}
+            onClick={() => handleEditStudent(obj)}
+          >
+            <EditSvg />
+          </IconButton>
+          <IconButton
+            style={{ background: "rgb(253, 181, 40, 0.12)" }}
+            onClick={() => handleDeleteStudent(obj)}
+          >
+            <DeleteSvg />
+          </IconButton>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 const StudentsMain = ({ RefObj, setIsOpen }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -37,14 +147,14 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
   };
   const onCloseModal = () => {
     setIsOpenModal(false);
-    reset()
+    reset();
   };
   const openModal2 = () => {
     setIsOpenModal2(true);
   };
   const onCloseModal2 = () => {
     setIsOpenModal2(false);
-    reset()
+    reset();
   };
 
   useEffect(() => {
@@ -83,56 +193,33 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       setLoading2(false);
     }
   };
+
   const onSubmitStudentAdd = async (values) => {
     const body = {};
     body.firstName = values.firstName;
     body.lastName = values.lastName;
     body.username = values.username;
     body.password = values.password;
-    setLoading2(true)
-      AdminProvider.createStudent(body)
-        .then((res) => {
-          reset();
-          setForRender(Math.random());
-          toast.success("Qo'shildi");
-          onCloseModal();
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error(err?.response?.data?.message);
-        })
-        .finally(() => {
-          setLoading2(false);
-        });
-  };
-
-  const handleDeleteStudent = (obj) => {
-    RefObj.current.textContent = `Rostdan ham o'chirishni xoxlaysizmi?`;
-    setIsOpen(true);
-    new Promise((res, rej) => {
-      RefObj.current.resolve = res;
-      RefObj.current.reject = rej;
-    })
-      .then(async () => {
-        await AdminProvider.deleteStudent(obj.id);
-        setStudent((p) =>
-          p.filter((teach) => {
-            return teach.id !== obj.id;
-          })
-        );
+    setLoading2(true);
+    AdminProvider.createStudent(body)
+      .then((res) => {
+        reset();
+        setForRender(Math.random());
+        toast.success("Qo'shildi");
+        onCloseModal();
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err?.response?.data?.message);
+      })
+      .finally(() => {
+        setLoading2(false);
       });
   };
 
-  const handleEditStudent = (obj) => {
-    setIsOpenModal2(true);
-    setEditing(obj);
-    setValue("firstName", obj.firstName);
-    setValue("lastName", obj.lastName);
-    setValue("username", obj.username);
-  };
+  
+
+  
 
   return (
     <>
@@ -156,13 +243,19 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
         <table className="table table-borderless table-hover">
           <thead>
             <tr>
-              <th style={{ width: "40%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
                 Familyasi
               </th>
-              <th style={{ width: "30%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
                 Ismi
               </th>
-              <th style={{ width: "30%" }} className="col">
+              <th style={{ minWidth: "15%" }} className="col">
+                Ball
+              </th>
+              {/* <th style={{ minWidth: "30%" }} className="col">
+                Ball berish
+              </th> */}
+              <th style={{ minWidth: "15%" }} className="col">
                 Amallar
               </th>
             </tr>
@@ -171,30 +264,68 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
             {!loading ? (
               student.length ? (
                 student.map((obj, index) => (
-                  <tr key={index}>
-                    <td style={{ width: "40%" }} className="col">
-                    {(currentPage-1)*10+index+1}. {obj.lastName}
-                    </td>
-                    <td style={{ width: "30%" }} className="col">
-                      {obj.firstName}
-                    </td>
-                    <td style={{ width: "30%" }} className="col">
-                      <div className="btns">
-                        <IconButton
-                          style={{ background: "rgb(114, 225, 40, 0.12)" }}
-                          onClick={() => handleEditStudent(obj)}
-                        >
-                          <EditSvg />
-                        </IconButton>
-                        <IconButton
-                          style={{ background: "rgb(253, 181, 40, 0.12)" }}
-                          onClick={() => handleDeleteStudent(obj)}
-                        >
-                          <DeleteSvg />
-                        </IconButton>
-                      </div>
-                    </td>
-                  </tr>
+                  <RowItem key={index} 
+                  obj={obj}
+                  index={index}
+                  currentPage={currentPage}
+                  setForRender={setForRender}
+                  RefObj={RefObj} setIsOpen={setIsOpen} setIsOpenModal2={setIsOpenModal2}
+                  setEditing={setEditing}
+                  setStudent={setStudent}
+                  />
+                  // <tr key={index}>
+                  //   <td style={{ width: "20%" }} className="col">
+                  //     {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
+                  //   </td>
+                  //   <td style={{ width: "20%" }} className="col">
+                  //     {obj.firstName}
+                  //   </td>
+                  //   <td style={{ width: "20%" }} className="col">
+                  //     {obj.totalBall}
+                  //   </td>
+                  //   <td style={{ width: "20%" }} className="col">
+                  //     <form
+                  //       onSubmit={handleSubmit(() => handleAddBallBtn(obj))}
+                  //       style={{ display: "flex" }}
+                  //     >
+                  //       <input
+                  //         autoComplete="off"
+                  //         className="form-control"
+                  //         type="number"
+                  //         placeholder={"Ball"}
+                  //         {...register("ball", { required: true })}
+                  //       />
+                  //       <Button
+                  //         variant="contained"
+                  //         style={{
+                  //           fontFamily: "Azo sans",
+                  //           color: "#fff",
+                  //           background: "#006786",
+                  //           marginLeft: 10,
+                  //         }}
+                  //         type="submit"
+                  //       >
+                  //         Save
+                  //       </Button>
+                  //     </form>
+                  //   </td>
+                  //   <td style={{ width: "20%" }} className="col">
+                  //     <div className="btns">
+                  //       <IconButton
+                  //         style={{ background: "rgb(114, 225, 40, 0.12)" }}
+                  //         onClick={() => handleEditStudent(obj)}
+                  //       >
+                  //         <EditSvg />
+                  //       </IconButton>
+                  //       <IconButton
+                  //         style={{ background: "rgb(253, 181, 40, 0.12)" }}
+                  //         onClick={() => handleDeleteStudent(obj)}
+                  //       >
+                  //         <DeleteSvg />
+                  //       </IconButton>
+                  //     </div>
+                  //   </td>
+                  // </tr>
                 ))
               ) : (
                 <div

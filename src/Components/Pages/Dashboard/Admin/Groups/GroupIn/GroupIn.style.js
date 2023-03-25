@@ -108,7 +108,7 @@ const ModalContent = styled.div`
 
   form {
     background: #fff;
-    font-family: "Inter";
+    font-family: "Azo Sans";
 
     .label {
       width: 100%;

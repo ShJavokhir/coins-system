@@ -52,6 +52,7 @@ const LessonInWrapper=styled.div`
           font-style: normal;
           font-weight: 400;
           font-size: 14px;
+          height: 50px;
           line-height: 24px;
           display: flex;
           align-items: center;
@@ -62,9 +63,6 @@ const LessonInWrapper=styled.div`
           
         }
 
-        span{
-          padding: 0;
-        }
 
         img{
           width: 50px;

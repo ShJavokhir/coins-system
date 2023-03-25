@@ -310,6 +310,10 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  /* .ant-modal-footer{
+    display: none;
+  } */
+
   @media only screen and (max-width: 992px) {
     .rc-pagination-item {
       &-after-jump-prev,

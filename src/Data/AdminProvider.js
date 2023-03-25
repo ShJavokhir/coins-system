@@ -46,6 +46,17 @@ export default class AdminProvider {
     static async updateGroup(id, body) {
         return await client.put(`/admin/update/group/${id}`, body);
     }
+    static async addBall( studentId = 0, ball = 0) {
+        return await client.post(`/admin/student/add/ball?studentId=${studentId}&ball=${ball}`);
+    }
+
+    static async transferStudent(body) {
+        return await client.put(`/admin/student/update/group`, body);
+    }
+    static async getAllTransfers(page = 0, size = 10) {
+        return await client.get(`/admin/get/transfer/history?pageNum=${page}&pageSize=${size}`);
+    }
+
 
 
     // student
@@ -56,7 +67,7 @@ export default class AdminProvider {
         return await client.get(`/admin/get/all/student?pageNum=${page}&pageSize=${size}`);
     }
     static async deleteStudent(id) {
-        return await client.delete(`/admin/delete/user/${id}`);
+        return await client.delete(`/admin/delete/student/${id}`);
     }
     static async updateStudent(body) {
         return await client.put(`/admin/update/student`, body);

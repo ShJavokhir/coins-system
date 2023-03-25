@@ -35,7 +35,7 @@ const LessonIn = ({ lessonId }) => {
         <table className="table table-borderless table-hover">
           <thead>
             <tr>
-              <th style={{ minWidth: "40%" }} className="col">
+              <th style={{ minWidth: "30%" }} className="col">
                 O`quvchi
               </th>
               <th style={{ minWidth: "30%" }} className="col">
@@ -44,6 +44,9 @@ const LessonIn = ({ lessonId }) => {
               <th style={{ minWidth: "30%" }} className="col">
                 Davomat
               </th>
+              <th style={{ minWidth: "10%" }} className="col">
+                Jami
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -51,25 +54,106 @@ const LessonIn = ({ lessonId }) => {
               lessonData.length ? (
                 lessonData.map((obj, index) => (
                   <tr key={index}>
-                    <td style={{ minWidth: "40%" }} className="col">
-                      {/* <MyLink to={`/dashboard/lessons/` + obj.id}> */}
+                    <td style={{ minWidth: "30%" }} className="col">
                       {index + 1}. {obj.firstName} {obj.lastName}
-                      {/* </MyLink> */}
                     </td>
 
                     <td style={{ minWidth: "30%" }} className="col">
                       {obj.homeworkStatus === 0 ? (
-                        <span style={{ width:"200px",borderRadius:"5px", padding:"5px 10px" }}>
-                          Bajarilmagan <span style={{background: "rgb(255, 77, 73)", width:"50px",borderRadius:"50%", height:"50px", padding:"10px 4px", color:"#fff", fontWeight:"700"}}> -10ball</span>
+                        <span
+                          style={{
+                            width: "200px",
+                            borderRadius: "5px",
+                            padding: "5px 10px",
+                            display:"flex",
+                            justifyContent:"space-between",
+                            alignItems:"center"
+                          }}
+                        >
+                          Bajarilmagan{" "}
+                          <span
+                            style={{
+                              // background: "rgb(255, 77, 73)",
+                              width: "50px",
+                              borderRadius: "5px",
+                              height: "50px",
+                              padding: "10px 4px",
+                              // color: "#fff",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {" "}
+                            -15ball
+                          </span>
                         </span>
                       ) : obj.homeworkStatus === 1 ? (
-                        <span style={{width:"200px",borderRadius:"5px", padding:"5px 10px"}}>Chala <span style={{background: "rgb(253, 181, 40)", width:"50px",borderRadius:"50%", height:"50px", padding:"10px 4px", color:"#fff", fontWeight:"700"}}> +5ball</span></span>
+                        <span
+                          style={{
+                            width: "200px",
+                            borderRadius: "5px",
+                            padding: "5px 10px",
+                            display:"flex",
+                            justifyContent:"space-between",
+                            alignItems:"center"
+                          }}
+                        >
+                          Chala{" "}
+                          <span
+                            style={{
+                              // background: "rgb(253, 181, 40)",
+                              width: "50px",
+                              borderRadius: "5px",
+                              height: "50px",
+                              padding: "10px 4px",
+                              // color: "#fff",
+                              fontWeight: "700",
+                              
+                            }}
+                          >
+                            {" "}
+                            +5ball
+                          </span>
+                        </span>
                       ) : (
-                        <span style={{width:"200px",borderRadius:"5px", padding:"5px 10px"}}>To`liq <span style={{background: "rgb(114, 225, 40)", width:"50px",borderRadius:"50%", height:"50px", padding:"10px 4px", color:"#fff", fontWeight:"700"}}> +15ball</span></span>
+                        <span
+                          style={{
+                            width: "200px",
+                            borderRadius: "5px",
+                            padding: "5px 10px",
+                            display:"flex",
+                            justifyContent:"space-between",
+                            alignItems:"center"
+                          }}
+                        >
+                          To`liq{" "}
+                          <span
+                            style={{
+                              // background: "rgb(114, 225, 40)",
+                              width: "50px",
+                              borderRadius: "5px",
+                              height: "50px",
+                              padding: "10px 4px",
+                              // color: "#fff",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {" "}
+                            +15ball
+                          </span>
+                        </span>
                       )}
                     </td>
                     <td style={{ minWidth: "30%" }} className="col">
-                      {obj.visitStatus == 0 ? "Yo'q -15ball" : "Bor 10ball"}
+                      {obj.visitStatus == 0 ? "Yo'q -20ball" : "Bor 10ball"}
+                    </td>
+                    <td style={{ minWidth: "10%" }} className="col">
+                      {obj.visitStatus == 0
+                        ? "-35 ball"
+                        : obj.visitStatus == 1 && obj.homeworkStatus == 0
+                        ? "-5 ball"
+                        : obj.visitStatus == 1 && obj.homeworkStatus == 1
+                        ? "15 ball"
+                        : "25 ball"}
                     </td>
                   </tr>
                 ))

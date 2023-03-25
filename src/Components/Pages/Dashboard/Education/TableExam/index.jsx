@@ -1,12 +1,13 @@
 import React from 'react';
 import DashboardLayout from '../../../../Layout';
+import ExamMain from './ExamMain';
 
-const Imtihon = () => {
+const Exam = () => {
     return (
         <DashboardLayout>
-            Imtihon yaratish
+            <ExamMain/>
         </DashboardLayout>
     );
 };
 
-export default Imtihon;
+export default Exam;

@@ -20,6 +20,12 @@ const NavListMenu = [
     src: "/icons/student.png",
     role: ["ROLE_ADMIN"],
   },
+  {
+    title: "Guruhga o'tkazish",
+    path: "/dashboard/transfer",
+    src: "/icons/transfer.png",
+    role: ["ROLE_ADMIN"],
+  },
  
   //teacher role
   {
@@ -78,6 +84,12 @@ const NavListMenu = [
     src: "/icons/shopping.png",
     role: ["ROLE_SEO"],
   },
+  {
+    title: "Ball berish",
+    path: "/dashboard/addBall",
+    src: "/icons/ball.png",
+    role: ["ROLE_SEO"],
+  },
   //education role
   {
     title: "Statistika",
@@ -87,7 +99,13 @@ const NavListMenu = [
   },
   {
     title: "Imtihon yaratish",
-    path: "/dashboard/education",
+    path: "/dashboard/education/groups",
+    src: "/icons/test.png",
+    role: ["ROLE_EDUCATION_DEPARTMENT"],
+  },
+  {
+    title: "Imtihon jadvali",
+    path: "/dashboard/education/exams",
     src: "/icons/test.png",
     role: ["ROLE_EDUCATION_DEPARTMENT"],
   },
@@ -104,14 +122,46 @@ const NavListMenu = [
     src: "/icons/shopping.png",
     role: ["ROLE_STUDENT"],
   },
+  {
+    title: "Buyurtmalar",
+    path: "/dashboard/orders",
+    src: "/icons/gift.png",
+    role: ["ROLE_STUDENT"],
+  },
+  {
+    title: "Ball almashtirish",
+    path: "/dashboard/transaction",
+    src: "/icons/transaction.png",
+    role: ["ROLE_STUDENT"],
+  },
 
   //addition
 
   {
-    title: "Qo'shimcha dars",
+    title: "Dars yaratish",
     path: "/dashboard/addition",
     src: "/icons/lesson.png",
     role: ["ROLE_ADDITION_LESSON"],
+  },
+  {
+    title: "Dars haqida",
+    path: "/dashboard/additionLessons",
+    src: "/icons/lesson.png",
+    role: ["ROLE_ADDITION_LESSON"],
+  },
+
+  //sunday
+  {
+    title: "Dars yaratish",
+    path: "/dashboard/sunday",
+    src: "/icons/lesson.png",
+    role: ["ROLE_SUNDAY_EVENT"],
+  },
+  {
+    title: "Dars haqida",
+    path: "/dashboard/sundayLessons",
+    src: "/icons/lesson.png",
+    role: ["ROLE_SUNDAY_EVENT"],
   }
  
   

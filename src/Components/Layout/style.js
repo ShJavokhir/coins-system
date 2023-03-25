@@ -23,7 +23,7 @@ display: flex;
   }
   
   .layout__main {
-    margin-top: 75px;
+    margin-top: 81px;
     height: calc(100vh - 100px);
     overflow-y: auto;
     padding: 15px;

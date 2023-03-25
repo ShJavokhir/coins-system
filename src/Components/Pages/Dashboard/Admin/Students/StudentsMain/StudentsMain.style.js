@@ -4,6 +4,10 @@ const StudentsMainWrapper=styled.div`
 .top{
   display: flex;
   justify-content: space-between;
+
+  h3{
+    font-family: Azo sans;
+  }
 }
 
 .table{

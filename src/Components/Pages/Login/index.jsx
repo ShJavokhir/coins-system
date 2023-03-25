@@ -54,7 +54,7 @@ const Login = () => {
           break;
         }
         case "ROLE_SUNDAY_EVENT": {
-          router.replace("/dashboard/dash");
+          router.replace("/dashboard/sunday");
           break;
         }
         case "ROLE_STUDENT": {
@@ -75,6 +75,7 @@ const Login = () => {
     AuthProvider.login(body)
       .then(({ data }) => {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("id", data.id )
         loginContext(data);
       })
       .catch((err) => {
