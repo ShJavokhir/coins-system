@@ -169,16 +169,19 @@ const GroupsMain = ({ RefObj, setIsOpen }) => {
         <table className="table table-borderless table-hover">
           <thead>
             <tr>
-              <th style={{ minWidth: "32%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
                 Guruh nomi
               </th>
-              <th style={{ minWidth: "26%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
                 Kurs nomi
               </th>
-              <th style={{ minWidth: "26%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
                 O`qituvchi
               </th>
-              <th style={{ minWidth: "16%" }} className="col">
+              <th style={{ minWidth: "20%" }} className="col">
+                Talabalar soni
+              </th>
+              <th style={{ minWidth: "20%" }} className="col">
                 Amallar
               </th>
             </tr>
@@ -188,18 +191,21 @@ const GroupsMain = ({ RefObj, setIsOpen }) => {
               groups.length ? (
                 groups.map((obj, index) => (
                   <tr key={index}>
-                    <td style={{ minWidth: "32%" }} className="col">
+                    <td style={{ minWidth: "20%" }} className="col">
                       <MyLink to={`/dashboard/groups/` + obj.id}>
                         {(currentPage - 1) * 10 + index + 1}. {obj.name}
                       </MyLink>
                     </td>
-                    <td style={{ minWidth: "26%" }} className="col">
+                    <td style={{ minWidth: "20%" }} className="col">
                       {obj.courseName}
                     </td>
-                    <td style={{ minWidth: "26%" }} className="col">
+                    <td style={{ minWidth: "20%" }} className="col">
                       {obj.teacherFirstName} {obj.teacherLastName}
                     </td>
-                    <td style={{ minWidth: "16%" }} className="col">
+                    <td style={{ minWidth: "20%", paddingLeft:"5%" }} className="col">
+                      {obj.studentCount}
+                    </td>
+                    <td style={{ minWidth: "20%" }} className="col">
                       <div className="btns">
                         <IconButton
                           style={{ background: "rgb(114, 225, 40, 0.12)" }}

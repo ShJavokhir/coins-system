@@ -1,14 +1,33 @@
 import styled from "styled-components";
 
 const ShoppingWrapper=styled.div`
- .wrap {
+  ul {
+    padding: 0 !important;
+    li {
+      list-style: none;
+      margin-bottom: 10px;
+      font-family: Azo sans;
+      cursor: pointer;
+
+      button {
+        background: transparent;
+        border: none;
+        color: #000;
+      }
+    }
+  }
+  display: flex;
+  .wrap {
+    width: 75%;
     display: flex;
     flex-wrap: wrap;
     font-family: Azo sans;
+    transform: translateX(30%);
 
     .cardOut {
-      width: 20%;
-      padding: 10px;
+      width: 25%;
+      padding: 15px 10px;
+
       .price {
         display: flex;
         align-items: center;
@@ -18,27 +37,23 @@ const ShoppingWrapper=styled.div`
           height: 20px;
           margin-left: 5px;
           margin-top: -3px;
-          fill: #FEDF43;
+          fill: #fedf43;
         }
       }
 
       .card {
-        height: 500px;
+        height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 15px 0 0;
+        padding: 15px 10px;
         img {
           width: 100%;
           height: 200px;
           object-fit: contain;
         }
-        .text {
-          padding: 15px;
-
-          h4 {
-            font-size: 20px;
-          }
+        .title {
+          font-size: 20px;
         }
         .btn {
           padding: 15px;
@@ -58,16 +73,52 @@ const ShoppingWrapper=styled.div`
         }
       }
     }
+  }
 
-    @media (max-width: 700px) {
-      .cardOut{
-        width: 50%;
-      }
+  form {
+    position: fixed;
+    width: 20%;
+    label {
+      text-transform: uppercase;
+      font-size: 24px;
     }
-    @media (max-width:450px) {
-      .cardOut{
-        width: 100%;
-      }
+  }
+
+  @keyframes spin {
+    0% {
+      width: 20px;
+      box-shadow: 0 0 0 #120e08;
+      animation-timing-function: ease-in;
+    }
+
+    49.999% {
+      width: 0.1rem;
+      box-shadow: 0.05rem 0 0 #896c3b, 0.1rem 0 0 #896c3b, 0.15rem 0 0 #896c3b,
+        0.2rem 0 0 #896c3b, 0.25rem 0 0 #896c3b, 0.3rem 0 0 #896c3b,
+        0.35rem 0 0 #896c3b, 0.4rem 0 0 #896c3b, 0.45rem 0 0 #896c3b,
+        0.5rem 0 0 #896c3b, 0.55rem 0 0 #896c3b, 0.6rem 0 0 #896c3b,
+        0.65rem 0 0 #896c3b, 0.7rem 0 0 #896c3b, 0.75rem 0 0 #896c3b;
+      transform: translateX(-0.375rem);
+      background-color: #111;
+      animation-timing-function: linear;
+    }
+
+    50.001% {
+      width: 0.1rem;
+      box-shadow: -0.05rem 0 0 #896c3b, -0.1rem 0 0 #896c3b,
+        -0.15rem 0 0 #896c3b, -0.2rem 0 0 #896c3b, -0.25rem 0 0 #896c3b,
+        -0.3rem 0 0 #896c3b, -0.35rem 0 0 #896c3b, -0.4rem 0 0 #896c3b,
+        -0.45rem 0 0 #896c3b, -0.5rem 0 0 #896c3b, -0.55rem 0 0 #896c3b,
+        -0.6rem 0 0 #896c3b, -0.65rem 0 0 #896c3b, -0.7rem 0 0 #896c3b,
+        -0.75rem 0 0 #896c3b;
+      transform: translateX(0.375rem);
+      background-color: #111;
+      animation-timing-function: ease-out;
+    }
+
+    100% {
+      width: 20px;
+      box-shadow: 0 0 0 #120e08;
     }
   }
 

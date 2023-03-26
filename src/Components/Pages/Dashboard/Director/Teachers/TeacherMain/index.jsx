@@ -263,7 +263,7 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
                       {obj.role === "ROLE_ADMIN" ? "Admin" : 
                       (obj.role === "ROLE_TEACHER" ? "O'qituvchi" : 
                       (obj.role === "ROLE_EDUCATION_DEPARTMENT" ? "O'quv bo'limi" : 
-                      (obj.role === "ROLE_SUNDAY_EVENT" ? "Yakshanba kungi dars yaratuvchi xodim" : (obj.role === "ROLE_ADDITION_LESSON" ? "Qo'shimcha dars yaratuvchi xodim" : obj.role)) ))}
+                      (obj.role === "ROLE_SUNDAY_EVENT" ? "Event Sunday xodimi" : (obj.role === "ROLE_ADDITION_LESSON" ? "Qo'shimcha dars yaratuvchi xodim" : obj.role)) ))}
                     </td>
                     <td style={{ width: "10%" }} className="col">
                       <div className="btns">

@@ -65,6 +65,12 @@ const NavListMenu = [
     src: "/icons/lesson.png",
     role: ["ROLE_DIRECTOR"],
   },
+  {
+    title: "Shop",
+    path: "/dashboard/products",
+    src: "/icons/shopping.png",
+    role: ["ROLE_DIRECTOR"],
+  },
   //seo role
   {
     title: "Statistika",
@@ -79,7 +85,7 @@ const NavListMenu = [
     role: ["ROLE_SEO"],
   },
   {
-    title: "Shopping",
+    title: "Shop",
     path: "/dashboard/product",
     src: "/icons/shopping.png",
     role: ["ROLE_SEO"],
@@ -117,7 +123,7 @@ const NavListMenu = [
     role: ["ROLE_STUDENT"],
   },
   {
-    title: "Shopping",
+    title: "Shop",
     path: "/dashboard/shopping",
     src: "/icons/shopping.png",
     role: ["ROLE_STUDENT"],

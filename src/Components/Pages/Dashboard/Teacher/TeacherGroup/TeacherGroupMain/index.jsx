@@ -39,6 +39,9 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
               <th style={{ minWidth: "26%" }} className="col">
                 Kurs nomi
               </th>
+              <th style={{ minWidth: "26%" }} className="col">
+                Talabalar soni
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +56,9 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
                     </td>
                     <td style={{ minWidth: "26%" }} className="col">
                       {obj.courseName}
+                    </td>
+                    <td style={{ minWidth: "26%" }} className="col">
+                      {obj.studentCount}
                     </td>
                   </tr>
                 ))

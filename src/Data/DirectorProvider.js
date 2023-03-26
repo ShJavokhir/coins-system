@@ -48,5 +48,40 @@ export default class DirectorProvider {
     static async updateCourse(id, body) {
         return await client.put(`/director/update/course/${id}`, body);
     }
+
+
+
+    //shop
+    static async getAllCategory() {
+        return await client.get(`/director/category/getAll`);
+    }
+    static async getAllProducts(page = 0, size = 10, categoryId) {
+        const params={categoryId, page, size};
+        return await client.get(`/director/get/all/product`, {params});
+    }
+    static async getAllOrders(page = 0, size = 10) {
+        return await client.get(`/director/order/getAll?pageNum=${page}&pageSize=${size}`);
+    }
+    static async imgPreview(hashId) {
+        return await client.get(`/seo/file/preview/${hashId}`, { responseType: 'blob' })
+            .then((response) => {
+                console.log(response);
+                return response;
+                return Buffer.from(response.data, "binary").toString("base64")
+            }
+            ).catch((err) => {
+                return Promise.reject(err);
+            });
+    }
+
+    
+    static async confirmOrder(id) {
+        return await client.post(`/director/order/confirm/${id}`);
+    }
+
+
+    static async getAllNumber(){
+        return await client.get(`/director/all/amount/pred`)
+    }
     
 }

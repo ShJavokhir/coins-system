@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import EditSvg from "../../../../../Common/Svgs/EditSvg";
+import { useRouter } from "next/router";
 
 const RowItem = ({ lessonId, obj, index }) => {
   // NOTE obj dan pastdagi useStatelarga defaultvalueni moslab berish kerak string yoki numberligi farq qilib default ko'rsatmayapti
@@ -135,6 +136,7 @@ const RowItemExam = ({ examId, obj, index }) => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Maksimal 100 ballgacha beriladi")
       })
       .finally(() => {
         setLoading(false);
@@ -154,6 +156,7 @@ const RowItemExam = ({ examId, obj, index }) => {
         <form onSubmit={handleSubmit(handleBtn)} style={{ display: "flex" }}>
           <input
           disabled={saved}
+          max={100}
             autoComplete="off"
             className="form-control"
             placeholder={"To'plagan ball"}
@@ -227,6 +230,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       setIsLesson(true);
       setTimer(startDate);
       TeacherProvider.getOneLessonInfo(id).then((res) => {
+        console.log(res.data);
         setStudentList(res.data?.data);
       }, console.warn);
     }
@@ -237,6 +241,13 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       setStudentList(fetchedData);
     }
   }, [fetchedData]);
+
+  const router = useRouter();
+
+  const stopLesson =()=>{
+    localStorage.removeItem('lessons')
+    router.replace("/dashboard/teacher/groups");
+  }
 
   return (
     <DavomatWrapper>
@@ -255,7 +266,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
           Dars qo`shish {loader && <ButtonLoader />}
         </Button>
       ) : (
-        <CustomTimer time={timer} onTimeEnd={onTimeEnd} />
+        <CustomTimer time={timer} onTimeEnd={onTimeEnd} />   
       )}
 
       {isLesson ? (
@@ -304,6 +315,9 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       ) : (
         <div></div>
       )}
+      {isLesson ? (
+        <Button onClick={stopLesson}>Darsni tugatish</Button>
+      ) : <div></div>}
     </DavomatWrapper>
   );
 };

@@ -104,6 +104,7 @@ const Reyting = () => {
                 value={value}
                 placeholder="Guruhni tanlang"
                 options={guruhOption}
+                defaultValue={guruhOption[0]}
                 onBlur={onBlur}
                 onChange={(v) => {
                   onChange(v);

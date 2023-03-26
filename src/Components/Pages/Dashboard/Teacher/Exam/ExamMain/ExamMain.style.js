@@ -35,7 +35,6 @@ const ExamMainWrapper=styled.div`
           justify-content: start;
           text-align: center;
           font-family: "Azo sans";
-          padding: 15px 12px 10px 20px;
 
         }
       }

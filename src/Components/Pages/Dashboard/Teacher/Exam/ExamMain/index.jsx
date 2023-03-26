@@ -43,7 +43,7 @@ const ExamMain = () => {
               Guruh nomi
             </th>
             <th style={{ minWidth: "26%" }} className="col">
-              Sana
+              Imtihon o`tkazilgan sana
             </th>
           </tr>
         </thead>

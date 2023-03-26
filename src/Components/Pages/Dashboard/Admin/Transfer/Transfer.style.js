@@ -18,6 +18,7 @@ const TransferWrapper = styled.div`
 
   .label {
     display: flex;
+    align-items: flex-start !important;
 
     .sel {
       width: 35%;
@@ -26,7 +27,7 @@ const TransferWrapper = styled.div`
       .table {
         width: 100%;
         padding: 30px;
-        height: 60vh;
+        height: auto;
         border: 1px solid #e5e5e5;
         border-radius: 5px;
         margin-top: 30px;

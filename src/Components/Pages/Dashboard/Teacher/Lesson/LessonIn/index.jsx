@@ -38,11 +38,17 @@ const LessonIn = ({ lessonId }) => {
               <th style={{ minWidth: "30%" }} className="col">
                 O`quvchi
               </th>
-              <th style={{ minWidth: "30%" }} className="col">
+              <th style={{ minWidth: "15%" }} className="col">
+              Davomat
+              </th>
+              <th style={{ minWidth: "15%" }} className="col">
+                Ball
+              </th>
+              <th style={{ minWidth: "15%" }} className="col">
                 Uyga vazifa
               </th>
-              <th style={{ minWidth: "30%" }} className="col">
-                Davomat
+              <th style={{ minWidth: "15%" }} className="col">
+                Ball
               </th>
               <th style={{ minWidth: "10%" }} className="col">
                 Jami
@@ -58,7 +64,14 @@ const LessonIn = ({ lessonId }) => {
                       {index + 1}. {obj.firstName} {obj.lastName}
                     </td>
 
-                    <td style={{ minWidth: "30%" }} className="col">
+                    
+                    <td style={{ minWidth: "15%" }} className="col">
+                      {obj.visitStatus == 0 ? "Yo'q " : "Bor"}
+                    </td>
+                    <td style={{ minWidth: "15%",color:`${obj.ballVisitStatus > 0 ? "green" :"red" }`, fontWeight:700 }} className="col">
+                      {obj.ballVisitStatus}
+                    </td>
+                    <td style={{ minWidth: "15%" }} className="col">
                       {obj.homeworkStatus === 0 ? (
                         <span
                           style={{
@@ -71,20 +84,6 @@ const LessonIn = ({ lessonId }) => {
                           }}
                         >
                           Bajarilmagan{" "}
-                          <span
-                            style={{
-                              // background: "rgb(255, 77, 73)",
-                              width: "50px",
-                              borderRadius: "5px",
-                              height: "50px",
-                              padding: "10px 4px",
-                              // color: "#fff",
-                              fontWeight: "700",
-                            }}
-                          >
-                            {" "}
-                            -15ball
-                          </span>
                         </span>
                       ) : obj.homeworkStatus === 1 ? (
                         <span
@@ -98,21 +97,7 @@ const LessonIn = ({ lessonId }) => {
                           }}
                         >
                           Chala{" "}
-                          <span
-                            style={{
-                              // background: "rgb(253, 181, 40)",
-                              width: "50px",
-                              borderRadius: "5px",
-                              height: "50px",
-                              padding: "10px 4px",
-                              // color: "#fff",
-                              fontWeight: "700",
-                              
-                            }}
-                          >
-                            {" "}
-                            +5ball
-                          </span>
+                          
                         </span>
                       ) : (
                         <span
@@ -126,34 +111,14 @@ const LessonIn = ({ lessonId }) => {
                           }}
                         >
                           To`liq{" "}
-                          <span
-                            style={{
-                              // background: "rgb(114, 225, 40)",
-                              width: "50px",
-                              borderRadius: "5px",
-                              height: "50px",
-                              padding: "10px 4px",
-                              // color: "#fff",
-                              fontWeight: "700",
-                            }}
-                          >
-                            {" "}
-                            +15ball
-                          </span>
                         </span>
                       )}
                     </td>
-                    <td style={{ minWidth: "30%" }} className="col">
-                      {obj.visitStatus == 0 ? "Yo'q -20ball" : "Bor 10ball"}
+                    <td style={{ minWidth: "15%", color:`${obj.ballHomeworkStatus > 0 ? "green" :"red"}`, fontWeight:700 }} className="col">
+                      {obj.ballHomeworkStatus}
                     </td>
-                    <td style={{ minWidth: "10%" }} className="col">
-                      {obj.visitStatus == 0
-                        ? "-35 ball"
-                        : obj.visitStatus == 1 && obj.homeworkStatus == 0
-                        ? "-5 ball"
-                        : obj.visitStatus == 1 && obj.homeworkStatus == 1
-                        ? "15 ball"
-                        : "25 ball"}
+                    <td style={{ minWidth: "10%", color:`${(obj.ballHomeworkStatus + obj.ballVisitStatus) > 0 ? "green" :"red"}`, fontWeight:700 }} className="col">
+                      {obj.ballHomeworkStatus + obj.ballVisitStatus}
                     </td>
                   </tr>
                 ))

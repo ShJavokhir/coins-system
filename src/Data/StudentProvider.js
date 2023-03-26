@@ -3,8 +3,9 @@ import client from "../HHTP/client";
 export default class StudentProvider {
 
     
-    static async getAllProducts(page = 0, size = 10) {
-        return await client.get(`/student/get/all/product?pageNum=${page}&pageSize=${size}`);
+    static async getAllProducts(page = 0, size = 10, categoryId) {
+        const params={categoryId, page, size};
+        return await client.get(`/student/get/all/product`, {params});
     }
     static async getStudentInfo(id) {
         return await client.get(`/student/get/info/${id}`);
@@ -36,6 +37,10 @@ export default class StudentProvider {
     }
     static async getStudentGroupInfo(id) {
         return await client.get(`/student/get/${id}`);
+    }
+
+    static async getAllCategory() {
+        return await client.get(`/student/category/getAll`);
     }
     
 }

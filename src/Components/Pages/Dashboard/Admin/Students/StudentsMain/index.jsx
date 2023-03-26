@@ -108,7 +108,7 @@ const RowItem = ({
 };
 
 const StudentsMain = ({ RefObj, setIsOpen }) => {
-  const { register, handleSubmit, control, reset, setValue } = useForm();
+  const { register,formState: {errors}, handleSubmit, control, reset, setValue } = useForm();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenModal2, setIsOpenModal2] = useState(false);
@@ -209,7 +209,9 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err?.response?.data?.message);
+        if(err?.response?.data==="Password must be at least 4 characters"){
+          toast.error("Parol kamida 4 ta belgidan iborat bo'lsin");
+        }
       })
       .finally(() => {
         setLoading2(false);
@@ -392,11 +394,15 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 autoComplete="off"
                 className="form-control"
                 placeholder={"Username"}
-                {...register("username", { required: false })}
+                {...register("username", { required: true })}
+                
               />
             </div>
             <div className="label">
               <label>Parol</label>
+              {errors.password && (
+                  <span className="err-text">Parol kamida 4ta belgi bo`lishi kerak</span>
+                )}
               <input
                 autoComplete="off"
                 className="form-control"

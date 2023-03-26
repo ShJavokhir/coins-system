@@ -18,6 +18,7 @@ import { ModalContent, ModalHeader, ShoppingWrapper } from "./Shopping.style";
 import { useForm } from "react-hook-form";
 import ButtonLoader from "../../../Common/ButtonLoader"
 import { toast } from "react-toastify";
+import { Modal } from "antd";
 
 
 const Shopping = () => {
@@ -39,7 +40,6 @@ const Shopping = () => {
 
 
   const [category, setCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
   const filterForm = useForm();
   const [filterState, setFilterState] = useState({});
 
@@ -53,11 +53,24 @@ const Shopping = () => {
     setIsOpenModal(false);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   setLoading(true);
+  //   StudentProvider.getAllProducts(1, 200)
+  //     .then((res) => {
+  //       setForRender(Math.random());
+  //       setProducts(res.data.data);
+  //       setTotalElements(res.data.recordsTotal);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => setLoading(false));
+  // }, []);
+useEffect(() => {
     setLoading(true);
-    StudentProvider.getAllProducts(1, 200)
+    StudentProvider.getAllProducts(1, 40, filterState)
       .then((res) => {
-        setForRender(Math.random());
+        console.log(res.data.data);
         setProducts(res.data.data);
         setTotalElements(res.data.recordsTotal);
       })
@@ -65,8 +78,7 @@ const Shopping = () => {
         console.log(err);
       })
       .finally(() => setLoading(false));
-  }, []);
-
+  }, [filterState, forRender]);
   const addOrder = () => {
     const body ={}
       body.studentId = +studentId,
@@ -101,62 +113,62 @@ const Shopping = () => {
     setCounter((p) => p - 1);
   };
 
-  // useEffect(() => {
-  //   SeoProvider.getAllCategory()
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setForRender(Math.random());
-  //       setCategory(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, [filterState]);
+  useEffect(() => {
+    StudentProvider.getAllCategory()
+      .then((res) => {
+        console.log(res.data);
+        setForRender(Math.random());
+        setCategory(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [filterState]);
 
-  // const categoryOption = [
-  //   ...category.map((i) => ({
-  //     label: i.name,
-  //     value: i.id,
-  //   })),
-  // ];
+  const categoryOption = [
+    ...category.map((i) => ({
+      label: i.name,
+      value: i.id,
+    })),
+  ];
 
-  // const filterCategoryOption = [
-  //   { label: "Barchasi", value: null },
-  //   ...category.map((i) => ({
-  //     label: i.name,
-  //     value: i.id,
-  //   })),
-  // ];
+  const filterCategoryOption = [
+    { label: "Barchasi", value: null },
+    ...category.map((i) => ({
+      label: i.name,
+      value: i.id,
+    })),
+  ];
 
-  // const onFilterSubmit = filterForm.handleSubmit((values) => {
-  //   console.log(values);
-  //   const obj = {
-  //     categoryId:
-  //       values.categoryId?.value === "nullCategory"
-  //         ? ""
-  //         : values.categoryId?.value,
-  //   };
+  const onFilterSubmit = filterForm.handleSubmit((values) => {
+    console.log(values);
+    const obj = {
+      categoryId:
+        values.categoryId?.value === "nullCategory"
+          ? ""
+          : values.categoryId?.value,
+    };
 
-  //   console.log("obj", obj);
+    console.log("obj", obj);
 
-  //   setFilterState(obj.categoryId);
-  // });
+    setFilterState(obj.categoryId);
+  });
 
-  // const handleFilter =(obj)=>{
-  //   console.log(obj.value);
-  //   setFilterState(obj.value);
-  // }
+  const handleFilter =(obj)=>{
+    console.log(obj.value);
+    setFilterState(obj.value);
+  }
 
-  // useEffect(() => {
-  //   onFilterSubmit(filterForm.getValues());
-  //   console.log(filterForm.getValues());
-  // }, [filterForm.watch("categoryId")]);
+  useEffect(() => {
+    onFilterSubmit(filterForm.getValues());
+    console.log(filterForm.getValues());
+  }, [filterForm.watch("categoryId")]);
 
 
   return (
     <DashboardLayout>
       <ShoppingWrapper>
-      {/* <form onSubmit={onFilterSubmit}>
+      <form onSubmit={onFilterSubmit}>
         <label>Bo`limlar</label>
           <ul>
             {filterCategoryOption.map((v, i) => (
@@ -165,29 +177,29 @@ const Shopping = () => {
               </li>
             ))}
           </ul>
-      </form> */}
-        <div className="wrap">
-          {!loading ? (
-            products ? (
-              products.map((obj, index) => (
-                <CardPro key={index} obj={obj} openModal={openModal} />
-              ))
-            ) : (
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: 30,
-                }}
-              >
-                <h3 style={{ color: "rgba(0, 0, 0, 0.7)" }}>
-                  Mahsulotlar mavjud emas!
-                </h3>
-              </div>
-            )
+      </form>
+      <div className="wrap">
+        {!loading ? (
+          products ? (
+            products.map((obj, index) => (
+              <CardPro key={index} obj={obj} setProducts={setProducts}  openModal={openModal} />
+            ))
           ) : (
-            <MinLoader />
-          )}
-        </div>
+            <div
+              style={{
+                textAlign: "center",
+                padding: 30,
+              }}
+            >
+              <h3 style={{ color: "rgba(0, 0, 0, 0.7)" }}>
+                Mahsulotlar mavjud emas!
+              </h3>
+            </div>
+          )
+        ) : (
+          <MinLoader />
+        )}
+      </div>
       </ShoppingWrapper>
 
       {/* =====drawer ========== */}
@@ -237,7 +249,7 @@ const Shopping = () => {
   );
 };
 
-const CardPro = ({ obj, openModal }) => {
+const CardPro = ({ obj, setProducts, openModal }) => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -251,26 +263,29 @@ const CardPro = ({ obj, openModal }) => {
     });
   }, []);
 
+
   return (
     <div className="cardOut">
-      <Card sx={{ maxWidth: 345 }} className="card">
+      <Card className="card">
         <CardMedia
           component="img"
           alt=""
-          height="250"
+          height="200"
           style={{ objectFit: "contain" }}
           image={url}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent style={{ padding: 0 }}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            className="title"
+            component="div"
+          >
             {obj.productName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" className="descr" color="text.secondary">
             {obj.description}
           </Typography>
-          <p style={{ marginTop: 15 }} className="category">
-            Category: {obj.categoryName}
-          </p>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <p className="price">
               Narxi: {obj.price} <CoinSvg />
@@ -279,18 +294,74 @@ const CardPro = ({ obj, openModal }) => {
           </div>
         </CardContent>
         <CardActions>
-          <Button
-            size="small"
-            variant="outlined"
-            style={{ margin: "auto" }}
-            onClick={() => openModal(obj)}
-          >
-            Buyurtma qilish
-          </Button>
-        </CardActions>
+           <Button
+             size="small"
+             variant="outlined"
+             style={{ margin: "auto" }}
+             onClick={() => openModal(obj)}
+           >
+             Buyurtma qilish
+           </Button>
+         </CardActions>
       </Card>
+
     </div>
   );
 };
+// const CardPro = ({ obj, openModal }) => {
+//   const [url, setUrl] = useState("");
+
+//   useEffect(() => {
+//     StudentProvider.imgPreview(obj.imageHashId).then((res) => {
+//       const fileType = res.data.type.split("/")[1];
+//       const file = new File([res.data], `image.${fileType}`, {
+//         type: res.data.type,
+//       });
+
+//       setUrl(getURlFile(file));
+//     });
+//   }, []);
+
+//   return (
+//     <div className="cardOut">
+//       <Card sx={{ maxWidth: 345 }} className="card">
+//         <CardMedia
+//           component="img"
+//           alt=""
+//           height="250"
+//           style={{ objectFit: "contain" }}
+//           image={url}
+//         />
+//         <CardContent>
+//           <Typography gutterBottom variant="h5" component="div">
+//             {obj.productName}
+//           </Typography>
+//           <Typography variant="body2" color="text.secondary">
+//             {obj.description}
+//           </Typography>
+//           <p style={{ marginTop: 15 }} className="category">
+//             Category: {obj.categoryName}
+//           </p>
+//           <div style={{ display: "flex", justifyContent: "space-between" }}>
+//             <p className="price">
+//               Narxi: {obj.price} <CoinSvg />
+//             </p>
+//             <p className="aviable">Mavjud: {obj.availableAmount}</p>
+//           </div>
+//         </CardContent>
+//         <CardActions>
+//           <Button
+//             size="small"
+//             variant="outlined"
+//             style={{ margin: "auto" }}
+//             onClick={() => openModal(obj)}
+//           >
+//             Buyurtma qilish
+//           </Button>
+//         </CardActions>
+//       </Card>
+//     </div>
+//   );
+// };
 
 export default Shopping;
