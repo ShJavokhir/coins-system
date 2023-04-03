@@ -63,7 +63,7 @@ export default class DirectorProvider {
         return await client.get(`/director/order/getAll?pageNum=${page}&pageSize=${size}`);
     }
     static async imgPreview(hashId) {
-        return await client.get(`/seo/file/preview/${hashId}`, { responseType: 'blob' })
+        return await client.get(`/director/file/preview/${hashId}`, { responseType: 'blob' })
             .then((response) => {
                 console.log(response);
                 return response;
@@ -83,5 +83,31 @@ export default class DirectorProvider {
     static async getAllNumber(){
         return await client.get(`/director/all/amount/pred`)
     }
-    
+
+    //lesson
+
+     static async getAllLessons(page = 0, size = 10) {
+        return await client.get(`/director/lesson/getAll?pageNum=${page}&pageSize=${size}`);
+    }
+     static async getAllAdditionLesson(page = 0, size = 10) {
+        return await client.get(`/director/get/all/addition/lesson?pageNum=${page}&pageSize=${size}`);
+    }
+     static async getAllSundayLesson(page = 0, size = 10) {
+        return await client.get(`/director/get/all/independent/lesson?pageNum=${page}&pageSize=${size}`);
+    }
+
+
+
+    //reyting
+    static async getAllStudent(page = 0, size = 10) {
+        return await client.get(`/director/get/all/student?pageNum=${page}&pageSize=${size}`);
+    }
+    static async getAllGroup(page = 0, size = 10) {
+        return await client.get(`/director/get/groups?pageNum=${page}&pageSize=${size}`);
+    }
+
+    static async getStudentBallHistory(pageNum = 0, pageSize = 20, studentId) {
+        const params={studentId, pageNum, pageSize};
+        return await client.get(`/director/get/all/student/scores`, {params});
+    }
 }

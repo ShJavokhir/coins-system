@@ -16,6 +16,7 @@ import {
 import Pagination from "rc-pagination";
 import { Checkbox } from "antd";
 import Select from "react-select";
+import LockSvg from "../../../../../Common/Svgs/LockSvg";
 
 const RowItem = ({
   obj,
@@ -70,21 +71,78 @@ const RowItem = ({
         toast.error("Xatolik");
       });
   };
-
-  
+  const handleLockStudent = (obj) => {
+    if(obj.isActive){
+      RefObj.current.textContent = `Rostdan ham bloklashni xoxlaysizmi?`;
+      setIsOpen(true);
+      new Promise((res, rej) => {
+        RefObj.current.resolve = res;
+        RefObj.current.reject = rej;
+      })
+        .then(async () => {
+          await AdminProvider.blockStudent(obj.id);
+          setForRender(Math.random());
+          toast.success("Bloklandi");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Xatolik");
+        });
+    }else{
+      RefObj.current.textContent = `Rostdan ham blokdan ochishni xoxlaysizmi?`;
+      setIsOpen(true);
+      new Promise((res, rej) => {
+        RefObj.current.resolve = res;
+        RefObj.current.reject = rej;
+      })
+        .then(async () => {
+          await AdminProvider.unlockStudent(obj.id);
+          setForRender(Math.random());
+          toast.success("Blokdan ochildi");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Xatolik");
+        });
+    }
+  };
 
   return (
     <tr>
-      <td style={{ minWidth: "20%" }} className="col">
+      <td
+        style={{
+          minWidth: "20%",
+          color: obj.isActive ? "rgba(0, 0, 0, 0.7)" : "red",
+        }}
+        className="col"
+      >
         {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
       </td>
-      <td style={{ minWidth: "20%" }} className="col">
+      <td
+        style={{
+          minWidth: "20%",
+          color: obj.isActive ? "rgba(0, 0, 0, 0.7)" : "red",
+        }}
+        className="col"
+      >
         {obj.firstName}
       </td>
-      <td style={{ minWidth: "20%" }} className="col">
+      <td
+        style={{
+          minWidth: "20%",
+          color: obj.isActive ? "rgba(0, 0, 0, 0.7)" : "red",
+        }}
+        className="col"
+      >
         {obj.username}
       </td>
-      <td style={{ minWidth: "15%" }} className="col">
+      <td
+        style={{
+          minWidth: "15%",
+          color: obj.isActive ? "rgba(0, 0, 0, 0.7)" : "red",
+        }}
+        className="col"
+      >
         {obj.totalBall}
       </td>
       <td style={{ minWidth: "15%" }} className="col">
@@ -101,6 +159,12 @@ const RowItem = ({
           >
             <DeleteSvg />
           </IconButton>
+          <IconButton
+            style={{ background: "rgb(253, 181, 40, 0.12)" }}
+            onClick={() => handleLockStudent(obj)}
+          >
+            <LockSvg />
+          </IconButton>
         </div>
       </td>
     </tr>
@@ -108,7 +172,21 @@ const RowItem = ({
 };
 
 const StudentsMain = ({ RefObj, setIsOpen }) => {
-  const { register,formState: {errors}, handleSubmit, control, reset, setValue } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+    reset,
+    setValue,
+  } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    control: control2,
+    reset: reset2,
+    setValue: setValue2,
+  } = useForm();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenModal2, setIsOpenModal2] = useState(false);
@@ -117,6 +195,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
   const [student, setStudent] = useState([]);
   const [student2, setStudent2] = useState([]);
   const [friendId, setFriendId] = useState(null);
+  const [friendIdSearch, setFriendIdSearch] = useState(null);
   const [forRender, setForRender] = useState(null);
   const [editing, setEditing] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,7 +222,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
 
   useEffect(() => {
     setLoading(true);
-    AdminProvider.getAllStudent(currentPage, 10)
+    AdminProvider.getAllStudent(currentPage, 10, friendIdSearch)
       .then((res) => {
         console.log(res.data.data);
         setStudent(res.data.data);
@@ -153,11 +232,11 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
         console.log(err);
       })
       .finally(() => setLoading(false));
-  }, [forRender, currentPage]);
+  }, [forRender, currentPage, friendIdSearch]);
 
   useEffect(() => {
     setLoading(true);
-    AdminProvider.getAllStudent(1, 3000)
+    AdminProvider.getAllStudent(1, 3000, friendIdSearch)
       .then((res) => {
         console.log(res.data.data);
         setStudent2(res.data.data);
@@ -182,7 +261,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       try {
         const { data } = await AdminProvider.updateStudent(body);
         setForRender(Math.random());
-        reset();
+        reset2();
         toast.success("Muvaffaqiyatli o'zgartirildi");
         setIsOpenModal2(false);
       } catch (err) {
@@ -209,7 +288,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
       })
       .catch((err) => {
         console.log(err);
-        if(err?.response?.data==="Password must be at least 4 characters"){
+        if (err?.response?.data === "Password must be at least 4 characters") {
           toast.error("Parol kamida 4 ta belgidan iborat bo'lsin");
         }
       })
@@ -223,8 +302,8 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
     console.log(obj);
     setIsOpenModal2(true);
     setEditing(obj);
-    setValue("firstName", obj.firstName);
-    setValue("lastName", obj.lastName);
+    setValue2("firstName", obj.firstName);
+    setValue2("lastName", obj.lastName);
   };
 
   const onChangeCheck = (e) => {
@@ -239,11 +318,38 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
     })),
   ];
 
+  const studentOption2 = [
+    {label: "Barchasi", value: null,},
+    ...student2.map((i) => ({
+      label: i.firstName + " " + i.lastName+ "("+i.username+")",
+      value: i.id,
+    })),
+  ];
+
   return (
     <>
       <StudentsMainWrapper>
         <div className="top">
           <h3>O`quvchilar</h3>
+          <Controller
+            control={control}
+            name="friendId"
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+              <Select
+                className="select"
+                value={value}
+                placeholder="O'quvchini tanlang"
+                options={studentOption2}
+                onBlur={onBlur}
+                onChange={(v) => {
+                  onChange(v);
+                  setFriendIdSearch(v.value);
+                  console.log(v.value);
+                }}
+                ref={ref}
+              />
+            )}
+          />
           <Button
             className="col-3"
             variant="contained"
@@ -258,7 +364,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
           </Button>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "20%" }} className="col">
@@ -395,14 +501,15 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 className="form-control"
                 placeholder={"Username"}
                 {...register("username", { required: true })}
-                
               />
             </div>
             <div className="label">
               <label>Parol</label>
               {errors.password && (
-                  <span className="err-text">Parol kamida 4ta belgi bo`lishi kerak</span>
-                )}
+                <span className="err-text">
+                  Parol kamida 4ta belgi bo`lishi kerak
+                </span>
+              )}
               <input
                 autoComplete="off"
                 className="form-control"
@@ -437,7 +544,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
           <form
             className="p-3"
             style={{ width: 500 }}
-            onSubmit={handleSubmit(onSubmitStudent)}
+            onSubmit={handleSubmit2(onSubmitStudent)}
           >
             <div className="label">
               <label>O`quvchi ismi</label>
@@ -445,7 +552,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 autoComplete="off"
                 className="form-control"
                 placeholder={"Ismi"}
-                {...register("firstName", { required: true })}
+                {...register2("firstName", { required: true })}
               />
             </div>
             <div className="label">
@@ -454,7 +561,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 autoComplete="off"
                 className="form-control"
                 placeholder={"Familyasi"}
-                {...register("lastName", { required: true })}
+                {...register2("lastName", { required: true })}
               />
             </div>
             <div className="label">
@@ -463,7 +570,7 @@ const StudentsMain = ({ RefObj, setIsOpen }) => {
                 autoComplete="off"
                 className="form-control"
                 placeholder={"Yangi parol"}
-                {...register("password", { required: true })}
+                {...register2("password", { required: false })}
               />
             </div>
             <button

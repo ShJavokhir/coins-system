@@ -22,4 +22,23 @@ export default class EducationProvider {
     static async getOneExamInfo(quizId) {
         return await client.get(`/education-department/get/quiz/detail/${quizId}`);
     }
+    static async createEmployee(body) {
+        return await client.post(`/education-department/create/addition/employee`, body);
+    }
+
+    static async createExamEnable(groupId) {
+        return await client.post(`/education-department/enable/weekly/exam?groupId=${groupId}`);
+    }
+
+    //lesson
+
+    static async getAllAdditionLesson(page = 0, size = 10) {
+        return await client.get(`/education-department/get/all/addition/lesson?pageNum=${page}&pageSize=${size}`);
+    }
+     static async getAllSundayLesson(page = 0, size = 10) {
+        return await client.get(`/education-department/get/all/independent/lesson?pageNum=${page}&pageSize=${size}`);
+    }
+     static async getAllLesson(page = 0, size = 10) {
+        return await client.get(`/education-department/lesson/getAll?pageNum=${page}&pageSize=${size}`);
+    }
 }

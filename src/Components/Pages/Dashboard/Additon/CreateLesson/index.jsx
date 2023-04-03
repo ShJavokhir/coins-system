@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import AdditionProvider from "../../../../../Data/AdditionProvider";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
+import { useRouter } from "next/router";
 
 const RowItem = ({ lessonId, obj, index, setLoading2, setForRender }) => {
   const [visit, setVisit] = useState(null);
@@ -76,6 +77,9 @@ const CreateLesson = () => {
   const [loading2, setLoading2] = useState(false);
   const [forRender, setForRender] = useState(null);
 
+  const router = useRouter();
+
+
   const createLesson = () => {
     setLoader(true);
     AdditionProvider.createLesson(courseId)
@@ -126,10 +130,18 @@ const CreateLesson = () => {
   ];
   const studentOption = [
     ...fetchedData.map((i) => ({
-      label: i.firstName +" "+ i.lastName,
+      label: i.firstName + " " + i.lastName +" ("+i.username+")",
       value: i.id,
     })),
   ];
+  const studentOption2 = [
+    ...fetchedData.filter((item) => {
+      return item.isActive == true
+    }),
+  ];
+  // p.filter((teach) => {
+  //   return teach.id !== obj.studentId;
+  // })
 
   useEffect(() => {
     setLoading2(true);
@@ -148,11 +160,14 @@ const CreateLesson = () => {
 
   const handleDeleteStudent = async (obj) => {
     try {
-      const { data } = await AdditionProvider.deleteStudentGroup(lessonId, obj.studentId);
+      const { data } = await AdditionProvider.deleteStudentGroup(
+        lessonId,
+        obj.studentId
+      );
       setExamData((p) =>
-      p.filter((teach) => {
-        return teach.id !== obj.studentId;
-      })
+        p.filter((teach) => {
+          return teach.id !== obj.studentId;
+        })
       );
       setForRender(Math.random());
       toast.success("O'chirildi");
@@ -161,7 +176,7 @@ const CreateLesson = () => {
     }
   };
 
-  const handleVisit=()=>{
+  const handleVisit = () => {
     const body = {};
     body.additionLessonId = lessonId;
     body.studentId = stundetId;
@@ -178,8 +193,11 @@ const CreateLesson = () => {
       .finally(() => {
         setLoading2(false);
       });
-  }
+  };
 
+  const stopExam =()=>{
+    router.replace("/dashboard/additionLessons");
+  }
 
   return (
     <CreateLessonWrapper>
@@ -187,28 +205,32 @@ const CreateLesson = () => {
       <span>Eslatma: Har bir kelgan o`quvchi uchun 20 ball beriladi</span>
       <div className="wrap">
         <div className="left">
-          <div className="label">
-            <label>Kursni tanlang</label>
-            <Controller
-              control={control}
-              name="courseId"
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <Select
-                  className="select"
-                  value={value}
-                  placeholder="Kursni tanlang"
-                  options={courseOption}
-                  onBlur={onBlur}
-                  onChange={(v) => {
-                    onChange(v);
-                    setCourseId(v.value);
-                    console.log(v.value);
-                  }}
-                  ref={ref}
-                />
-              )}
-            />
-          </div>
+          {!isLesson ? (
+            <div className="label">
+              <label>Kursni tanlang</label>
+              <Controller
+                control={control}
+                name="courseId"
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <Select
+                    className="select"
+                    value={value}
+                    placeholder="Kursni tanlang"
+                    options={courseOption}
+                    onBlur={onBlur}
+                    onChange={(v) => {
+                      onChange(v);
+                      setCourseId(v.value);
+                      console.log(v.value);
+                    }}
+                    ref={ref}
+                  />
+                )}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
           {!isLesson ? (
             <Button
@@ -228,52 +250,65 @@ const CreateLesson = () => {
             <></>
           )}
 
-
           {isLesson ? (
             <div className="label">
-            <label>O`quvchini tanlang</label>
-            <Controller
-              control={control}
-              name="studentId"
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <Select
-                  className="select"
-                  value={value}
-                  placeholder="O'quvchini tanlang"
-                  options={studentOption}
-                  onBlur={onBlur}
-                  onChange={(v) => {
-                    onChange(v);
-                    setStudentId(v.value);
-                    console.log(v.value);
-                  }}
-                  ref={ref}
-                />
-                
-              )}
-            />
-            <Button
-              className="col-6 addBtn"
-              variant="contained"
-              onClick={handleVisit}
-              disabled={loader}
-              style={{
-                fontFamily: "Azo sans",
-                color: "#fff",
-                background: "#006786",
-                marginTop:"20px"
-              }}
-            >
-              Keldi {loader && <ButtonLoader />}
-            </Button>
-          </div>
+              <label>O`quvchini tanlang</label>
+              <Controller
+                control={control}
+                name="studentId"
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <Select
+                    className="select"
+                    value={value}
+                    placeholder="O'quvchini tanlang"
+                    options={studentOption}
+                    onBlur={onBlur}
+                    onChange={(v) => {
+                      onChange(v);
+                      setStudentId(v.value);
+                      console.log(v.value);
+                    }}
+                    ref={ref}
+                  />
+                )}
+              />
+              <Button
+                className="col-6 addBtn"
+                variant="contained"
+                onClick={handleVisit}
+                disabled={loader}
+                style={{
+                  fontFamily: "Azo sans",
+                  color: "#fff",
+                  background: "#006786",
+                  marginTop: "20px",
+                  marginRight:10
+                }}
+              >
+                Keldi {loader && <ButtonLoader />}
+              </Button>
+              <Button
+                className="col-6 addBtn"
+                variant="contained"
+                onClick={stopExam}
+                disabled={loader}
+                style={{
+                  fontFamily: "Azo sans",
+                  color: "#fff",
+                  background: "#006786",
+                  marginTop: "20px",
+                }}
+              >
+                Tugatish {loader && <ButtonLoader />}
+              </Button>
+            </div>
           ) : (
             <div></div>
           )}
         </div>
         <div className="right">
           <p>Qatnashgan talabalar</p>
-          <table className="table table-borderless table-hover">
+          <table className="table table-striped table-hover">
             <thead>
               <tr>
                 <th style={{ minWidth: "40%" }} className="col">

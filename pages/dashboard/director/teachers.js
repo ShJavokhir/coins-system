@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import ReytingDirector from '../../src/Components/Pages/Dashboard/Director/Reyting'
-import WithAuthComponent from '../../src/Hocs/PrivateRoute'
+import Teachers from '../../../src/Components/Pages/Dashboard/Director/Teachers'
+import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-         <ReytingDirector/>
+         <Teachers/>
       </WithAuthComponent>
 
     </div>

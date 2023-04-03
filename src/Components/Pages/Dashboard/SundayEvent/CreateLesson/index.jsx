@@ -11,78 +11,7 @@ import SundayEventProvider from "../../../../../Data/SundayEventProvider";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import DeleteSvg from "../../../../Common/Svgs/DeleteSvg";
-
-const RowItem = ({ lessonId, obj, index }) => {
-  const firstRender = useRef(true);
-  const [visit, setVisit] = useState(null);
-  const [homeWork, setHomeWork] = useState(-1);
-
-  const handleBtn = () => {
-    const body = {};
-    body.additionLessonId = lessonId;
-    body.studentId = obj.id;
-    body.visitStatus = visit;
-
-    SundayEventProvider.checkLesson(body)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    handleBtn();
-  }, [visit, homeWork]);
-
-  const changeRadio = (e) => {
-    setHomeWork(parseInt(e.target.value));
-  };
-
-  const [active, setActive] = useState("");
-  const [isActive, setIsActive] = useState(false);
-
-  const handleButtonSuccess = () => {
-    setActive("success");
-    setIsActive(true);
-    setVisit(1);
-  };
-
-  const handleButtonCancel = () => {
-    setActive("cancel");
-    setIsActive(false);
-    setVisit(0);
-  };
-
-  return (
-    <tr>
-      <td style={{ minWidth: "30%" }} className="col">
-        {index + 1}. {obj.lastName} {obj.firstName}
-      </td>
-      <td style={{ minWidth: "25%" }} className="col">
-        <div className={`out ${active}`}>
-          <div className="in">
-            <Tooltip placement="top" title="Bor" color="rgb(114, 225, 40)">
-              <button onClick={handleButtonSuccess}>
-                <CheckCircleOutlineIcon />
-              </button>
-            </Tooltip>
-            <Tooltip placement="top" title="Yo'q" color="rgb(255, 77, 73)">
-              <button onClick={handleButtonCancel}>
-                <CancelOutlinedIcon />
-              </button>
-            </Tooltip>
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-};
+import { useRouter } from "next/router";
 
 const CreateLesson = () => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -91,16 +20,15 @@ const CreateLesson = () => {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [lessonId, setLessonId] = useState(null);
-  const [course, setCourse] = useState([]);
-  const [courseId, setCourseId] = useState(null);
   const [stundetId, setStudentId] = useState([]);
   const [fetchedData, setFetchedData] = useState([]);
   const [forRender, setForRender] = useState(null);
+  const [forRender2, setForRender2] = useState(null);
   const [examData, setExamData] = useState([]);
-
+const router = useRouter()
   const createLesson = () => {
     setLoader(true);
-    SundayEventProvider.createLesson(courseId)
+    SundayEventProvider.createLesson()
       .then((res) => {
         console.log(res);
         setLessonId(res.data.id);
@@ -119,7 +47,7 @@ const CreateLesson = () => {
   };
 
   useEffect(() => {
-    SundayEventProvider.getAllStudents(1, 100, courseId)
+    SundayEventProvider.getAllStudent(1, 1000, null)
       .then((res) => {
         console.log(res.data);
         setFetchedData(res.data.data);
@@ -127,32 +55,16 @@ const CreateLesson = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [isLesson]);
+  }, [isLesson, forRender2]);
 
-  useEffect(() => {
-    SundayEventProvider.getAllCourse()
-      .then((res) => {
-        console.log(res.data);
-        setCourse(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  const courseOption = [
-    ...course.map((i) => ({
-      label: i.name,
-      value: i.id,
-    })),
-  ];
 
   const studentOption = [
     ...fetchedData.map((i) => ({
-      label: i.firstName +" "+ i.lastName,
+      label: i.firstName +" "+ i.lastName+" ("+i.username+")",
       value: i.id,
     })),
   ];
+
   useEffect(() => {
     setLoading2(true);
     SundayEventProvider.getLessonInfo(1, 1000, lessonId)
@@ -202,35 +114,17 @@ const CreateLesson = () => {
       });
   }
 
+  const stopExam =()=>{
+    router.replace("/dashboard/sundayLessons");
+  }
+
+
   return (
     <CreateLessonWrapper>
       <h3>O`quvchilarga Yakshanba kungi dars yaratish</h3>
       <span>Eslatma: Har bir kelgan o`quvchi uchun 30 ball beriladi</span>
       <div className="wrap">
         <div className="left">
-          <div className="label">
-            <label>Kursni tanlang</label>
-            <Controller
-              control={control}
-              name="courseId"
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <Select
-                  className="select"
-                  value={value}
-                  placeholder="Kursni tanlang"
-                  options={courseOption}
-                  onBlur={onBlur}
-                  onChange={(v) => {
-                    onChange(v);
-                    setCourseId(v.value);
-                    console.log(v.value);
-                  }}
-                  ref={ref}
-                />
-              )}
-            />
-          </div>
-
           {!isLesson ? (
             <Button
               className="col-6 addBtn"
@@ -243,7 +137,7 @@ const CreateLesson = () => {
                 background: "#006786",
               }}
             >
-              Dars qo`shish {loader && <ButtonLoader />}
+              Sunday event yaratish {loader && <ButtonLoader />}
             </Button>
           ) : (
             <></>
@@ -274,7 +168,7 @@ const CreateLesson = () => {
               )}
             />
             <Button
-              className="col-6 addBtn"
+              className="col-12 addBtn"
               variant="contained"
               onClick={handleVisit}
               disabled={loader}
@@ -287,6 +181,20 @@ const CreateLesson = () => {
             >
               Keldi {loader && <ButtonLoader />}
             </Button>
+            <Button
+                className="col-12 addBtn"
+                variant="contained"
+                onClick={stopExam}
+                disabled={loader}
+                style={{
+                  fontFamily: "Azo sans",
+                  color: "#fff",
+                  background: "#006786",
+                  marginTop: "20px",
+                }}
+              >
+                Tugatish {loader && <ButtonLoader />}
+              </Button>
           </div>
           ) : (
             <div></div>
@@ -294,7 +202,7 @@ const CreateLesson = () => {
         </div>
         <div className="right">
           <p>Qatnashgan talabalar</p>
-          <table className="table table-borderless table-hover">
+          <table className="table table-striped table-hover">
             <thead>
               <tr>
                 <th style={{ minWidth: "40%" }} className="col">

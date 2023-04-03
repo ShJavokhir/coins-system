@@ -18,6 +18,7 @@ import {
   CardContent,
   CardMedia,
   Drawer,
+  IconButton,
   Typography,
 } from "@mui/material";
 import CloseSvg from "../../../../Common/Svgs/CloseSvg";
@@ -30,6 +31,8 @@ import CoinSvg from "../../../../Common/Svgs/CoinSvg";
 import Pagination from "rc-pagination";
 import moment from "moment";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import EditSvg from "../../../../Common/Svgs/EditSvg";
+import ButtonLoader from "../../../../Common/ButtonLoader";
 
 const Product = () => {
   const items = [
@@ -70,18 +73,6 @@ const ProductAdd = () => {
     formdata.append("file", file);
     const res = await SeoProvider.uploadImage(formdata);
     console.log(res.data);
-    // setImgHash(res.data.hashId)
-    //! res.data da shunaqa object qaytadi img uchun log qilib tekshirib ko'ras
-    //! res.data.data bo'lishi mumkin
-    // {
-    //   "id": 0,
-    //   "name": "string",
-    //   "extension": "string",
-    //   "fileSize": 0,
-    //   "hashId": "string",
-    //   "contentType": "string",
-    //   "uploadPath": "string"
-    // }
 
     return res.data;
   };
@@ -314,7 +305,6 @@ const AllProducts = () => {
       });
   }, [filterState]);
 
-
   const filterCategoryOption = [
     { label: "Barchasi", value: null },
     ...category.map((i) => ({
@@ -337,10 +327,10 @@ const AllProducts = () => {
     setFilterState(obj.categoryId);
   });
 
-  const handleFilter =(obj)=>{
+  const handleFilter = (obj) => {
     console.log(obj.value);
     setFilterState(obj.value);
-  }
+  };
 
   useEffect(() => {
     onFilterSubmit(filterForm.getValues());
@@ -351,13 +341,13 @@ const AllProducts = () => {
     <ProductWrapper>
       <form onSubmit={onFilterSubmit}>
         <label>Bo`limlar</label>
-          <ul>
-            {filterCategoryOption.map((v, i) => (
-              <li key={i} >
-                <Button onClick={()=>handleFilter(v)}>{v.label}</Button>
-              </li>
-            ))}
-          </ul>
+        <ul>
+          {filterCategoryOption.map((v, i) => (
+            <li key={i}>
+              <Button onClick={() => handleFilter(v)}>{v.label}</Button>
+            </li>
+          ))}
+        </ul>
       </form>
       <div className="wrap">
         {!loading ? (
@@ -384,10 +374,18 @@ const AllProducts = () => {
     </ProductWrapper>
   );
 };
+
 const CardPro = ({ obj, setProducts }) => {
+  const { register, handleSubmit, control, reset, setValue } = useForm();
   const [url, setUrl] = useState("");
   const [deleteObj, setDeleteObj] = useState({});
+  const [objProduct, setObjProduct] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [forRender, setForRender] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [category, setCategory] = useState([]);
+  const [catName, setCatName] = useState("");
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     SeoProvider.imgPreview(obj.imageHashId).then((res) => {
@@ -400,6 +398,25 @@ const CardPro = ({ obj, setProducts }) => {
     });
   }, []);
 
+  useEffect(() => {
+    SeoProvider.getAllCategory().then(
+      (res) => {
+        setCategory(res.data);
+        console.log("cate", res.data);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }, []);
+
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+  const onCloseModal = () => {
+    setIsOpenModal(false);
+  };
   const showModal = (obj) => {
     setDeleteObj(obj);
     setIsModalOpen(true);
@@ -416,6 +433,48 @@ const CardPro = ({ obj, setProducts }) => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+
+
+  const handleEditProduct = (object) => {
+    setObjProduct(object);
+    setCatName(object.categoryName);
+    openModal();
+    setValue("name", object.productName);
+    setValue("availableAmount", object.availableAmount);
+    setValue("price", object.price);
+    console.log(object);
+    console.log(object.categoryName);
+    };
+
+    const getIdByCategoryName = (catName) => {
+      const categorys = category.find((cat) => cat.categoryName === catName);
+      return categorys ? categorys.id : null; 
+    };
+  
+  
+  const editProduct = async (values) => {
+    const body = {};
+    body.id = objProduct.id;
+    body.name = values.name;
+    body.available = +values.availableAmount;
+    body.price = +values.price;
+    body.categoryId = getIdByCategoryName(catName);
+
+    setLoading(true);
+    try {
+      const { data } = await SeoProvider.updateProduct(body);
+      setForRender(Math.random());
+      reset();
+      toast.success("Muvaffaqiyatli o'zgartirildi");
+      setIsOpenModal(false);
+    } catch (err) {
+      console.log(err);
+      toast.error("Xatolik");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -450,7 +509,7 @@ const CardPro = ({ obj, setProducts }) => {
         <CardActions>
           <Button
             size="small"
-            style={{ margin: "auto", width: "100%" }}
+            style={{ margin: "auto", width: "80%" }}
             variant="outlined"
             color="error"
             // onClick={() => deleteProduct(obj)}
@@ -458,6 +517,12 @@ const CardPro = ({ obj, setProducts }) => {
           >
             O`chirish
           </Button>
+          <IconButton
+            style={{ background: "rgb(114, 225, 40, 0.12)" }}
+            onClick={() => handleEditProduct(obj)}
+          >
+            <EditSvg />
+          </IconButton>
         </CardActions>
       </Card>
 
@@ -469,11 +534,64 @@ const CardPro = ({ obj, setProducts }) => {
         onCancel={handleCancel}
       >
         <p>Mahsulot o`chirilsinmi?</p>
-        {/* <div className="btns">
-          <button>Yo`q</button>
-          <button>Ha</button>
-        </div> */}
       </Modal>
+
+      {/* ======= drawer ========== */}
+      <Drawer
+        anchor={"left"}
+        open={isOpenModal}
+        width={400}
+        onClose={() => {
+          onCloseModal();
+        }}
+      >
+        <ModalHeader className="modal-header">
+          <h2 className="title">Mahsulotni tahrirlash</h2>
+          <button className="closeSvg" onClick={onCloseModal}>
+            <CloseSvg />
+          </button>
+        </ModalHeader>
+        <ModalContent>
+          <form
+            className="p-3"
+            style={{ width: 500 }}
+            onSubmit={handleSubmit(editProduct)}
+          >
+            <div className="label">
+              <label>Nomi</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Nomi"}
+                {...register("name", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Mavjud</label>
+              <input
+                type="number"
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Mavjud"}
+                {...register("availableAmount", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Narxi</label>
+              <input
+                type="number"
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Narxi"}
+                {...register("price", { required: true })}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Qo`shish {loading && <ButtonLoader />}
+            </button>
+          </form>
+        </ModalContent>
+      </Drawer>
     </div>
   );
 };
@@ -521,7 +639,7 @@ const OrderList = () => {
 
   return (
     <OrderListWrapper>
-      <table className="table table-borderless table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th style={{ width: "15%" }} className="col">
@@ -586,7 +704,7 @@ const OrderList = () => {
                     ) : (
                       <span
                         style={{
-                          color: "rgb(114, 225, 40)",
+                          color: "green",
                           fontWeight: 700,
                         }}
                       >

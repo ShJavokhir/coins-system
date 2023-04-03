@@ -53,19 +53,6 @@ const Shopping = () => {
     setIsOpenModal(false);
   };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   StudentProvider.getAllProducts(1, 200)
-  //     .then((res) => {
-  //       setForRender(Math.random());
-  //       setProducts(res.data.data);
-  //       setTotalElements(res.data.recordsTotal);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  //     .finally(() => setLoading(false));
-  // }, []);
 useEffect(() => {
     setLoading(true);
     StudentProvider.getAllProducts(1, 40, filterState)
@@ -308,60 +295,6 @@ const CardPro = ({ obj, setProducts, openModal }) => {
     </div>
   );
 };
-// const CardPro = ({ obj, openModal }) => {
-//   const [url, setUrl] = useState("");
 
-//   useEffect(() => {
-//     StudentProvider.imgPreview(obj.imageHashId).then((res) => {
-//       const fileType = res.data.type.split("/")[1];
-//       const file = new File([res.data], `image.${fileType}`, {
-//         type: res.data.type,
-//       });
-
-//       setUrl(getURlFile(file));
-//     });
-//   }, []);
-
-//   return (
-//     <div className="cardOut">
-//       <Card sx={{ maxWidth: 345 }} className="card">
-//         <CardMedia
-//           component="img"
-//           alt=""
-//           height="250"
-//           style={{ objectFit: "contain" }}
-//           image={url}
-//         />
-//         <CardContent>
-//           <Typography gutterBottom variant="h5" component="div">
-//             {obj.productName}
-//           </Typography>
-//           <Typography variant="body2" color="text.secondary">
-//             {obj.description}
-//           </Typography>
-//           <p style={{ marginTop: 15 }} className="category">
-//             Category: {obj.categoryName}
-//           </p>
-//           <div style={{ display: "flex", justifyContent: "space-between" }}>
-//             <p className="price">
-//               Narxi: {obj.price} <CoinSvg />
-//             </p>
-//             <p className="aviable">Mavjud: {obj.availableAmount}</p>
-//           </div>
-//         </CardContent>
-//         <CardActions>
-//           <Button
-//             size="small"
-//             variant="outlined"
-//             style={{ margin: "auto" }}
-//             onClick={() => openModal(obj)}
-//           >
-//             Buyurtma qilish
-//           </Button>
-//         </CardActions>
-//       </Card>
-//     </div>
-//   );
-// };
 
 export default Shopping;

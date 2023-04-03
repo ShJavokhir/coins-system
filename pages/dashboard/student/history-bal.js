@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Director from '../../src/Components/Pages/Dashboard/CEO/Director'
-import WithAuthComponent from '../../src/Hocs/PrivateRoute'
+import HistoryBall from '../../../src/Components/Pages/Dashboard/Student/HistoryBall'
+import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-         <Director/>
+         <HistoryBall/>
       </WithAuthComponent>
 
     </div>

@@ -30,7 +30,7 @@ const Orders = () => {
       <OrdersWrapper>
         <h3>Buyurtmalar</h3>
         <span>Eslatma: Qabul qilingan buyurtmani 10 kun ichida olishingiz mumkin</span>
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "20%" }} className="col">
@@ -62,7 +62,7 @@ const Orders = () => {
                       {obj.amount}
                     </td>
                     <td style={{ width: "20%" }} className="col">
-                      {obj.price*obj.amount}
+                      {obj.price}
                       <CoinSvg />
                     </td>
                     <td style={{ width: "20%" }} className="col">

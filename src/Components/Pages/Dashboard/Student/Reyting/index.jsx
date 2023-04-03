@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import Select from "react-select";
 import StudentProvider from "../../../../../Data/StudentProvider";
 import MinLoader from "../../../../Common/MinLoader";
@@ -24,6 +24,12 @@ const Reyting = () => {
   const [info, setInfo] = useState([]);
   const [groupsId, setGroupsId] = useState(null);
 
+  const groupId=useWatch({
+    name:"studentId",
+    defaultValue:null,
+    control
+  })
+
   useEffect(() => {
     StudentProvider.getStudentInfo(id)
       .then((res) => {
@@ -39,11 +45,13 @@ const Reyting = () => {
   }, [render]);
 
   useEffect(() => {
-    StudentProvider.getGroupOfStudent(id)
+    StudentProvider.getGroupOfStudent()
       .then((res) => {
         console.log(res.data);
         setRender(Math.random());
         setGroup(res.data);
+        const firstItem=res.data[0]
+          setValue("studentId", {label:firstItem.name, value:firstItem.groupId})
       })
       .catch((err) => {
         console.log(err);
@@ -51,18 +59,20 @@ const Reyting = () => {
   }, []);
 
   useEffect(() => {
+    if(groupId==null) return;
     setLoading(true)
-    StudentProvider.getStudentGroupInfo(groupsId)
+    StudentProvider.getStudentGroupInfo(groupId.value)
       .then((res) => {
         console.log("info",res.data.data);
         setInfo(res.data.data);
+        
       })
       .catch((err) => {
         console.log(err);
       }).finally(()=>{
         setLoading(false)
       });
-  }, [groupsId]);
+  }, [groupId]);
 
   const guruhOption = [
     ...group.map((i) => ({
@@ -104,20 +114,16 @@ const Reyting = () => {
                 value={value}
                 placeholder="Guruhni tanlang"
                 options={guruhOption}
-                defaultValue={guruhOption[0]}
+                // defaultValue={{ label: group[0].label, value: group[0].value }}
                 onBlur={onBlur}
-                onChange={(v) => {
-                  onChange(v);
-                  setGroupsId(v.value);
-                  console.log(v);
-                }}
+                onChange={onChange}
                 ref={ref}
               />
             )}
           />
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "20%" }} className="col">

@@ -15,7 +15,7 @@ export default class AdditionProvider {
         return await client.get(`/addition-lesson/get/student/through/course?courseId=${id}&pageNum=${page}&pageSize=${size}`);
     }
     static async getAllLessons(page = 0, size = 10) {
-        return await client.get(`/addition-lesson/get/all?pageNum=${page}&pageSize=${size}`);
+        return await client.get(`/addition-lesson/get/all/addition/lesson?pageNum=${page}&pageSize=${size}`);
     }
     static async getLessonInfo(page = 0, size = 10, id) {
         return await client.get(`/addition-lesson/get/lesson/detail?additionLessonId=${id}&pageNum=${page}&pageSize=${size}`);

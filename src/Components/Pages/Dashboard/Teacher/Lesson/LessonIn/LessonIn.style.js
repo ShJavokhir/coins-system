@@ -8,7 +8,7 @@ const LessonInWrapper=styled.div`
 
 .table{
     margin-top: 20px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -19,23 +19,23 @@ const LessonInWrapper=styled.div`
       width: 100%;
       tr{
         display: flex;
-        background: #f5f5f7;
+        background: #006786;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
-        padding: 5px 0;
+        /* padding: 5px 0; */
         
         th.col{
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
           line-height: 24px;
-          color: rgba(0, 0, 0, 0.7);
+          color: #fff;
           display: flex;
           align-items: center;
           justify-content: start;
           text-align: center;
           font-family: "Azo sans";
-          padding: 15px 12px 10px 0px;
+          padding: 15px 12px 10px 10px;
 
         }
       }
@@ -51,7 +51,7 @@ const LessonInWrapper=styled.div`
         td.col {
           font-style: normal;
           font-weight: 400;
-          font-size: 14px;
+          font-size: 15px;
           height: 50px;
           line-height: 24px;
           display: flex;
@@ -59,7 +59,7 @@ const LessonInWrapper=styled.div`
           justify-content: start;
           color: rgba(0, 0, 0, 0.7);
           font-family: "Azo sans";
-          padding: 5px;
+          /* padding: 5px; */
           
         }
 

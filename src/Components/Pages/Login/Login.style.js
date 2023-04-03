@@ -18,7 +18,7 @@ const LoginWrapper = styled.div`
     position: relative;
     z-index: 33 !important;
     background-color: #fff;
-    width: 50%;
+    width: 40%;
     height: auto;
     padding: 20px;
     text-align: center;
@@ -58,8 +58,8 @@ const LoginWrapper = styled.div`
           border: 2px solid #000;
           border: 1px solid rgba(31, 60, 136, 0.2);
           border-radius: 24px;
-          margin-bottom: 35px;
-          padding: 15px;
+          margin-bottom: 25px;
+          padding: 10px;
           font-size: 1rem;
           font-weight: 600;
           font-family: "Inter";

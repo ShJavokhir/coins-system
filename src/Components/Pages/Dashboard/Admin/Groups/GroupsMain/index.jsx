@@ -120,9 +120,11 @@ const GroupsMain = ({ RefObj, setIsOpen }) => {
             return teach.id !== obj.id;
           })
         );
+        toast.success("O'chirildi")
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Bu guruhda o'quvchi bo'lgani uchun o'chirilmadi")
       });
   };
 
@@ -166,7 +168,7 @@ const GroupsMain = ({ RefObj, setIsOpen }) => {
           </Button>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "20%" }} className="col">

@@ -50,7 +50,7 @@ const AddBall = () => {
 
   const studentOption = [
     ...student.map((i) => ({
-      label: i.firstName + " " + i.lastName,
+      label: i.firstName + " " + i.lastName +"("+i.username+")",
       value: i.id,
     })),
   ];

@@ -16,8 +16,16 @@ import { toast } from "react-toastify";
 
 const DirectorMain = ({ RefObj, setIsOpen }) => {
     const { register, handleSubmit, control, reset, setValue } = useForm();
+    const {
+      register: register2,
+      handleSubmit: handleSubmit2,
+      control: control2,
+      reset: reset2,
+      setValue: setValue2,
+    } = useForm();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [director, setDirector] = useState([]);
@@ -38,6 +46,9 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
   const onCloseModal = () => {
     setIsOpenModal(false);
   };
+  const onCloseModal2 = () => {
+    setIsOpenModal2(false);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +65,8 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
       .finally(() => setLoading(false));
   }, [forRender, currentPage]);
 
+  
+
   const onSubmitDirector = async (values) => {
     const body = {};
     body.firstName = values.firstName;
@@ -63,19 +76,6 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
 
     console.log("body", body);
     setLoading2(true);
-    if (editing) {
-      body.id = editing.id;
-      try {
-        const { data } = await DirectorProvider.updateTeacher(body);
-        setForRender(Math.random());
-        reset();
-        toast.success("Muvaffaqiyatli o'zgartirildi");
-        setIsOpenModal(false);
-      } catch (err) {
-        console.log(err);
-      }
-      setLoading2(false);
-    } else {
         SeoProvider.createDirector(body)
         .then((res) => {
           reset();
@@ -90,8 +90,30 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
         .finally(() => {
           setLoading2(false);
         });
-    }
   };
+
+  const onSubmitEditDirector = async (values)=>{
+    const body = {};
+    body.firstName = values.firstName;
+    body.lastName = values.lastName;
+    body.password = values.password;
+
+    console.log("body", body);
+    setLoading2(true);
+    if (editing) {
+      body.id = editing.id;
+      try {
+        const { data } = await SeoProvider.updateTeacher(body);
+        setForRender(Math.random());
+        reset2();
+        toast.success("Muvaffaqiyatli o'zgartirildi");
+        setIsOpenModal2(false);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading2(false);
+    }
+  }
 
   const handleDeleteTeacher = (obj) => {
     RefObj.current.textContent = `Rostdan ham o'chirishni xoxlaysizmi?`;
@@ -115,10 +137,10 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
   };
 
   const handleEditTeacher = (obj) => {
-    setIsOpenModal(true);
+    setIsOpenModal2(true);
     setEditing(obj);
-    setValue("firstName", obj.firstName);
-    setValue("lastName", obj.lastName);
+    setValue2("firstName", obj.firstName);
+    setValue2("lastName", obj.lastName);
   };
 
   return (
@@ -140,7 +162,7 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
           </Button>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "30%" }} className="col">
@@ -281,6 +303,62 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
               style={{ display: "flex" }}
             >
               Qo`shish {loading2 && <ButtonLoader />}
+            </button>
+          </form>
+        </ModalContent>
+      </Drawer>
+      <Drawer
+        anchor={"right"}
+        open={isOpenModal2}
+        onClose={() => {
+          onCloseModal2();
+        }}
+      >
+        <ModalHeader className="modal-header">
+          <h2 className="title">Direktor yangilash</h2>
+          <button className="closeSvg" onClick={onCloseModal2}>
+            <CloseSvg />
+          </button>
+        </ModalHeader>
+        <ModalContent>
+          <form
+            className="p-3"
+            style={{ width: 500 }}
+            onSubmit={handleSubmit2(onSubmitEditDirector)}
+          >
+            <div className="label">
+              <label>Direktor ismi</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Ismi"}
+                {...register2("firstName", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Direktor familyasi</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Familyasi"}
+                {...register2("lastName", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Yangi parol</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Yangi parol"}
+                {...register2("password", { required: false })}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ display: "flex" }}
+            >
+              Yangilash {loading2 && <ButtonLoader />}
             </button>
           </form>
         </ModalContent>

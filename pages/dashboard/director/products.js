@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Product from '../../src/Components/Pages/Dashboard/CEO/Product'
-import WithAuthComponent from '../../src/Hocs/PrivateRoute'
+import Product from '../../../src/Components/Pages/Dashboard/Director/Product'
+import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
   return (

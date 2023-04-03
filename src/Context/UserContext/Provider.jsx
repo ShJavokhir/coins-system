@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import UserContext from "./Context";
 import jwtDecode from "jwt-decode";
+import AdminProvider from "../../Data/AdminProvider";
 
 const Provider = ({ children }) => {
   const [userData, setUserData] = useState({ isAuth: false, user: null });
@@ -9,7 +10,7 @@ const Provider = ({ children }) => {
 
   function login(data) {
     const user_data = data?.token && (jwtDecode(data.token) || null);
-    setUserData({isAuth:true, user:user_data});
+    setUserData({ isAuth: true, user: user_data });
   }
 
   function logout() {
@@ -19,13 +20,20 @@ const Provider = ({ children }) => {
 
   useLayoutEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      const data = token && (jwtDecode(token) || null);
-      if (data) {
-        setUserData({ isAuth: true, user: data });
+    AdminProvider.getMe().then(
+      (res) => {
+        console.log(res);
+        const data = token && (jwtDecode(token) || null);
+        console.log(data);
+        if (data) {
+          setUserData({ isAuth: true, user: data });
+        }
+        setIsDoneUserChecking(true);
+      },
+      () => {
+        setIsDoneUserChecking(true);
       }
-      setIsDoneUserChecking(true)
-    }
+    );
   }, []);
 
   return (

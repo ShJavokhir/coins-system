@@ -38,11 +38,14 @@ const TableMain = () => {
         <h3>Darslar tarixi</h3>
       </div>
 
-      <table className="table table-borderless table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th style={{ minWidth: "32%" }} className="col">
-              Kurs nomi
+              O`qituvchi
+            </th>
+            <th style={{ minWidth: "32%" }} className="col">
+              Username
             </th>
             <th style={{ minWidth: "26%" }} className="col">
               Sana
@@ -56,8 +59,11 @@ const TableMain = () => {
                 <tr key={index}>
                   <td style={{ minWidth: "32%" }} className="col">
                     <MyLink to={`/dashboard/sunday/` + obj.id}>
-                      {(currentPage - 1) * 10 + index + 1}. {obj.courseName}
+                      {(currentPage - 1) * 10 + index + 1}. {obj.firstNameTeacher} {obj.lastNameTeacher}
                     </MyLink>
+                  </td>
+                  <td style={{ minWidth: "32%" }} className="col">
+                       {obj.usernameTeacher}
                   </td>
 
                   <td style={{ minWidth: "26%" }} className="col">

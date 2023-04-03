@@ -5,6 +5,7 @@ import { TransactionWrapper } from "./Transaction.style";
 import CoinSvg from "../../../../Common/Svgs/CoinSvg";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import CoinAnimation from "../CoinAnimation";
 
 const Transaction = () => {
     const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -71,6 +72,7 @@ const Transaction = () => {
               Almashtirish
             </button>
         </form>
+        <CoinAnimation numCoins={50}/>
       </TransactionWrapper>
     </DashboardLayout>
   );

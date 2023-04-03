@@ -37,7 +37,7 @@ const ExamMain = () => {
         <h3>Imtihonlar tarixi</h3>
       </div>
 
-      <table className="table table-borderless table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th style={{ minWidth: "32%" }} className="col">

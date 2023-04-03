@@ -15,8 +15,16 @@ import Select from "react-select";
 
 const TeachersMain = ({ RefObj, setIsOpen }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    control: control2,
+    reset: reset2,
+    setValue: setValue2,
+  } = useForm();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [teachers, setTeachers] = useState([]);
@@ -25,7 +33,7 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(20);
 
-  const [lavozim, setLavozim] = useState("")
+  const [lavozim, setLavozim] = useState("");
 
   const onChange = (page) => {
     setCurrentPage(page);
@@ -38,6 +46,9 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
   const onCloseModal = () => {
     setIsOpenModal(false);
   };
+  const onCloseModal2 = () => {
+    setIsOpenModal2(false);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -46,7 +57,11 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
         console.log(res.data.data);
         setTeachers(res.data.data);
         setTotalElements(res.data.recordsTotal);
-        console.log(teachers.filter((role)=>{return role !=="ROLE_DIRECTOR"}));
+        console.log(
+          teachers.filter((role) => {
+            return role !== "ROLE_DIRECTOR";
+          })
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -61,6 +76,15 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
     body.username = values.username;
     body.password = values.password;
 
+    submitting(body);
+  };
+
+  const onSubmitTeacherEdit = async (values) => {
+    const body = {};
+    body.firstName = values.firstName;
+    body.lastName = values.lastName;
+    body.password = values.password;
+
     console.log("body", body);
     setLoading2(true);
     if (editing) {
@@ -68,96 +92,79 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
       try {
         const { data } = await DirectorProvider.updateTeacher(body);
         setForRender(Math.random());
-        reset();
+        reset2();
         toast.success("Muvaffaqiyatli o'zgartirildi");
-        setIsOpenModal(false);
+        setIsOpenModal2(false);
       } catch (err) {
         console.log(err);
       }
       setLoading2(false);
-    } else {
-      submitting(body)
     }
   };
 
-  const submitting =(body)=>{
-    if(lavozim==="teacher"){
+  const submitting = (body) => {
+    if (lavozim === "teacher") {
       DirectorProvider.createTeacher(body)
-      .then((res) => {
-        reset();
-        setForRender(Math.random());
-        toast.success("Qo'shildi");
-        onCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message);
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
-    }else if(lavozim==="admin"){
+        .then((res) => {
+          reset();
+          setForRender(Math.random());
+          toast.success("Qo'shildi");
+          onCloseModal();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setLoading2(false);
+        });
+    } else if (lavozim === "admin") {
       DirectorProvider.createAdmin(body)
-      .then((res) => {
-        reset();
-        setForRender(Math.random());
-        toast.success("Qo'shildi");
-        onCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message);
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
-    } else if(lavozim==="education"){
+        .then((res) => {
+          reset();
+          setForRender(Math.random());
+          toast.success("Qo'shildi");
+          onCloseModal();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setLoading2(false);
+        });
+    } else if (lavozim === "education") {
       DirectorProvider.createEducation(body)
-      .then((res) => {
-        reset();
-        setForRender(Math.random());
-        toast.success("Qo'shildi");
-        onCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message);
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
-    } else if(lavozim==="eventSunday"){
+        .then((res) => {
+          reset();
+          setForRender(Math.random());
+          toast.success("Qo'shildi");
+          onCloseModal();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setLoading2(false);
+        });
+    } else if (lavozim === "eventSunday") {
       DirectorProvider.createEventSunday(body)
-      .then((res) => {
-        reset();
-        setForRender(Math.random());
-        toast.success("Qo'shildi");
-        onCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message);
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
-    } else if(lavozim==="addition"){
-      DirectorProvider.createAddition(body)
-      .then((res) => {
-        reset();
-        setForRender(Math.random());
-        toast.success("Qo'shildi");
-        onCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message);
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
+        .then((res) => {
+          reset();
+          setForRender(Math.random());
+          toast.success("Qo'shildi");
+          onCloseModal();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err?.response?.data?.message);
+        })
+        .finally(() => {
+          setLoading2(false);
+        });
     }
-  }
+  };
 
   const handleDeleteTeacher = (obj) => {
     RefObj.current.textContent = `Rostdan ham o'chirishni xoxlaysizmi?`;
@@ -173,7 +180,7 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
             return teach.id !== obj.id;
           })
         );
-        toast.success("O'chirildi!")
+        toast.success("O'chirildi!");
       })
       .catch((err) => {
         console.log(err);
@@ -181,13 +188,11 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
   };
 
   const handleEditTeacher = (obj) => {
-    setIsOpenModal(true);
+    setIsOpenModal2(true);
     setEditing(obj);
-    setValue("firstName", obj.firstName);
-    setValue("lastName", obj.lastName);
+    setValue2("firstName", obj.firstName);
+    setValue2("lastName", obj.lastName);
   };
-
-
 
   const lavozimOption = [
     {
@@ -205,10 +210,6 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
     {
       label: "Event Sunday xodimi",
       value: "eventSunday",
-    },
-    {
-      label: "Qo'shimcha dars beruvchi xodim",
-      value: "addition",
     },
   ];
 
@@ -231,7 +232,7 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
           </Button>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "30%" }} className="col">
@@ -254,16 +255,23 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
                 teachers.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ width: "30%" }} className="col">
-                    {(currentPage-1)*10+index+1}. {obj.lastName}
+                      {(currentPage - 1) * 10 + index + 1}. {obj.lastName}
                     </td>
                     <td style={{ width: "30%" }} className="col">
                       {obj.firstName}
                     </td>
                     <td style={{ width: "30%" }} className="col">
-                      {obj.role === "ROLE_ADMIN" ? "Admin" : 
-                      (obj.role === "ROLE_TEACHER" ? "O'qituvchi" : 
-                      (obj.role === "ROLE_EDUCATION_DEPARTMENT" ? "O'quv bo'limi" : 
-                      (obj.role === "ROLE_SUNDAY_EVENT" ? "Event Sunday xodimi" : (obj.role === "ROLE_ADDITION_LESSON" ? "Qo'shimcha dars yaratuvchi xodim" : obj.role)) ))}
+                      {obj.role === "ROLE_ADMIN"
+                        ? "Admin"
+                        : obj.role === "ROLE_TEACHER"
+                        ? "O'qituvchi"
+                        : obj.role === "ROLE_EDUCATION_DEPARTMENT"
+                        ? "O'quv bo'limi"
+                        : obj.role === "ROLE_SUNDAY_EVENT"
+                        ? "Event Sunday xodimi"
+                        : obj.role === "ROLE_ADDITION_LESSON"
+                        ? "Qo'shimcha dars beruvchi"
+                        : obj.role}
                     </td>
                     <td style={{ width: "10%" }} className="col">
                       <div className="btns">
@@ -362,7 +370,7 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
                     onBlur={onBlur}
                     onChange={(v) => {
                       onChange(v);
-                      setLavozim(v.value)
+                      setLavozim(v.value);
                       console.log(v);
                     }}
                     ref={ref}
@@ -394,6 +402,62 @@ const TeachersMain = ({ RefObj, setIsOpen }) => {
               style={{ display: "flex" }}
             >
               Qo`shish {loading2 && <ButtonLoader />}
+            </button>
+          </form>
+        </ModalContent>
+      </Drawer>
+      <Drawer
+        anchor={"right"}
+        open={isOpenModal2}
+        onClose={() => {
+          onCloseModal2();
+        }}
+      >
+        <ModalHeader className="modal-header">
+          <h2 className="title">Xodim yangilash</h2>
+          <button className="closeSvg" onClick={onCloseModal2}>
+            <CloseSvg />
+          </button>
+        </ModalHeader>
+        <ModalContent>
+          <form
+            className="p-3"
+            style={{ width: 500 }}
+            onSubmit={handleSubmit2(onSubmitTeacherEdit)}
+          >
+            <div className="label">
+              <label>Xodim ismi</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Ismi"}
+                {...register2("firstName", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Xodim familyasi</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Familyasi"}
+                {...register2("lastName", { required: true })}
+              />
+            </div>
+            <div className="label">
+              <label>Yangi parol</label>
+              <input
+                autoComplete="off"
+                className="form-control"
+                placeholder={"Yangi parol"}
+                {...register2("password", { required: false })}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ display: "flex" }}
+            >
+              Yangilash {loading2 && <ButtonLoader />}
             </button>
           </form>
         </ModalContent>

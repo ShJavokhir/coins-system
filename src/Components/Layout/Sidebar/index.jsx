@@ -10,24 +10,36 @@ const NavListMenu = [
   //admin role
   {
     title: "Guruhlar",
-    path: "/dashboard/groups",
+    path: "/dashboard/admin/groups",
     src: "/icons/users.png",
     role: ["ROLE_ADMIN"],
   },
   {
     title: "Talabalar",
-    path: "/dashboard/students",
+    path: "/dashboard/admin/students",
     src: "/icons/student.png",
     role: ["ROLE_ADMIN"],
   },
   {
     title: "Guruhga o'tkazish",
-    path: "/dashboard/transfer",
+    path: "/dashboard/admin/transfer",
     src: "/icons/transfer.png",
+    role: ["ROLE_ADMIN"],
+  },
+  {
+    title: "Darslar tarixi",
+    path: "/dashboard/admin/history-lesson",
+    src: "/icons/lesson.png",
     role: ["ROLE_ADMIN"],
   },
  
   //teacher role
+  {
+    title: "Statistika",
+    path: "/dashboard/teacher/statistika",
+    src: "/icons/trend.png",
+    role: ["ROLE_TEACHER"],
+  },
   {
     title: "Guruhlar",
     path: "/dashboard/teacher/groups",
@@ -49,50 +61,86 @@ const NavListMenu = [
   //director role
   {
     title: "Statistika",
-    path: "/dashboard/reytingDirector",
+    path: "/dashboard/director/reytingDirector",
     src: "/icons/trend.png",
     role: ["ROLE_DIRECTOR"],
   },
   {
+    title: "Reyting",
+    path: "/dashboard/director/reyting",
+    src: "/icons/reyting.png",
+    role: ["ROLE_DIRECTOR"],
+  },
+  {
     title: "Xodimlar",
-    path: "/dashboard/teachers",
+    path: "/dashboard/director/teachers",
     src: "/icons/teacher.png",
     role: ["ROLE_DIRECTOR"],
   },
   {
     title: "Kurslar",
-    path: "/dashboard/courses",
+    path: "/dashboard/director/courses",
+    src: "/icons/lesson.png",
+    role: ["ROLE_DIRECTOR"],
+  },
+  {
+    title: "Darslar tarixi",
+    path: "/dashboard/director/lessons",
     src: "/icons/lesson.png",
     role: ["ROLE_DIRECTOR"],
   },
   {
     title: "Shop",
-    path: "/dashboard/products",
+    path: "/dashboard/director/products",
     src: "/icons/shopping.png",
+    role: ["ROLE_DIRECTOR"],
+  },
+  {
+    title: "Ballar tarixi",
+    path: "/dashboard/director/history-bal",
+    src: "/icons/ball.png",
     role: ["ROLE_DIRECTOR"],
   },
   //seo role
   {
     title: "Statistika",
-    path: "/dashboard/seoStatistika",
+    path: "/dashboard/ceo/seoStatistika",
     src: "/icons/trend.png",
     role: ["ROLE_SEO"],
   },
   {
+    title: "Reyting",
+    path: "/dashboard/ceo/reyting",
+    src: "/icons/reyting.png",
+    role: ["ROLE_SEO"],
+  },
+  {
     title: "Direktor yaratish",
-    path: "/dashboard/directors",
+    path: "/dashboard/ceo/directors",
     src: "/icons/director.png",
     role: ["ROLE_SEO"],
   },
   {
     title: "Shop",
-    path: "/dashboard/product",
+    path: "/dashboard/ceo/product",
     src: "/icons/shopping.png",
     role: ["ROLE_SEO"],
   },
   {
     title: "Ball berish",
-    path: "/dashboard/addBall",
+    path: "/dashboard/ceo/addBall",
+    src: "/icons/give.png",
+    role: ["ROLE_SEO"],
+  },
+  {
+    title: "Ballar tarixi",
+    path: "/dashboard/ceo/history-bal",
+    src: "/icons/ball.png",
+    role: ["ROLE_SEO"],
+  },
+  {
+    title: "Permit history",
+    path: "/dashboard/ceo/permit-history",
     src: "/icons/ball.png",
     role: ["ROLE_SEO"],
   },
@@ -100,13 +148,13 @@ const NavListMenu = [
   {
     title: "Statistika",
     path: "/dashboard/eduStatistika",
-    src: "/icons/test.png",
+    src: "/icons/trend.png",
     role: ["ROLE_EDUCATION_DEPARTMENT"],
   },
   {
     title: "Imtihon yaratish",
     path: "/dashboard/education/groups",
-    src: "/icons/test.png",
+    src: "/icons/lesson.png",
     role: ["ROLE_EDUCATION_DEPARTMENT"],
   },
   {
@@ -115,11 +163,23 @@ const NavListMenu = [
     src: "/icons/test.png",
     role: ["ROLE_EDUCATION_DEPARTMENT"],
   },
+  {
+    title: "Imtihonni boshqarish",
+    path: "/dashboard/education/management-exam",
+    src: "/icons/director.png",
+    role: ["ROLE_EDUCATION_DEPARTMENT"],
+  },
+  {
+    title: "Darslar tarixi",
+    path: "/dashboard/education/lessons",
+    src: "/icons/lesson.png",
+    role: ["ROLE_EDUCATION_DEPARTMENT"],
+  },
   //student role
   {
     title: "Reyting",
     path: "/dashboard/reyting",
-    src: "/icons/trend.png",
+    src: "/icons/reyting.png",
     role: ["ROLE_STUDENT"],
   },
   {
@@ -140,7 +200,19 @@ const NavListMenu = [
     src: "/icons/transaction.png",
     role: ["ROLE_STUDENT"],
   },
-
+  {
+    title: "Ballar tarixi",
+    path: "/dashboard/student/history-bal",
+    src: "/icons/ball.png",
+    role: ["ROLE_STUDENT"],
+  },
+  {
+    title: "Eslatma",
+    path: "/dashboard/student/exclamation",
+    src: "/icons/exclamation.png",
+    role: ["ROLE_STUDENT"],
+  },
+  
   //addition
 
   {
@@ -158,7 +230,7 @@ const NavListMenu = [
 
   //sunday
   {
-    title: "Dars yaratish",
+    title: "Sunday event yaratish",
     path: "/dashboard/sunday",
     src: "/icons/lesson.png",
     role: ["ROLE_SUNDAY_EVENT"],

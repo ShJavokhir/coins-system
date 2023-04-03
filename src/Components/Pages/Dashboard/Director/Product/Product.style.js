@@ -61,6 +61,7 @@ const ProductAddWrapper = styled.div`
 
   .right {
     width: 50%;
+    
 
     img {
       width: 100%;
@@ -88,6 +89,8 @@ const ProductWrapper = styled.div`
   }
   display: flex;
   .wrap {
+    height: 75vh;
+      overflow-y: scroll;
     width: 75%;
     display: flex;
     flex-wrap: wrap;
@@ -207,17 +210,17 @@ const OrderListWrapper = styled.div`
       width: 100%;
       tr {
         display: flex;
-        background: #f5f5f7;
+        background: #006786;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
-        padding: 5px 0;
+        /* padding: 5px 0; */
 
         th.col {
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
           line-height: 24px;
-          color: rgba(0, 0, 0, 0.7);
+          color: #fff;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -230,6 +233,8 @@ const OrderListWrapper = styled.div`
 
     tbody {
       background: #fff;
+      height: 55vh;
+      overflow-y: scroll;
       tr {
         display: flex;
         /* border-bottom: 1px solid rgba(159, 160, 184, 0.3); */
@@ -237,7 +242,7 @@ const OrderListWrapper = styled.div`
 
         td.col {
           font-style: normal;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           display: flex;

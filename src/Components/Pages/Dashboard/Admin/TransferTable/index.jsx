@@ -34,7 +34,7 @@ const TransferTable = () => {
             <div className="top">
                 <h3>Guruhdan guruhga o`tkazilgan talabalar haqida ma`lumot</h3>
             </div>
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "20%" }} className="col">

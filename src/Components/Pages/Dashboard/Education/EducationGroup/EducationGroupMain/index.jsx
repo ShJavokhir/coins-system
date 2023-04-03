@@ -30,7 +30,7 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
           <h3>Guruhlar</h3>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "32%" }} className="col">

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Teachers from '../../src/Components/Pages/Dashboard/Director/Teachers'
-import WithAuthComponent from '../../src/Hocs/PrivateRoute'
+import Courses from '../../../src/Components/Pages/Dashboard/Director/Courses'
+import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-         <Teachers/>
+         <Courses/>
       </WithAuthComponent>
 
     </div>

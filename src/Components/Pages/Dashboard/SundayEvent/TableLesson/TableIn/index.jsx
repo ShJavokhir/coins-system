@@ -30,14 +30,14 @@ const TableIn = ({independentLessonId}) => {
           <h3>Imtihon haqida</h3>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "40%" }} className="col">
                 O`quvchi
               </th>
               <th style={{ minWidth: "30%" }} className="col">
-                Guruh
+                Davomat
               </th>
             </tr>
           </thead>
@@ -50,7 +50,7 @@ const TableIn = ({independentLessonId}) => {
                       {index + 1}. {obj.firstName} {obj.lastName}
                     </td>
                     <td style={{ minWidth: "30%" }} className="col">
-                      {obj.groupName}
+                      Keldi
                     </td>
                   </tr>
                 ))

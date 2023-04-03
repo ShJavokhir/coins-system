@@ -34,19 +34,19 @@ const Login = () => {
     if (isAuth && currentUser) {
       switch (currentUser.roles) {
         case "ROLE_ADMIN": {
-          router.replace("/dashboard/groups");
+          router.replace("/dashboard/admin/groups");
           break;
         }
         case "ROLE_TEACHER": {
-          router.replace("/dashboard/teacher/groups");
+          router.replace("/dashboard/teacher/statistika");
           break;
         }
         case "ROLE_DIRECTOR": {
-          router.replace("/dashboard/reytingDirector");
+          router.replace("/dashboard/director/reytingDirector");
           break;
         }
         case "ROLE_SEO": {
-          router.replace("/dashboard/seoStatistika");
+          router.replace("/dashboard/ceo/seoStatistika");
           break;
         }
         case "ROLE_EDUCATION_DEPARTMENT": {

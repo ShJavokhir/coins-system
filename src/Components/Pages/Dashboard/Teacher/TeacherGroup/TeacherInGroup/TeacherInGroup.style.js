@@ -1,79 +1,78 @@
 import styled from "styled-components";
 
-const TeacherInGroupWrapper=styled.div`
-    font-family: Azo Sans;
+const TeacherInGroupWrapper = styled.div`
+  font-family: Azo Sans;
 
-    h3{
-        font-size: 28px;
-        font-weight: 400;
-        text-transform: uppercase;
-        color: #212121;
-    }
+  h3 {
+    font-size: 28px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #212121;
+  }
 
-    .wrap{
-        display: flex;
-        gap: 30px;
-        justify-content: space-between;
-        
-        .left{
-            box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
-            width: 25% !important;
-            .top{
-                padding: 20px;
-                border-bottom: 1px solid rgba(159, 160, 184, 0.3);
+  .wrap {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
 
-                .grName{
-                    
-                }
+    .left {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 3px 6px rgba(0, 0, 0, 0.03);
+      width: 25% !important;
+      .top {
+        padding: 20px;
+        border-bottom: 1px solid rgba(159, 160, 184, 0.3);
 
-                .courseName{
-                    div{
-                        display: flex;
-                        span{
-                            margin-right: 10px;
-                        }
-                    }
-                }
+        .grName {
+        }
+
+        .courseName {
+          div {
+            display: flex;
+            span {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+
+      .students {
+        padding: 10px;
+        ul {
+          padding: 0;
+
+          .student {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          li {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgb(33, 33, 33, 0.4);
+            span {
+              margin: 0 5px 0 10px;
+              /* color: #39B329; */
+              font-size: 20px;
             }
 
-            .students{
-                padding: 10px;
-                ul{
-                    padding: 0;
-
-                    .student{
-                        display: flex;
-                        justify-content: space-between;
-                    }
-
-                    li{
-                        display: flex;
-                        align-items: center;
-                        font-size: 13px;
-                        font-weight: 400;
-                        color: rgb(33, 33, 33, 0.4);
-                        span{
-                            margin: 0 5px 0 10px;
-                            color: #39B329;
-                            font-size: 20px;
-                        }
-
-                        p{
-                            margin-bottom: 0;
-                            margin-right: 10px;
-                            color: rgb(33, 33, 33);
-                        }
-                    }
-                }
+            p {
+              margin-bottom: 0;
+              margin-right: 10px;
+              color: rgb(33, 33, 33);
             }
+          }
         }
-        
-        .right{
-            width: 75%;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
-        }
+      }
     }
-`
+
+    .right {
+      width: 75%;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 3px 6px rgba(0, 0, 0, 0.03);
+    }
+  }
+`;
 
 const ModalHeader = styled.header`
   background: #fff;
@@ -97,8 +96,7 @@ const ModalHeader = styled.header`
     background: transparent;
     border: none;
   }
-`
-
+`;
 
 const ModalContent = styled.div`
   border-bottom: 1px solid #f5f6f8;
@@ -152,44 +150,40 @@ const ModalContent = styled.div`
         line-height: 20px;
         color: #000000;
         font-family: Azo sans;
-
       }
     }
 
-      button {
-        width: 100%;
-        text-align: center;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 0.875rem;
-        line-height: 18px;
-        border-radius: 4px;
-        padding: 12px 22px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Azo sans;
+    button {
+      width: 100%;
+      text-align: center;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.875rem;
+      line-height: 18px;
+      border-radius: 4px;
+      padding: 12px 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Azo sans;
 
-        &:disabled {
-          cursor: not-allowed;
-          opacity: 0.8;
-        }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.8;
       }
+    }
   }
+`;
 
-`
-
-
-const DavomatWrapper=styled.div`
+const DavomatWrapper = styled.div`
   padding: 15px;
 
-  button{
+  button {
     &:disabled {
-          cursor: not-allowed !important;
-          opacity: 0.8;
-        }
+      cursor: not-allowed !important;
+      opacity: 0.8;
+    }
   }
-
 
   .table {
     margin-top: 20px;
@@ -200,21 +194,40 @@ const DavomatWrapper=styled.div`
     justify-content: space-between;
     /* box-shadow: rgb(20 21 33 / 18%) 0px 2px 10px 0px; */
 
+    .active {
+    }
+    .noActive {
+      .inp {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: "";
+          top: -15%;
+          left: -15%;
+          display: block;
+          width: 120%;
+          height: 120%;
+          cursor: not-allowed;
+          z-index: 15;
+        }
+      }
+    }
+
     thead {
       width: 100%;
       tr {
         display: flex;
-        background: #f5f5f7;
+        background: #006786;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
-        padding: 5px 0;
+        /* padding: 5px 0; */
 
         th.col {
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
           line-height: 24px;
-          color: rgba(0, 0, 0, 0.7);
+          color: #fff;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -234,7 +247,7 @@ const DavomatWrapper=styled.div`
 
         td.col {
           font-style: normal;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           display: flex;
@@ -274,7 +287,6 @@ const DavomatWrapper=styled.div`
     }
   }
 
-
   //radio style
 
   .out {
@@ -302,11 +314,11 @@ const DavomatWrapper=styled.div`
           border: none;
 
           svg {
-            color: rgb(114, 225, 40);
+            color: #006786;
           }
 
           &:hover {
-            background-color: rgb(114, 225, 40);
+            background-color: #006786;
             svg {
               color: #fff;
             }
@@ -347,59 +359,62 @@ const DavomatWrapper=styled.div`
     left: -50%;
   }
 
-  .success{
-    background-color: rgb(114, 225, 40);
-    border: 1px solid rgb(114, 225, 40);
+  .success {
+    background-color: #006786;
+    border: 1px solid #006786;
 
-    &::after{
-        position: absolute;
-        content: "Bor";
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-weight: 600;
-        font-size: 14px;
-        font-family: Nunito sans;
+    &::after {
+      position: absolute;
+      content: "Bor";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: Nunito sans;
     }
-    
   }
 
-  .cancel{
-    background-color:  rgb(255, 77, 73);
+  .cancel {
+    background-color: rgb(255, 77, 73);
     border: 1px solid rgb(255, 77, 73);
 
-    &::after{
-        position: absolute;
-        content: "Yo'q";
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-weight: 600;
-        font-size: 14px;
-        font-family: Nunito sans;
+    &::after {
+      position: absolute;
+      content: "Yo'q";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: Nunito sans;
     }
   }
 
   //radio
 
-  .radio{
+  .radio {
     margin-left: 50px;
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+      span {
+        background: #006786 !important;
+        border: none !important;
+      }
+    }
   }
+`;
 
-  
-`
-
-const ImtihonWrapper=styled.div`
-padding: 15px;
-button{
+const ImtihonWrapper = styled.div`
+  padding: 15px;
+  button {
     &:disabled {
-          cursor: not-allowed !important;
-          opacity: 0.8;
-        }
+      cursor: not-allowed !important;
+      opacity: 0.4;
+    }
   }
-
 
   .table {
     margin-top: 20px;
@@ -414,17 +429,17 @@ button{
       width: 100%;
       tr {
         display: flex;
-        background: #f5f5f7;
+        background: #006786;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
-        padding: 5px 0;
+        /* padding: 5px 0; */
 
         th.col {
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
           line-height: 24px;
-          color: rgba(0, 0, 0, 0.7);
+          color: #fff;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -444,7 +459,7 @@ button{
 
         td.col {
           font-style: normal;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           display: flex;
@@ -483,7 +498,12 @@ button{
       }
     }
   }
+`;
 
-`
-
-export{TeacherInGroupWrapper, ModalHeader, ModalContent, DavomatWrapper, ImtihonWrapper}
+export {
+  TeacherInGroupWrapper,
+  ModalHeader,
+  ModalContent,
+  DavomatWrapper,
+  ImtihonWrapper,
+};

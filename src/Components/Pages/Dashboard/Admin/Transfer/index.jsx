@@ -9,6 +9,7 @@ import DashboardLayout from "../../../../Layout";
 import { TransferWrapper } from "./Transfer.style";
 import ButtonLoader from "../../../../Common/ButtonLoader";
 import MyLink from "../../../../Common/MyLink";
+import ToRightSvg from "../../../../Common/Svgs/ToRightSvg";
 
 const Transfers = () => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -145,7 +146,7 @@ const Transfers = () => {
               background: "#006786",
             }}
           >
-            O`tkazish {loading && <ButtonLoader />}
+            <ToRightSvg/> {loading && <ButtonLoader />}
           </Button>
           <div className="sel">
             <Controller

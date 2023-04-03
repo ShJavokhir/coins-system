@@ -32,14 +32,14 @@ const LessonIn = ({ lessonId }) => {
           <h3>Darslar haqida</h3>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
-            <tr>
+            <tr >
               <th style={{ minWidth: "30%" }} className="col">
                 O`quvchi
               </th>
               <th style={{ minWidth: "15%" }} className="col">
-              Davomat
+                Davomat
               </th>
               <th style={{ minWidth: "15%" }} className="col">
                 Ball
@@ -60,16 +60,27 @@ const LessonIn = ({ lessonId }) => {
               lessonData.length ? (
                 lessonData.map((obj, index) => (
                   <tr key={index}>
-                    <td style={{ minWidth: "30%" }} className="col">
+                    <td style={{ minWidth: "30%", fontWeight:700 }} className="col">
                       {index + 1}. {obj.firstName} {obj.lastName}
                     </td>
 
-                    
-                    <td style={{ minWidth: "15%" }} className="col">
+                    <td
+                      style={{ minWidth: "15%", color: obj.visitStatus === 0 ? "red" : "green", fontWeight:700 }}
+                      className="col"
+                    >
                       {obj.visitStatus == 0 ? "Yo'q " : "Bor"}
                     </td>
-                    <td style={{ minWidth: "15%",color:`${obj.ballVisitStatus > 0 ? "green" :"red" }`, fontWeight:700 }} className="col">
-                      {obj.ballVisitStatus}
+                    <td
+                      style={{
+                        minWidth: "15%",
+                        color: `${obj.ballVisitStatus > 0 ? "green" : "red"}`,
+                        fontWeight: 700,
+                      }}
+                      className="col"
+                    >
+                      {obj.ballVisitStatus > 0
+                        ? `+${obj.ballVisitStatus}`
+                        : obj.ballVisitStatus}
                     </td>
                     <td style={{ minWidth: "15%" }} className="col">
                       {obj.homeworkStatus === 0 ? (
@@ -78,9 +89,11 @@ const LessonIn = ({ lessonId }) => {
                             width: "200px",
                             borderRadius: "5px",
                             padding: "5px 10px",
-                            display:"flex",
-                            justifyContent:"space-between",
-                            alignItems:"center"
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            color:"rgb(255, 77, 73)",
+                            fontWeight:700
                           }}
                         >
                           Bajarilmagan{" "}
@@ -91,13 +104,14 @@ const LessonIn = ({ lessonId }) => {
                             width: "200px",
                             borderRadius: "5px",
                             padding: "5px 10px",
-                            display:"flex",
-                            justifyContent:"space-between",
-                            alignItems:"center"
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            color:"rgb(253, 181, 40)",
+                            fontWeight:700
                           }}
                         >
                           Chala{" "}
-                          
                         </span>
                       ) : (
                         <span
@@ -105,19 +119,43 @@ const LessonIn = ({ lessonId }) => {
                             width: "200px",
                             borderRadius: "5px",
                             padding: "5px 10px",
-                            display:"flex",
-                            justifyContent:"space-between",
-                            alignItems:"center"
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            color:"green",
+                            fontWeight:700
                           }}
                         >
                           To`liq{" "}
                         </span>
                       )}
                     </td>
-                    <td style={{ minWidth: "15%", color:`${obj.ballHomeworkStatus > 0 ? "green" :"red"}`, fontWeight:700 }} className="col">
-                      {obj.ballHomeworkStatus}
+                    <td
+                      style={{
+                        minWidth: "15%",
+                        color: `${
+                          obj.ballHomeworkStatus > 0 ? "green" : "red"
+                        }`,
+                        fontWeight: 700,
+                      }}
+                      className="col"
+                    >
+                      {obj.ballHomeworkStatus > 0
+                        ? `+${obj.ballHomeworkStatus}`
+                        : obj.ballHomeworkStatus}
                     </td>
-                    <td style={{ minWidth: "10%", color:`${(obj.ballHomeworkStatus + obj.ballVisitStatus) > 0 ? "green" :"red"}`, fontWeight:700 }} className="col">
+                    <td
+                      style={{
+                        minWidth: "10%",
+                        color: `${
+                          obj.ballHomeworkStatus + obj.ballVisitStatus > 0
+                            ? "green"
+                            : "red"
+                        }`,
+                        fontWeight: 700,
+                      }}
+                      className="col"
+                    >
                       {obj.ballHomeworkStatus + obj.ballVisitStatus}
                     </td>
                   </tr>

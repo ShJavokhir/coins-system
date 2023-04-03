@@ -95,7 +95,7 @@ const GroupIn = ({ groupId }) => {
 
   const studentsOption = [
     ...students.map((i) => ({
-      label: i.firstName + " "+ i.lastName,
+      label: i.firstName + " "+ i.lastName +" " + "("+ i.username+ ")",
       value: i.id,
     })),
   ];

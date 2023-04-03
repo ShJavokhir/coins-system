@@ -14,7 +14,7 @@ export default class SeoProvider {
         return await client.delete(`/director/delete/user/${id}`);
     }
     static async updateTeacher(body) {
-        return await client.put(`/director/update/user`, body);
+        return await client.put(`/seo/update/user`, body);
     }
 
     static async uploadImage(file) {
@@ -61,6 +61,9 @@ export default class SeoProvider {
     static async getAllStudent(page = 0, size = 10) {
         return await client.get(`/seo/get/all/student?pageNum=${page}&pageSize=${size}`);
     }
+    static async getAllGroup(page = 0, size = 10) {
+        return await client.get(`/seo/get/groups?pageNum=${page}&pageSize=${size}`);
+    }
 
 
 
@@ -68,5 +71,17 @@ export default class SeoProvider {
         return await client.get(`/seo/all/amount/pred`)
     }
     
+    static async updateProduct(body) {
+        return await client.put(`/seo/product/update`, body);
+    }
 
+
+    static async getStudentBallHistory(pageNum = 0, pageSize = 20, studentId) {
+        const params={studentId, pageNum, pageSize};
+        return await client.get(`/seo/get/all/student/scores`, {params});
+    }
+    static async getPermitHistory(page = 0, size = 20) {
+        const params={page, size};
+        return await client.get(`/seo/get/week/permit/data`, {params});
+    }
 }

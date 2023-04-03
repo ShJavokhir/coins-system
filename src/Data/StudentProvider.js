@@ -43,4 +43,10 @@ export default class StudentProvider {
         return await client.get(`/student/category/getAll`);
     }
     
+
+    static async getStudentBallHistory(pageNum = 0, pageSize = 20, studentId) {
+        const params={studentId, pageNum, pageSize};
+        return await client.get(`/student/get/all/student/scores`, {params});
+    }
+
 }

@@ -63,14 +63,21 @@ export default class AdminProvider {
     static async createStudent(body) {
         return await client.post("/admin/student/add", body);
     }
-    static async getAllStudent(page = 0, size = 10) {
-        return await client.get(`/admin/get/all/student?pageNum=${page}&pageSize=${size}`);
+    static async getAllStudent(pageNum = 0, pageSize = 10, studentId) {
+        const params={studentId, pageNum, pageSize};
+        return await client.get(`/admin/get/all/student`, {params});
     }
     static async deleteStudent(id) {
         return await client.delete(`/admin/delete/student/${id}`);
     }
     static async updateStudent(body) {
         return await client.put(`/admin/update/student`, body);
+    }
+    static async blockStudent(id) {
+        return await client.put(`/admin/student/block/${id}`);
+    }
+    static async unlockStudent(id) {
+        return await client.put(`/admin/student/active/${id}`);
     }
 
 
@@ -89,4 +96,8 @@ export default class AdminProvider {
     }
 
 
+    static async getLessonAll(pageNum = 0, pageSize = 20) {
+        const params={pageNum, pageSize};
+        return await client.get(`/admin/lesson/getAll`, {params});
+    }
 }

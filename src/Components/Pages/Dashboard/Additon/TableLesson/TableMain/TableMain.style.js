@@ -9,7 +9,6 @@ const TableMainWrapper=styled.div`
 .table{
     margin-top: 20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.03);
-    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -19,17 +18,17 @@ const TableMainWrapper=styled.div`
       width: 100%;
       tr{
         display: flex;
-        background: #f5f5f7;
+        background: #006786;
         border-radius: 6px 6px 0px 0px;
         border-bottom: 1px solid rgba(159, 160, 184, 0.3);
-        padding: 5px 0;
+        /* padding: 5px 0; */
         
         th.col{
           font-style: normal;
           font-weight: 600;
           font-size: 18px;
           line-height: 24px;
-          color: rgba(0, 0, 0, 0.7);
+          color:#fff;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -50,7 +49,7 @@ const TableMainWrapper=styled.div`
         
         td.col {
           font-style: normal;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           display: flex;

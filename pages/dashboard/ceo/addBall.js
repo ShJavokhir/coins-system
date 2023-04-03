@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import AddBall from '../../src/Components/Pages/Dashboard/CEO/AddBall'
-import WithAuthComponent from '../../src/Hocs/PrivateRoute'
+import AddBall from '../../../src/Components/Pages/Dashboard/CEO/AddBall'
+import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
   return (

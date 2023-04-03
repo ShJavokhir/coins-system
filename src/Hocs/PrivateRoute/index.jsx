@@ -9,7 +9,7 @@ export default function WithAuthComponent({children}) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuth && isDoneUserChecking) {
+    if (!isAuth) {
       router.push("/login");
     }
   }, [isAuth])

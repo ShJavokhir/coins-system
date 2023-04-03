@@ -30,7 +30,7 @@ const ExamIn = ({ examId }) => {
           <h3>Imtihon haqida</h3>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "40%" }} className="col">
@@ -50,7 +50,7 @@ const ExamIn = ({ examId }) => {
                       {index + 1}. {obj.firstName} {obj.lastName}
                     </td>
                     <td style={{ minWidth: "30%" }} className="col">
-                      {obj.examScore}
+                      {obj.examScore} % 
                     </td>
                   </tr>
                 ))

@@ -6,6 +6,12 @@ export default class TeacherProvider {
     static async getTeacherGroup() {
         return await client.get(`/teacher/get/groups/of`);
     }
+    static async getGroupInfo(id) {
+        return await client.get(`/teacher/get/group/info/${id}`);
+    }
+    static async getAllGroup(page = 0, size = 10) {
+        return await client.get(`/teacher/get/groups?pageNum=${page}&pageSize=${size}`);
+    }
     static async getOneGroup(id) {
         return await client.get(`/teacher/student/get/${id}`);
     }

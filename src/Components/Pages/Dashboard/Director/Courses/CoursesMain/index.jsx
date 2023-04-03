@@ -12,8 +12,16 @@ import DirectorProvider from "../../../../../../Data/DirectorProvider";
 
 const CoursesMain = ({ RefObj, setIsOpen }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    control: control2,
+    reset: reset2,
+    setValue: setValue2,
+  } = useForm();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [course, setCourse] = useState([]);
@@ -26,13 +34,16 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
   const onCloseModal = () => {
     setIsOpenModal(false);
   };
+  const onCloseModal2 = () => {
+    setIsOpenModal2(false);
+  };
 
   useEffect(() => {
     setLoading(true);
     DirectorProvider.getAllCourse()
       .then((res) => {
         console.log(res.data);
-        setCourse(res.data);
+        setCourse(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -46,20 +57,7 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
 
     console.log("body", body);
     setLoading2(true);
-    if (editing) {
-      body.id = editing.id;
-      try {
-        const { data } = await DirectorProvider.updateCourse(editing.id, body);
-        setForRender(Math.random());
-        reset();
-        toast.success("Muvaffaqiyatli o'zgartirildi");
-        setIsOpenModal(false);
-      } catch (err) {
-        console.log(err);
-      }
-      setLoading2(false);
-    } else {
-      DirectorProvider.createCourse(body)
+     await DirectorProvider.createCourse(body)
         .then((res) => {
           reset();
           setForRender(Math.random());
@@ -73,8 +71,26 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
         .finally(() => {
           setLoading2(false);
         });
-    }
   };
+
+  const onSubmitEditCourse=async(values)=>{
+    const body = {};
+    body.name = values.name;
+    setLoading2(true);
+    if (editing) {
+      body.id = editing.id;
+      try {
+        const { data } = await DirectorProvider.updateCourse(editing.id, body);
+        setForRender(Math.random());
+        reset();
+        toast.success("Muvaffaqiyatli o'zgartirildi");
+        setIsOpenModal2(false);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading2(false);
+    } 
+  }
 
   const handleDeleteCourse = (obj) => {
     RefObj.current.textContent = `Rostdan ham o'chirishni xoxlaysizmi?`;
@@ -99,9 +115,10 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
   };
 
   const handleEditCourse = (obj) => {
-    setIsOpenModal(true);
+    setIsOpenModal2(true);
     setEditing(obj);
-    setValue("name", obj.name);
+    console.log(obj);
+    setValue2("name", obj.name);
   };
 
   return (
@@ -123,11 +140,14 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
           </Button>
         </div>
 
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "40%" }} className="col">
                 Nomi
+              </th>
+              <th style={{ width: "30%" }} className="col">
+                Talabalar soni
               </th>
               <th style={{ width: "30%" }} className="col">
                 Amallar
@@ -140,7 +160,10 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
                 course.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ width: "40%" }} className="col">
-                      {obj.name}
+                      {obj.courseName}
+                    </td>
+                    <td style={{ width: "30%"}} className="col">
+                      {obj.studentCount}
                     </td>
                     <td style={{ width: "30%" }} className="col">
                       <div className="btns">
@@ -209,6 +232,41 @@ const CoursesMain = ({ RefObj, setIsOpen }) => {
             style={{ display: "flex" }}
           >
             Qo`shish {loading2 && <ButtonLoader />}
+          </button>
+        </form>
+      </Drawer>
+
+      <Drawer
+        anchor={"right"}
+        open={isOpenModal2}
+        onClose={() => {
+          onCloseModal2();
+        }}
+      >
+        <ModalHeader className="modal-header">
+          <h2 className="title">Kurs yangilash</h2>
+          <button className="closeSvg" onClick={onCloseModal2}>
+            <CloseSvg />
+          </button>
+        </ModalHeader>
+        <form
+          className="p-3"
+          style={{ width: 500 }}
+          onSubmit={handleSubmit2(onSubmitEditCourse)}
+        >
+          <input
+            autoComplete="off"
+            className="form-control"
+            placeholder={"Nomi"}
+            {...register2("name", { required: true })}
+          />
+          <br />
+          <button
+            type="submit"
+            className="btn btn-primary"
+            style={{ display: "flex" }}
+          >
+            Yangilash {loading2 && <ButtonLoader />}
           </button>
         </form>
       </Drawer>

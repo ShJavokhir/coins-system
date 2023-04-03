@@ -254,7 +254,7 @@ const OrderList = () => {
 
   return (
     <OrderListWrapper>
-      <table className="table table-borderless table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th style={{ width: "15%" }} className="col">

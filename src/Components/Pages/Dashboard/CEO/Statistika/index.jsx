@@ -5,6 +5,8 @@ import GroupSvg from "../../../../Common/Svgs/GroupSvg";
 import TeacherSvg from "../../../../Common/Svgs/TeacherSvg";
 import UserSvg from "../../../../Common/Svgs/UserSvg";
 import DashboardLayout from "../../../../Layout";
+import Charts from "./Charts";
+import Charts2 from "./Charts2";
 import { StatistikaWrapper } from "./Statistika.style";
 
 const Statistika = () => {
@@ -79,6 +81,10 @@ const Statistika = () => {
           </div>
         </div>
       </StatistikaWrapper>
+      {/* <div style={{display:"flex"}}> */}
+      <Charts/>
+      <Charts2/>
+      {/* </div> */}
     </DashboardLayout>
   );
 };

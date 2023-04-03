@@ -1,5 +1,11 @@
 import { Button, Drawer, IconButton } from "@mui/material";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import DashboardLayout from "../../../../../Layout";
 import {
   DavomatWrapper,
@@ -21,7 +27,9 @@ const RowItem = ({ lessonId, obj, index }) => {
   // NOTE obj dan pastdagi useStatelarga defaultvalueni moslab berish kerak string yoki numberligi farq qilib default ko'rsatmayapti
   const firstRender = useRef(true);
   const [visit, setVisit] = useState(null);
-  const [homeWork, setHomeWork] = useState(obj.homeworkStatus ? `${obj.homeworkStatus}` : -1);
+  const [homeWork, setHomeWork] = useState(
+    obj.homeworkStatus ? `${obj.homeworkStatus}` : -1
+  );
   const [active, setActive] = useState(obj.visitStatus === 1 ? "success" : "");
   const [isActive, setIsActive] = useState(false);
 
@@ -41,15 +49,16 @@ const RowItem = ({ lessonId, obj, index }) => {
       });
   };
 
-  useEffect(()=>{
-    TeacherProvider.getOneLessonInfo(lessonId)
-    .then(res=>{
-      console.log(res.data.data);
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  },[])
+  // useEffect(()=>{
+  //   TeacherProvider.getOneLessonInfo(lessonId)
+  //   .then(res=>{
+  //     console.log(res.data.data);
+  //     console.log(obj);
+  //   })
+  //   .catch(err=>{
+  //     console.log(err);
+  //   })
+  // },[])
 
   useEffect(() => {
     if (firstRender.current) {
@@ -63,14 +72,11 @@ const RowItem = ({ lessonId, obj, index }) => {
     setHomeWork(parseInt(e.target.value));
   };
 
-  
-
   const handleButtonSuccess = () => {
     setActive("success");
     setIsActive(true);
     setVisit(1);
   };
-
 
   const handleButtonCancel = () => {
     setActive("cancel");
@@ -79,14 +85,14 @@ const RowItem = ({ lessonId, obj, index }) => {
   };
 
   return (
-    <tr>
+    <tr className={obj.isActive ? "active" : "noActive"}>
       <td style={{ minWidth: "30%" }} className="col">
         {index + 1}. {obj.lastName} {obj.firstName}
       </td>
       <td style={{ minWidth: "25%" }} className="col">
-        <div className={`out ${active}`}>
-          <div className="in">
-            <Tooltip placement="top" title="Bor" color="rgb(114, 225, 40)">
+        <div className={`out inp ${active}`}>
+          <div className="in inp">
+            <Tooltip placement="top" title="Bor" color="#006786">
               <button onClick={handleButtonSuccess}>
                 <CheckCircleOutlineIcon />
               </button>
@@ -99,7 +105,7 @@ const RowItem = ({ lessonId, obj, index }) => {
           </div>
         </div>
       </td>
-      <td style={{ minWidth: "45%" }} className="col">
+      <td style={{ minWidth: "45%" }} className="col inp">
         <div className="radio">
           <Radio.Group
             defaultValue="a"
@@ -114,14 +120,13 @@ const RowItem = ({ lessonId, obj, index }) => {
           </Radio.Group>
         </div>
       </td>
-
     </tr>
   );
 };
 const RowItemExam = ({ examId, obj, index }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
   const [loading, setLoading] = useState(false);
-  const [saved, setSaved] = useState(false)
+  const [saved, setSaved] = useState(false);
 
   const handleBtn = (values) => {
     const body = {};
@@ -136,16 +141,16 @@ const RowItemExam = ({ examId, obj, index }) => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Maksimal 100 ballgacha beriladi")
+        toast.error("Maksimal 100 ballgacha beriladi");
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  const handleEditSave=()=>{
+  const handleEditSave = () => {
     setSaved(false);
-  }
+  };
 
   return (
     <tr>
@@ -153,15 +158,19 @@ const RowItemExam = ({ examId, obj, index }) => {
         {index + 1}. {obj.lastName} {obj.firstName}
       </td>
       <td style={{ minWidth: "25%" }} className="col">
-        <form onSubmit={handleSubmit(handleBtn)} style={{ display: "flex" }}>
+        <form
+          onSubmit={handleSubmit(handleBtn)}
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <input
-          disabled={saved}
-          max={100}
+            disabled={!obj.isActive}
+            max={100}
             autoComplete="off"
             className="form-control"
             placeholder={"To'plagan ball"}
             {...register("ball", { required: true })}
-          />
+          />{" "}
+          <label style={{ fontWeight: 800, marginLeft: 10 }}>%</label>
           <Button
             variant="contained"
             style={{
@@ -173,10 +182,10 @@ const RowItemExam = ({ examId, obj, index }) => {
             disabled={saved}
             type="submit"
           >
-            Save 
+            Save
           </Button>
           <IconButton
-            style={{ background: "rgb(253, 181, 40, 0.12)", marginLeft:20 }}
+            style={{ background: "rgb(253, 181, 40, 0.12)", marginLeft: 20 }}
             onClick={handleEditSave}
           >
             <EditSvg />
@@ -193,7 +202,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
   const [isLesson, setIsLesson] = useState(false);
   const [loader, setLoader] = useState(false);
   const [lessonId, setLessonId] = useState(null);
-  const [timer, setTimer] = useState('initial');
+  const [timer, setTimer] = useState("initial");
   const [studentList, setStudentList] = useState([]);
 
   const createLesson = () => {
@@ -202,7 +211,7 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       .then((res) => {
         console.log(res);
         setLessonId(res.data.id);
-        
+
         setGroupDataToLocalStorage(groupId, res.data.id, Date.now() + 7200000);
         setTimer(Date.now() + 7200000);
 
@@ -218,13 +227,15 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       });
   };
 
-  const onTimeEnd = () => {
-    // modal ko'rsatib pageni tozalab qayta ochish kerak (localStorageni ham tozlash shu yerda)
-  }
+  const onTimeEnd = useCallback(() => {
+    // toast.error("Vaqt tugadi!");
+    // localStorage.removeItem("lessons");
+    // router.replace("/dashboard/teacher/groups");
+  }, []);
 
   useEffect(() => {
     const groupData = getLessonByGroup(groupId);
-    if(groupData) {
+    if (groupData) {
       const [id, startDate] = groupData;
       setLessonId(id);
       setIsLesson(true);
@@ -237,17 +248,17 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
   }, []);
 
   useEffect(() => {
-    if(!lessonId) {
+    if (!lessonId) {
       setStudentList(fetchedData);
     }
   }, [fetchedData]);
 
   const router = useRouter();
 
-  const stopLesson =()=>{
-    localStorage.removeItem('lessons')
+  const stopLesson = () => {
+    localStorage.removeItem("lessons");
     router.replace("/dashboard/teacher/groups");
-  }
+  };
 
   return (
     <DavomatWrapper>
@@ -266,11 +277,11 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
           Dars qo`shish {loader && <ButtonLoader />}
         </Button>
       ) : (
-        <CustomTimer time={timer} onTimeEnd={onTimeEnd} />   
+        <CustomTimer time={timer} onTimeEnd={onTimeEnd} />
       )}
 
       {isLesson ? (
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "30%" }} className="col">
@@ -317,16 +328,19 @@ const Davomat = ({ fetchedData, loading, groupId }) => {
       )}
       {isLesson ? (
         <Button onClick={stopLesson}>Darsni tugatish</Button>
-      ) : <div></div>}
+      ) : (
+        <div></div>
+      )}
     </DavomatWrapper>
   );
 };
 
-const Imtihon = ({ fetchedData, loading, groupId }) => {
+const Imtihon = ({ fetchedData, loading, groupId, groupInfo }) => {
   const [isExam, setIsExam] = useState(false);
   const [loader, setLoader] = useState(false);
   const [examId, setExamId] = useState(null);
-
+  const router = useRouter();
+  
   const createExam = () => {
     setLoader(true);
     TeacherProvider.createExam(groupId)
@@ -344,6 +358,13 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
         setLoader(false);
       });
   };
+  useEffect(() => {
+    console.log(groupInfo.weekExamStatus);
+  }, []);
+
+  const stopExam =()=>{
+    router.replace("/dashboard/teacher/groups");
+  }
 
   return (
     <ImtihonWrapper>
@@ -352,7 +373,7 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
           className="col-4 addBtn"
           variant="contained"
           onClick={createExam}
-          disabled={loader}
+          disabled={groupInfo.weekExamStatus==0}
           style={{
             fontFamily: "Azo sans",
             color: "#fff",
@@ -366,7 +387,7 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
       )}
 
       {isExam ? (
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "30%" }} className="col">
@@ -411,6 +432,11 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
       ) : (
         <div></div>
       )}
+      {isExam ? (
+        <Button onClick={stopExam}>Imtihonni tugatish</Button>
+      ) : (
+        <div></div>
+      )}
     </ImtihonWrapper>
   );
 };
@@ -442,6 +468,7 @@ const TeacherInGroup = ({ groupId }) => {
           fetchedData={fetchedData}
           loading={loading}
           groupId={groupId}
+          groupInfo={groupInfo}
         />
       ),
     },
@@ -451,7 +478,7 @@ const TeacherInGroup = ({ groupId }) => {
     setLoading(true);
     TeacherProvider.getOneGroup(groupId)
       .then((res) => {
-        setFetchedData([...res.data.data]);
+        setFetchedData([...(res.data?.data || [])]);
         console.log(fetchedData);
       })
       .catch((err) => {
@@ -506,9 +533,34 @@ const TeacherInGroup = ({ groupId }) => {
                     {fetchedData.map((obj, index) => (
                       <div key={index} className="student">
                         <li>
-                          {index + 1}.<span>•</span>
-                          <p>{obj.firstName}</p>
-                          <p>{obj.lastName}</p>
+                          {index + 1}.
+                          <span
+                            style={{
+                              color: obj.isActive
+                                ? "#39B329"
+                                : "rgb(255, 77, 73, 0.82)",
+                            }}
+                          >
+                            •
+                          </span>
+                          <p
+                            style={{
+                              color: obj.isActive
+                                ? "#39B329"
+                                : "rgb(255, 77, 73, 0.82)",
+                            }}
+                          >
+                            {obj.firstName}
+                          </p>
+                          <p
+                            style={{
+                              color: obj.isActive
+                                ? "#39B329"
+                                : "rgb(255, 77, 73, 0.82)",
+                            }}
+                          >
+                            {obj.lastName}
+                          </p>
                         </li>
                       </div>
                     ))}
@@ -519,7 +571,6 @@ const TeacherInGroup = ({ groupId }) => {
               <MinLoader />
             )}
           </div>
-
           <div className="right">
             <Tabs defaultActiveKey="1" type="card" size="large" items={items} />
           </div>
@@ -529,51 +580,21 @@ const TeacherInGroup = ({ groupId }) => {
   );
 };
 
-const CountdownTimer = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 0, seconds: 0 });
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (timeLeft.seconds > 0) {
-        setTimeLeft({ ...timeLeft, seconds: timeLeft.seconds - 1 });
-      } else if (timeLeft.minutes > 0) {
-        setTimeLeft({ ...timeLeft, minutes: timeLeft.minutes - 1, seconds: 59 });
-      } else if (timeLeft.hours > 0) {
-        setTimeLeft({ ...timeLeft, hours: timeLeft.hours - 1, minutes: 59, seconds: 59 });
-      }
-      localStorage.setItem('seocond', timeLeft.seconds)
-      localStorage.setItem('minute', timeLeft.minutes)
-      localStorage.setItem('hour', timeLeft.hours)
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timeLeft]);
-
-
-  return (
-    <div style={{display:"flex"}}>
-      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.hours.toString().padStart(2, '0')}:</div>
-      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.minutes.toString().padStart(2, '0')}:</div>
-      <div style={{fontWeight:700, fontSize:20}}>{timeLeft.seconds.toString().padStart(2, '0')}</div>
-    </div>
-  );
-};
-
 export default TeacherInGroup;
 
-function CustomTimer ({ time = 0, onTimeEnd = () => {} })  {
+function CustomTimer({ time = 0, onTimeEnd = () => {} }) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   useLayoutEffect(() => {
-    if(time === 'initial') return;
+    if (time === "initial") return;
     const getTime = () => {
       const _time = time - Date.now();
-      if(_time < 0) {
+      if (_time < 0) {
         onTimeEnd(); // NOTE timer tugab qolsa popup chaqirib vaqt tugadi deb refresh bervorsa bo'ladi
       }
-  
+
       setHours(Math.floor((_time / (1000 * 60 * 60)) % 24));
       setMinutes(Math.floor((_time / 1000 / 60) % 60));
       setSeconds(Math.floor((_time / 1000) % 60));
@@ -583,33 +604,48 @@ function CustomTimer ({ time = 0, onTimeEnd = () => {} })  {
   }, [time, onTimeEnd]);
 
   return (
-    <div style={{display:"flex"}}>
-      <div style={{fontWeight:700, fontSize:20}}>{hours.toString().padStart(2, '0')}:</div>
-      <div style={{fontWeight:700, fontSize:20}}>{minutes.toString().padStart(2, '0')}:</div>
-      <div style={{fontWeight:700, fontSize:20}}>{seconds.toString().padStart(2, '0')}</div>
+    <div style={{ display: "flex" }}>
+      <div style={{ fontWeight: 700, fontSize: 20 }}>
+        {hours.toString().padStart(2, "0")}:
+      </div>
+      <div style={{ fontWeight: 700, fontSize: 20 }}>
+        {minutes.toString().padStart(2, "0")}:
+      </div>
+      <div style={{ fontWeight: 700, fontSize: 20 }}>
+        {seconds.toString().padStart(2, "0")}
+      </div>
     </div>
   );
-};
-
-
-function setGroupDataToLocalStorage (groupId, id, startDate) {
-  const lessons = localStorage.getItem('lessons') ? JSON.parse(localStorage.getItem('lessons')) : null;
-  if(lessons) {
-    localStorage.setItem('lessons', JSON.stringify({ ...lessons, [groupId]: {id, startDate} }));
-  } else {
-    localStorage.setItem('lessons', JSON.stringify({ [groupId]: {id, startDate} }));
-  };
 }
 
-function getLessonByGroup (groupId) {
+function setGroupDataToLocalStorage(groupId, id, startDate) {
+  const lessons = localStorage.getItem("lessons")
+    ? JSON.parse(localStorage.getItem("lessons"))
+    : null;
+  if (lessons) {
+    localStorage.setItem(
+      "lessons",
+      JSON.stringify({ ...lessons, [groupId]: { id, startDate } })
+    );
+  } else {
+    localStorage.setItem(
+      "lessons",
+      JSON.stringify({ [groupId]: { id, startDate } })
+    );
+  }
+}
+
+function getLessonByGroup(groupId) {
   try {
-    const lessons = localStorage.getItem('lessons') ? JSON.parse(localStorage.getItem('lessons')) : null;
+    const lessons = localStorage.getItem("lessons")
+      ? JSON.parse(localStorage.getItem("lessons"))
+      : null;
     const group = lessons[groupId];
     const lessonId = group.id;
     const startDate = group.startDate;
 
     return [lessonId, startDate];
-  } catch (err) {};
+  } catch (err) {}
 
   return null;
 }

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Statistika from '../../src/Components/Pages/Dashboard/CEO/Statistika'
+import Statistika from '../../src/Components/Pages/Dashboard/Education/Statistika'
 import WithAuthComponent from '../../src/Hocs/PrivateRoute'
 
 export default function Home() {

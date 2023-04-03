@@ -7,7 +7,7 @@ const Dashboard = () => {
     <DashboardLayout>
       <TableStyle>
         <h1>Tablee</h1>
-        <table className="table table-borderless table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ width: "40%" }} className="col">

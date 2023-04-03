@@ -37,11 +37,14 @@ const TableMain = () => {
         <h3>Darslar tarixi</h3>
       </div>
 
-      <table className="table table-borderless table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th style={{ minWidth: "32%" }} className="col">
               Kurs nomi
+            </th>
+            <th style={{ minWidth: "32%" }} className="col">
+              O`qituvchi
             </th>
             <th style={{ minWidth: "26%" }} className="col">
               Sana
@@ -59,6 +62,9 @@ const TableMain = () => {
                     </MyLink>
                   </td>
 
+                  <td style={{ minWidth: "32%" }} className="col">
+                  {obj.firstNameTeacher} {obj.lastNameTeacher} ({obj.usernameTeacher})
+                  </td>
                   <td style={{ minWidth: "26%" }} className="col">
                     {moment(new Date(obj.createDate)).format("DD.MM.YYYY")}
                   </td>

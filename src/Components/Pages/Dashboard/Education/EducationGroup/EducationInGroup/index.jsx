@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import EditSvg from "../../../../../Common/Svgs/EditSvg";
 import EducationProvider from "../../../../../../Data/EducationProvider";
+import { useRouter } from "next/router";
 
 const RowItemExam = ({ examId, obj, index }) => {
   const { register, handleSubmit, control, reset, setValue } = useForm();
@@ -51,7 +52,7 @@ const RowItemExam = ({ examId, obj, index }) => {
       <td style={{ minWidth: "25%" }} className="col">
         <form onSubmit={handleSubmit(handleBtn)} style={{ display: "flex" }}>
           <input
-          disabled={saved}
+          disabled={!obj.isActive || saved}
             autoComplete="off"
             className="form-control"
             placeholder={"To'plagan ball"}
@@ -88,6 +89,7 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
   const [isExam, setIsExam] = useState(false);
   const [loader, setLoader] = useState(false);
   const [examId, setExamId] = useState(null);
+  const router=useRouter()
 
   const createExam = () => {
     setLoader(true);
@@ -106,6 +108,10 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
         setLoader(false);
       });
   };
+
+  const stopExam =()=>{
+    router.replace("/dashboard/education/exams");
+  }
 
   return (
     <ImtihonWrapper>
@@ -128,7 +134,8 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
       )}
 
       {isExam ? (
-        <table className="table table-borderless table-hover">
+        <>
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ minWidth: "30%" }} className="col">
@@ -170,6 +177,20 @@ const Imtihon = ({ fetchedData, loading, groupId }) => {
             )}
           </tbody>
         </table>
+        <Button
+                className="col-6 addBtn"
+                variant="contained"
+                onClick={stopExam}
+                style={{
+                  fontFamily: "Azo sans",
+                  color: "#fff",
+                  background: "#006786",
+                  marginTop: "20px",
+                }}
+              >
+                Tugatish 
+              </Button>
+        </>
       ) : (
         <div></div>
       )}
