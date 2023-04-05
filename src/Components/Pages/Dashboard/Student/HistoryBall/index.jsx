@@ -44,10 +44,10 @@ const HistoryBall = () => {
               <th style={{ minWidth: "25%" }} className="col">
                 Guruhi
               </th>
-              <th style={{ minWidth: "25%" }} className="col">
+              <th style={{ minWidth: "15%" }} className="col">
                 Ball
               </th>
-              <th style={{ minWidth: "25%" }} className="col">
+              <th style={{ minWidth: "35%" }} className="col">
               Ball Statusi
               </th>
               <th style={{ minWidth: "25%" }} className="col">
@@ -61,12 +61,12 @@ const HistoryBall = () => {
                 history.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ minWidth: "25%" }} className="col">
-                    {(currentPage - 1) * 20 +  index + 1}.  {obj.groupName}
+                    {(currentPage - 1) * 20 +  index + 1}. {obj.groupName===null ? "Guruh ko'rsatilmagan": obj.groupName} 
                     </td>
-                    <td style={{ minWidth: "25%", color: obj.ball>0 ? "green" : "red" }} className="col">
+                    <td style={{ minWidth: "15%", color: obj.ball>0 ? "green" : "red" }} className="col">
                     {obj.ball}
                     </td>
-                    <td style={{ minWidth: "25%", color: obj.ball>0 ? "green" : "red"  }} className="col">
+                    <td style={{ minWidth: "35%", color: obj.ball>0 ? "green" : "red"  }} className="col">
                       {obj.ballStatus}
                     </td>
                     <td style={{ minWidth: "25%" }} className="col">

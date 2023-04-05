@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Imtihon from '../../src/Components/Pages/Dashboard/Education/Imtihon'
+import Imtihon from '../../src/Components/Pages/Dashboard/Education/ExamManagement'
 import WithAuthComponent from '../../src/Hocs/PrivateRoute'
 
 export default function Home() {

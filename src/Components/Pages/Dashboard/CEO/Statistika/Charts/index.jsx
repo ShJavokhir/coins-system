@@ -38,7 +38,7 @@ const Charts = () => {
       type: "gradient",
       gradient: {
         shade: "dark",
-        gradientToColors: ["#006786"],
+        gradientToColors: ["#3d67742f"],
         shadeIntensity: 1,
         type: "horizontal",
         opacityFrom: 1,
