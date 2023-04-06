@@ -1,8 +1,12 @@
 import Head from "next/head";
-import TeacherInGroup from "../../../../src/Components/Pages/Dashboard/Teacher/TeacherGroup/TeacherInGroup";
+import EaxmIn from "../../../../src/Components/Pages/Dashboard/Education/TableExam/ExamIn"
 import WithAuthComponent from "../../../../src/Hocs/PrivateRoute";
+import { useRouter } from "next/router";
 
-export default function Home({groupId}) {
+export default function Home() {
+    const router = useRouter();
+    console.log(router)
+    const examId = router.query.id
   return (
     <div>
       <Head>
@@ -11,18 +15,9 @@ export default function Home({groupId}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-        <TeacherInGroup groupId={groupId}/>
+        <EaxmIn examId={examId}/>
       </WithAuthComponent>
     </div>
   );
 }
 
-export const getServerSideProps = async (ctx) => {
-  const { id } = ctx.params;
-
-  return {
-    props: {
-      groupId: id,
-    },
-  };
-};

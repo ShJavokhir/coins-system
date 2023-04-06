@@ -194,7 +194,7 @@ const GroupsMain = ({ RefObj, setIsOpen }) => {
                 groups.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ minWidth: "20%" }} className="col">
-                      <MyLink to={`/dashboard/groups/` + obj.id}>
+                      <MyLink to={`/dashboard/groups/group?id=${obj.id}`}>
                         {(currentPage - 1) * 10 + index + 1}. {obj.name}
                       </MyLink>
                     </td>

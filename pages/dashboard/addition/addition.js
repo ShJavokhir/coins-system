@@ -1,8 +1,12 @@
 import Head from "next/head";
 import TableIn from "../../../src/Components/Pages/Dashboard/Additon/TableLesson/TableIn";
 import WithAuthComponent from "../../../src/Hocs/PrivateRoute";
+import { useRouter } from "next/router";
 
-export default function Home({additionLessonId}) {
+export default function Home() {
+    const router = useRouter();
+    console.log(router)
+    const additionLessonId = router.query.id
   return (
     <div>
       <Head>
@@ -17,12 +21,3 @@ export default function Home({additionLessonId}) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
-  const { id } = ctx.params;
-
-  return {
-    props: {
-        additionLessonId : id,
-    },
-  };
-};

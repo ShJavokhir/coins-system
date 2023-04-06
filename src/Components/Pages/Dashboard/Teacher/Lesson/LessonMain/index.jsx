@@ -55,7 +55,7 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
                 lesson.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ minWidth: "32%" }} className="col">
-                      <MyLink to={`/dashboard/lessons/` + obj.id}>
+                      <MyLink to={`/dashboard/lessons/lesson?id=${obj.id}`}>
                         {(currentPage - 1) * 10 + index + 1}. {obj.groupName}
                       </MyLink>
                     </td>

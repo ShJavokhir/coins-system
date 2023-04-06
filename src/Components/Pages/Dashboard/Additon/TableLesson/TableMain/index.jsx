@@ -57,7 +57,7 @@ const TableMain = () => {
                 lessons.map((obj, index) => (
                 <tr key={index}>
                   <td style={{ minWidth: "32%" }} className="col">
-                    <MyLink to={`/dashboard/addition/` + obj.id}>
+                    <MyLink to={`/dashboard/addition/addition?id=${obj.id}`}>
                       {(currentPage - 1) * 10 + index + 1}. {obj.courseName}
                     </MyLink>
                   </td>

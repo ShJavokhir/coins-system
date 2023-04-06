@@ -32,7 +32,7 @@ const NavListMenu = [
     src: "/icons/lesson.png",
     role: ["ROLE_ADMIN"],
   },
- 
+
   //teacher role
   {
     title: "Statistika",
@@ -212,7 +212,7 @@ const NavListMenu = [
     src: "/icons/exclamation.png",
     role: ["ROLE_STUDENT"],
   },
-  
+
   //addition
 
   {
@@ -240,24 +240,47 @@ const NavListMenu = [
     path: "/dashboard/sundayLessons",
     src: "/icons/lesson.png",
     role: ["ROLE_SUNDAY_EVENT"],
-  }
- 
-  
+  },
 ];
 
 const Sidebar = () => {
   const router = useRouter();
-  const pathname=router.pathname
+  const pathname = router.pathname;
 
-
-  const userRole = useContextSelector(UserContext, ctx => ctx.state.user.roles);
+  const userRole = useContextSelector(
+    UserContext,
+    (ctx) => ctx.state.user.roles
+  );
   console.log(userRole);
 
-  const UmumiyListMenu = NavListMenu.filter(({role}) => role.includes(userRole));
+  const UmumiyListMenu = NavListMenu.filter(({ role }) =>
+    role.includes(userRole)
+  );
 
   return (
     <SidebarWrapper>
-      <MyLink to={`${pathname}`} className="logo">
+      <MyLink
+        to={
+          userRole === "ROLE_SEO"
+            ? "/dashboard/ceo/seoStatistika"
+            : userRole === "ROLE_DIRECTOR"
+            ? "/dashboard/director/reytingDirector"
+            : userRole === "ROLE_ADMIN"
+            ? "/dashboard/admin/groups"
+            : userRole === "ROLE_STUDENT"
+            ? "/dashboard/reyting"
+            : userRole === "ROLE_SUNDAY_EVENT"
+            ? "/dashboard/sunday"
+            : userRole === "ROLE_ADDITION_LESSON"
+            ? "/dashboard/addition"
+            : userRole === "ROLE_EDUCATION_DEPARTMENT"
+            ? "/dashboard/eduStatistika"
+            : userRole === "ROLE_TEACHER"
+            ? "/dashboard/teacher/statistika"
+            : "/login"
+        }
+        className="logo"
+      >
         <img src="/images/logo1.png" alt="" />
       </MyLink>
       <div className="sidebar-menu">

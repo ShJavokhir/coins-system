@@ -50,7 +50,7 @@ const TableMainWrapper=styled.div`
         
         td.col {
           font-style: normal;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           display: flex;

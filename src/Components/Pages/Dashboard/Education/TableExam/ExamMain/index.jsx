@@ -54,7 +54,7 @@ const ExamMain = () => {
               exam.map((obj, index) => (
                 <tr key={index}>
                   <td style={{ minWidth: "32%" }} className="col">
-                    <MyLink to={`/dashboard/education/exams/` + obj.id}>
+                    <MyLink to={`/dashboard/education/exams/exam?id=${obj.id}`}>
                       {(currentPage - 1) * 10 + index + 1}. {obj.groupName}
                     </MyLink>
                   </td>

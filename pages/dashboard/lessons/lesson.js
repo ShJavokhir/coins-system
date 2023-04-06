@@ -1,8 +1,12 @@
 import Head from "next/head";
-import ExamIn from "../../../src/Components/Pages/Dashboard/Teacher/Exam/ExamIn";
+import LessonIn from "../../../src/Components/Pages/Dashboard/Teacher/Lesson/LessonIn";
 import WithAuthComponent from "../../../src/Hocs/PrivateRoute";
+import { useRouter } from "next/router";
 
-export default function Home({examId}) {
+export default function Home() {
+    const router = useRouter();
+    console.log(router)
+    const lessonId = router.query.id
   return (
     <div>
       <Head>
@@ -11,18 +15,10 @@ export default function Home({examId}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-        <ExamIn examId={examId}/>
+        <LessonIn lessonId={lessonId}/>
       </WithAuthComponent>
     </div>
   );
 }
 
-export const getServerSideProps = async (ctx) => {
-  const { id } = ctx.params;
 
-  return {
-    props: {
-      examId: id,
-    },
-  };
-};

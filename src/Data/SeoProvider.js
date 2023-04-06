@@ -10,8 +10,8 @@ export default class SeoProvider {
         return await client.get(`/seo/get/employees?pageNum=${page}&pageSize=${size}`);
     }
 
-    static async deleteTeacher(id) {
-        return await client.delete(`/director/delete/user/${id}`);
+    static async deleteXodim(id) {
+        return await client.delete(`/seo/delete/user/${id}`);
     }
     static async updateTeacher(body) {
         return await client.put(`/seo/update/user`, body);

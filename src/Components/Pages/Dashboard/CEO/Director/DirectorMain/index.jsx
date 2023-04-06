@@ -1,15 +1,13 @@
 import { Button, Drawer, IconButton } from "@mui/material";
 import Pagination from "rc-pagination";
 import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Select from "react-select";
+import { useForm } from "react-hook-form";
 import ButtonLoader from "../../../../../Common/ButtonLoader";
 import MinLoader from "../../../../../Common/MinLoader";
 import DeleteSvg from "../../../../../Common/Svgs/DeleteSvg";
 import EditSvg from "../../../../../Common/Svgs/EditSvg";
 import { DirectorMainWrapper, ModalContent, ModalHeader } from "./DirectorMain.style";
 import CloseSvg from "../../../../../Common/Svgs/CloseSvg";
-import DirectorProvider from "../../../../../../Data/DirectorProvider";
 import SeoProvider from "../../../../../../Data/SeoProvider";
 import { toast } from "react-toastify";
 
@@ -123,8 +121,8 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
       RefObj.current.reject = rej;
     })
       .then(async () => {
-        await DirectorProvider.deleteTeacher(obj.id);
-        setTeachers((p) =>
+        await SeoProvider.deleteXodim(obj.id);
+        setDirector((p) =>
           p.filter((teach) => {
             return teach.id !== obj.id;
           })
@@ -133,6 +131,7 @@ const DirectorMain = ({ RefObj, setIsOpen }) => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Xatolik!")
       });
   };
 

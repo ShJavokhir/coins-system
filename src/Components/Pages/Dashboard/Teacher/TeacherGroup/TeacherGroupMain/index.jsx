@@ -50,7 +50,7 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
                 groups.map((obj, index) => (
                   <tr key={index}>
                     <td style={{ minWidth: "32%" }} className="col">
-                      <MyLink to={`/dashboard/teacher/groups/` + obj.id}>
+                      <MyLink to={`/dashboard/teacher/group?id=${obj.id}`}>
                         {index + 1}. {obj.groupName}
                       </MyLink>
                     </td>
@@ -80,9 +80,6 @@ const LessonMain = ({ RefObj, setIsOpen }) => {
           </tbody>
         </table>
       </TeacherGroupMainWrapper>
-
-
-      
     </DashboardLayout>
   );
 };
