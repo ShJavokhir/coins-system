@@ -1,12 +1,8 @@
 import axios from "axios";
 import Message from "../utils/Message";
 
-// export const API_URL = "http://178.159.39.206:3000";
-// export const API_URL = "http://271-243-245.local:8085";
-// export const API_URL = "http://188.225.31.181:8085";
-export const API_URL = "http://85.92.111.253:8085";
-// export const API_URL = "http://90.156.227.199";
-// export const API_URL = "http://192.168.1.6:3001";
+export const API_URL = "http://92.118.115.248:8085";
+// export const API_URL = "http://85.92.111.253:8085";
 
 const client = axios.create({
   withCredentials: true,

@@ -100,4 +100,13 @@ export default class AdminProvider {
         const params={pageNum, pageSize};
         return await client.get(`/admin/lesson/getAll`, {params});
     }
+
+    static async getStudentBallHistory(pageNum = 0, pageSize = 20, studentId) {
+        const params={studentId, pageNum, pageSize};
+        return await client.get(`/admin/get/all/student/scores`, {params});
+    }
+
+    static async getAllNumber(){
+        return await client.get(`/admin/all/amount/pred`)
+    }
 }

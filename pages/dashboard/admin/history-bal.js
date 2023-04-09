@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import HistoryBall from '../../../src/Components/Pages/Dashboard/Admin/HistoryLesson'
+import HistoryBall from '../../../src/Components/Pages/Dashboard/Admin/HistoryBall'
 import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {

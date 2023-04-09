@@ -9,6 +9,12 @@ import { SidebarWrapper } from "./Sidebar.style";
 const NavListMenu = [
   //admin role
   {
+    title: "Statistika",
+    path: "/dashboard/admin/adminStatistika",
+    src: "/icons/trend.png",
+    role: ["ROLE_ADMIN"],
+  },
+  {
     title: "Guruhlar",
     path: "/dashboard/admin/groups",
     src: "/icons/users.png",
@@ -30,6 +36,12 @@ const NavListMenu = [
     title: "Darslar tarixi",
     path: "/dashboard/admin/history-lesson",
     src: "/icons/lesson.png",
+    role: ["ROLE_ADMIN"],
+  },
+  {
+    title: "Ballar tarixi",
+    path: "/dashboard/admin/history-bal",
+    src: "/icons/ball.png",
     role: ["ROLE_ADMIN"],
   },
 
@@ -266,7 +278,7 @@ const Sidebar = () => {
             : userRole === "ROLE_DIRECTOR"
             ? "/dashboard/director/reytingDirector"
             : userRole === "ROLE_ADMIN"
-            ? "/dashboard/admin/groups"
+            ? "/dashboard/admin/adminStatistika"
             : userRole === "ROLE_STUDENT"
             ? "/dashboard/reyting"
             : userRole === "ROLE_SUNDAY_EVENT"

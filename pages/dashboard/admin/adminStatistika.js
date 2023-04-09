@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import HistoryBall from '../../../src/Components/Pages/Dashboard/Admin/HistoryLesson'
+import Statistika from '../../../src/Components/Pages/Dashboard/Admin/Statistika'
 import WithAuthComponent from '../../../src/Hocs/PrivateRoute'
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithAuthComponent>
-         <HistoryBall/>
+         <Statistika/>
       </WithAuthComponent>
 
     </div>

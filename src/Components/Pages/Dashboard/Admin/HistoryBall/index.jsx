@@ -4,21 +4,25 @@ import DashboardLayout from "../../../../Layout";
 import { HistoryBallWrapper } from "./HistoryBall.style";
 import Pagination from "rc-pagination";
 import moment from "moment";
+import { Controller, useForm } from "react-hook-form";
+import Select from "react-select";
 import AdminProvider from "../../../../../Data/AdminProvider";
 
 const HistoryBall = () => {
+  const { control } =useForm();
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
+  const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(20);
+  const [studentId, setStudentId] = useState(null)
 
   const onChange = (page) => {
     setCurrentPage(page);
   };
-
   useEffect(() => {
     setLoading(true)
-    AdminProvider.getLessonAll(currentPage, 20)
+    AdminProvider.getStudentBallHistory(currentPage, 20, studentId)
       .then((res) => {
         setHistory(res.data.data);
         setTotalElements(res.data.recordsTotal);
@@ -29,25 +33,72 @@ const HistoryBall = () => {
       }).finally(()=>{
         setLoading(false)
       });
-  }, [currentPage]);
+  }, [currentPage, studentId]);
+
+  useEffect(() => {
+    AdminProvider.getAllStudent(1, 1000)
+      .then((res) => {
+        console.log(res.data);
+        setStudents(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const studentsOption = [
+    {label:"Barchasi", value:null},
+    ...students.map((i) => ({
+      label: i.firstName + " "+ i.lastName +" " + "("+ i.username+ ")",
+      value: i.id,
+    })),
+  ];
 
   return (
     <DashboardLayout>
       <HistoryBallWrapper>
       <div className="top">
-          <h3>Darslar tarixi</h3>
+          <h3>Ballar tarixi</h3>
+          <Controller
+                control={control}
+                name="studentId"
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <Select
+                    className="select"
+                    value={value}
+                    placeholder="O'quvchini tanlang"
+                    options={studentsOption}
+                    onBlur={onBlur}
+                    onChange={(v) => {
+                      onChange(v);
+                      setStudentId(v.value)
+                      console.log(v);
+                    }}
+                    ref={ref}
+                  />
+                )}
+              />
         </div>
 
         <table className="table table-striped table-hover">
           <thead>
             <tr >
-              <th style={{ minWidth: "33%" }} className="col">
-                Guruh nomi
+              <th style={{ minWidth: "25%" }} className="col">
+                O`quvchi
               </th>
-              <th style={{ minWidth: "33%" }} className="col">
-                O`qituvchi
+              <th style={{ minWidth: "15%" }} className="col">
+                Username
               </th>
-              <th style={{ minWidth: "33%" }} className="col">
+              <th style={{ minWidth: "5%" }} className="col">
+                Ball
+              </th>
+              <th style={{ minWidth: "25%" }} className="col">
+              Ball Statusi
+              </th>
+              <th style={{ minWidth: "15%" }} className="col">
+                Guruhi
+              </th>
+              <th style={{ minWidth: "15%" }} className="col">
                 Sana
               </th>
             </tr>
@@ -57,14 +108,23 @@ const HistoryBall = () => {
               history.length ? (
                 history.map((obj, index) => (
                   <tr key={index}>
-                    <td style={{ minWidth: "33%" }} className="col">
-                      {(currentPage - 1) * 20 +  index + 1}. {obj.groupName}
+                    <td style={{ minWidth: "25%" }} className="col">
+                      {(currentPage - 1) * 20 +  index + 1}. {obj.firstName} {obj.lastName}
                     </td>
-                    <td style={{ minWidth: "33%" }} className="col">
-                      {obj.teacherFirstName} {obj.teacherLastName} 
+                    <td style={{ minWidth: "15%" }} className="col">
+                      {obj.username}
                     </td>
-                    <td style={{ minWidth: "33%" }} className="col">
-                    {moment(new Date(obj.createdDate)).format("DD.MM.YYYY")}
+                    <td style={{ minWidth: "5%", color: obj.ball>0 ? "green" : "red" }} className="col">
+                      {obj.ball}
+                    </td>
+                    <td style={{ minWidth: "25%", color: obj.ball>0 ? "green" : "red"  }} className="col">
+                      {obj.ballStatus}
+                    </td>
+                    <td style={{ minWidth: "15%" }} className="col">
+                      {obj.groupName}
+                    </td>
+                    <td style={{ minWidth: "15%" }} className="col">
+                    {moment(new Date(obj.createdAt)).format("DD.MM.YYYY")}
                     </td>
                   </tr>
                 ))
